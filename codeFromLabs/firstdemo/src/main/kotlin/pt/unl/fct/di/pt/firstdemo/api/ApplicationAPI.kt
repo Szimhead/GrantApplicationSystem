@@ -22,4 +22,5 @@ interface ApplicationAPI {
 
     @GetMapping("/{id}/final")
     fun getFinal(@PathVariable id: Long): FinalDTO
+
 }

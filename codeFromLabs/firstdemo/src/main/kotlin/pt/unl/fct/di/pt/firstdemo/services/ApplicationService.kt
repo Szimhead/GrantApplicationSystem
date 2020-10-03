@@ -15,5 +15,5 @@ class ApplicationService {
 
     fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4)
 
-    fun getFinal() = finalDTO(5)
+    fun getFinal() = FinalDTO(5)
 }

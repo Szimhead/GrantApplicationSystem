@@ -11,9 +11,6 @@ interface PanelAPI {
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long):PanelDTO
 
-    @PostMapping()
-    fun addPanel()
-
     @PostMapping("/id")
     fun addReviewerToPanel(@PathVariable id:Long)
 

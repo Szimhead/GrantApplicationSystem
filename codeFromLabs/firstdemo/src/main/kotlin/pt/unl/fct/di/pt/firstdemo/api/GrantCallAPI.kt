@@ -23,4 +23,23 @@ interface GrantCallAPI {
     @DeleteMapping("/{title}")
     fun deleteCall(@PathVariable title: String)
 
+    /* Panel handling */
+    @GetMapping("/panel")
+    fun getPanel():PanelDTO
+
+    @PostMapping("/panel/{panelId}")
+    fun addPanel(@PathVariable panelId: Long)
+
+    /* Application handling */
+    @GetMapping("/{title}/applications")
+    fun getCallApplications(@PathVariable title: String): ApplicationDTO
+
+    @GetMapping("/{title}/applications/{id}")
+    fun getOneCallApplication(@PathVariable title: String, @PathVariable id: String): ApplicationDTO
+
+    @PostMapping("/{title}/applications/{id}")
+    fun addApplication(@PathVariable title: String, @PathVariable id: String)
+
+
+
 }
