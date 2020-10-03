@@ -11,14 +11,15 @@ interface PanelAPI {
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long):PanelDTO
 
-    @PostMapping("/id")
-    fun addReviewerToPanel(@PathVariable id:Long)
-
     @PutMapping("/{id}")
     fun editPanel(@PathVariable id:Long)
 
     @DeleteMapping("{id}")
     fun deletePanel(@PathVariable id:Long)
+
+    /* Reviewer handling */
+    @PostMapping("/id")
+    fun addReviewerToPanel(@PathVariable id:Long)
 
     @DeleteMapping("/panel_id/reviewer_id")
     fun deleteReviewerFromPanel(@PathVariable panelId: Long, @PathVariable reviewerId:Long)

@@ -16,6 +16,12 @@ class ApplicationService {
 
     fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4)
 
+    fun addReview(appId: Long, reviewId: Long) {
+        TODO("Not yet implemented")
+    }
+
     /* Final Evaluation handling */
     fun getFinal() = FinalDTO(5)
+
+
 }
