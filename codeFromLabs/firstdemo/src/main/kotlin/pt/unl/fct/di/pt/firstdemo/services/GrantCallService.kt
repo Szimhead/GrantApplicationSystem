@@ -27,6 +27,7 @@ class GrantCallService {
         TODO("Not yet implemented")
     }
 
+    /* Panel handling */
     fun getPanel() = PanelDTO(
             0,
             "grant call title",
@@ -37,6 +38,7 @@ class GrantCallService {
         TODO("Not yet implemented")
     }
 
+    /* Application handling */
     fun getCallApplications(title: String) = listOf<ApplicationDTO>(
             ApplicationDTO(1, Date(), 0),
             ApplicationDTO(2, Date(), 1)

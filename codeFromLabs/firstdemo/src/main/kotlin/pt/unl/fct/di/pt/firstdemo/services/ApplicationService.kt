@@ -11,9 +11,11 @@ class ApplicationService {
 
     fun getOne(id:Long) = ApplicationDTO(2, Date(), 0)
 
+    /* Review handling */
     fun getAllReviews() = listOf<ReviewDTO>(ReviewDTO(3))
 
     fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4)
 
+    /* Final Evaluation handling */
     fun getFinal() = FinalDTO(5)
 }
