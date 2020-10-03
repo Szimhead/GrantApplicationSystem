@@ -25,4 +25,6 @@ class PanelService {
     fun deletePanel(id:Long) = print ("delete panel działa")
 
     fun deleteReviewerFromPanel(panelId: Long, reviewerId:Long) = print ("delete reviewer from panel działa")
+
+    fun getReviewers(id: Long) = listOf<ReviewerDTO>(ReviewerDTO(0, "Louis"))
 }
