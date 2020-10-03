@@ -7,9 +7,19 @@ import java.util.*
 
 @RequestMapping("/applications")
 interface ApplicationAPI {
-    @GetMapping
+
+    @GetMapping("")
     fun getAll():List<ApplicationDTO>
 
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long): ApplicationDTO
+
+    @GetMapping("{id}/reviews")
+    fun getAllReviews(@PathVariable id: Long): List<ReviewDTO>
+
+    @GetMapping("/{app_id}/reviews/{review_id}")
+    fun getReview(@PathVariable app_id:Long, @PathVariable review_id:Long): ReviewDTO
+
+    @GetMapping("/{id}/final")
+    fun getFinal(@PathVariable id: Long): FinalDTO
 }

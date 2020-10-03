@@ -8,12 +8,15 @@ import pt.unl.fct.di.pt.firstdemo.services.ApplicationService
 import java.util.*
 
 @RestController
-@RequestMapping("/applications")
 class ApplicationController(val applications: ApplicationService): ApplicationAPI {
 
-    @GetMapping
     override fun getAll() = applications.getAll()
 
-    @GetMapping("/{id}")
-    override fun getOne(@PathVariable id:Long) = applications.getOne(id)
+    override fun getOne(id:Long) = applications.getOne(id)
+
+    override fun getAllReviews(id: Long) = applications.getAllReviews()
+
+    override fun getReview(app_id: Long, review_id: Long) = applications.getReview(app_id, review_id)
+
+    override fun getFinal(id: Long) = applications.getFinal()
 }
