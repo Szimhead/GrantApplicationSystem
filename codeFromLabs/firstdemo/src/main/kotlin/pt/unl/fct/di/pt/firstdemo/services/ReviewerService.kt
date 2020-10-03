@@ -2,6 +2,7 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.InstitutionDTO
+import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewerDTO
 
 @Service

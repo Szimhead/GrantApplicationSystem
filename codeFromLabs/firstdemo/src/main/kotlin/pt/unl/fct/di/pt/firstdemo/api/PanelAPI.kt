@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.*
 interface PanelAPI {
 
     @GetMapping
-    fun getAll():<PanelDTO>
+    fun getAll():List<PanelDTO>
 
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long):PanelDTO
 
     @PostMapping()
-    fun addPanel(@RequestParam final:Long)
+    fun addPanel()
 
-    @PostMapping("/reviewer_id")
+    @PostMapping("/id")
     fun addReviewerToPanel(@PathVariable id:Long)
 
     @PutMapping("/{id}")
@@ -23,6 +23,6 @@ interface PanelAPI {
     @DeleteMapping("{id}")
     fun deletePanel(@PathVariable id:Long)
 
-    @DeleteMapping("/reviewer_id")
-    fun deleteReviewerFromPanel(@PathVariable id: Long)
+    @DeleteMapping("/panel_id/reviewer_id")
+    fun deleteReviewerFromPanel(@PathVariable panelId: Long, @PathVariable reviewerId:Long)
 }

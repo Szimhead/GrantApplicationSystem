@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 interface ChairAPI {
 
     @GetMapping
-    fun getAll():<ChairDTO>
+    fun getAll():List<ChairDTO>
 
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long):ChairDTO
