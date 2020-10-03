@@ -2,11 +2,11 @@ package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/final")
+@RequestMapping("/finals")
 interface FinalEvaluationAPI {
 
     @GetMapping
-    fun getAll():<FinalDTO>
+    fun getAll(): List<FinalDTO>
 
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long):FinalDTO

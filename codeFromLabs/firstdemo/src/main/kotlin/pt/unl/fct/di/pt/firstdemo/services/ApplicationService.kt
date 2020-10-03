@@ -2,6 +2,8 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
+import pt.unl.fct.di.pt.firstdemo.api.FinalDTO
+import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
 import java.util.*
 
 @Service
@@ -21,7 +23,6 @@ class ApplicationService {
     }
 
     /* Final Evaluation handling */
-    fun getFinal() = FinalDTO(5)
-
+    fun getFinal() = FinalDTO(5, "passed", "Very good student!")
 
 }

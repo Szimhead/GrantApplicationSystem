@@ -19,7 +19,6 @@ class ReviewerController(val reviewers: ReviewerService): ReviewerAPI {
 
     override fun getOnePanel(reviewerNr: Long, p_id:Long) = reviewers.getOnePanel(reviewerNr, p_id)
 
-
     /* reviews handling */
     override fun getReviews(reviewerNr: Long) = reviewers.getReviews(reviewerNr)
 

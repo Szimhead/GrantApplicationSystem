@@ -2,7 +2,7 @@ package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/panel")
+@RequestMapping("/panels")
 interface PanelAPI {
 
     @GetMapping

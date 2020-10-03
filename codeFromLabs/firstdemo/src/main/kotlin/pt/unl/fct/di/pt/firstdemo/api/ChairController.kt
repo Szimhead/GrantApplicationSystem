@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController
 import pt.unl.fct.di.pt.firstdemo.services.ChairService
 
 @RestController
-@RequestMapping("/chair")
-class ChairController(val chairs: ChairService):ChairAPI {
+class ChairController(val chairs: ChairService): ChairAPI {
+
     override fun getAll() = chairs.getAll()
 
     override fun getOne(id: Long) = chairs.getOne(id)

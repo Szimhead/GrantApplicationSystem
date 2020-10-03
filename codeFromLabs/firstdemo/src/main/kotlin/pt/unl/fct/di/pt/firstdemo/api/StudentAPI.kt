@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/students")
 interface StudentAPI {
+
     @GetMapping("")
     fun getAll(): List<StudentDTO>
 

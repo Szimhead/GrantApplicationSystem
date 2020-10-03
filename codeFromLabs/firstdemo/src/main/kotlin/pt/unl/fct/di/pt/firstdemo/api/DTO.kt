@@ -18,4 +18,4 @@ data class PanelDTO(val panelId:Long, val grantTitle:String, val reviewers: List
 
 data class ChairDTO(val chairId:Long, val reviewerId:Long, val panelId:Long)
 
-data class ReviewDTO(val TEMPORARY: String)
+data class ReviewDTO(val TEMPORARY: Long)
