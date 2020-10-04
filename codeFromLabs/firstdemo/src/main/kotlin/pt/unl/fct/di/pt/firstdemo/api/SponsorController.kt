@@ -3,6 +3,7 @@ package pt.unl.fct.di.pt.firstdemo.api
 import org.springframework.web.bind.annotation.*
 import pt.unl.fct.di.pt.firstdemo.services.SponsorService
 
+@RestController
 class SponsorController(val sponsors: SponsorService): SponsorAPI {
     override fun getAll() = sponsors.getAll()
 
