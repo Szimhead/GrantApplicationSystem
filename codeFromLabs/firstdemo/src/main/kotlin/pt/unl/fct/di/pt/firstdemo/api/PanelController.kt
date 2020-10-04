@@ -19,6 +19,6 @@ class PanelController(val panels: PanelService): PanelAPI {
 
     override fun addReviewerToPanel(id: Long, reviewerId: Long) = panels.addReviewerToPanel(id, reviewerId)
 
-    override fun deleteReviewerFromPanel(panelId: Long, reviewerId:Long) = panels.deleteReviewerFromPanel(panelId,reviewerId)
+    override fun deleteReviewerFromPanel(id: Long, reviewerId:Long) = panels.deleteReviewerFromPanel(id,reviewerId)
 
 }
