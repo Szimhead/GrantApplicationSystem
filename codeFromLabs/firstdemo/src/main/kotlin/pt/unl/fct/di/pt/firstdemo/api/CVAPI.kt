@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 interface CVAPI {
 
     @GetMapping("/{id}")
-    fun getOne(@PathVariable id:Long):CVDTO
+    fun getOne(@PathVariable id:Long): CVDTO
 
     @DeleteMapping("/id")
     fun deleteCV(@PathVariable id:Long)

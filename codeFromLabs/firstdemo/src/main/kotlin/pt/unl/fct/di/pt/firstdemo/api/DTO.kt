@@ -16,8 +16,8 @@ data class FinalDTO(val id:Long, val grade:String, val review: String)
 
 data class PanelDTO(val panelId:Long, val grantTitle:String, val reviewers: List<ReviewerDTO>)
 
-data class ChairDTO(val chairId:Long, val reviewerId:Long, val panelId:Long)
-
 data class ReviewDTO(val id:Long, val isAccepted: Boolean, val comment: String)
 
 data class SponsorDTO(val id:Long, val name: String, val contact: String)
+
+data class CVDTO(val id:Long)
