@@ -8,9 +8,9 @@ import pt.unl.fct.di.pt.firstdemo.api.StudentDTO
 @Service
 class InstitutionService {
 
-    fun getAll() = listOf<InstitutionDTO>(InstitutionDTO(1, "FCT UNL"))
+    fun getAll() = listOf<InstitutionDTO>(InstitutionDTO(1, "FCT UNL", "no contact"))
 
-    fun getOne(id:Long) = InstitutionDTO(2, "IMS UNL")
+    fun getOne(id:Long) = InstitutionDTO(2, "IMS UNL", "no contact")
 
     fun addInstitution() {
         TODO("Not yet implemented")
@@ -20,7 +20,7 @@ class InstitutionService {
         TODO("Not yet implemented")
     }
 
-    fun updateInstitution(id:Long) {
+    fun editInstitution(id:Long) {
         TODO("Not yet implemented")
     }
 

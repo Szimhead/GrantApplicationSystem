@@ -14,7 +14,7 @@ class InstitutionController(val institutions: InstitutionService): InstitutionAP
 
     override fun deleteInstitution(id:Long) = institutions.deleteInstitution(id)
 
-    override fun updateInstitution(id:Long) = institutions.updateInstitution(id)
+    override fun editInstitution(id:Long) = institutions.editInstitution(id)
 
 
     /* student handling */

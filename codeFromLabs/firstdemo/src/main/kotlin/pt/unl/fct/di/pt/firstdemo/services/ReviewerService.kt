@@ -34,7 +34,7 @@ class ReviewerService {
     )
 
     /* reviews handling */
-    fun getReviews(reviewerNr: Long) = listOf<ReviewDTO>(ReviewDTO(3))
+    fun getReviews(reviewerNr: Long) = listOf<ReviewDTO>(ReviewDTO(1, true, "very nice"))
 
-    fun getOneReview(reviewerNr: Long, r_id:Long) = ReviewDTO(4)
+    fun getOneReview(reviewerNr: Long, r_id:Long) = ReviewDTO(2, false, "not very nice")
 }

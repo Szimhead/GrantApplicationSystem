@@ -14,9 +14,9 @@ class ApplicationService {
     fun getOne(id:Long) = ApplicationDTO(2, Date(), 0)
 
     /* Review handling */
-    fun getAllReviews() = listOf<ReviewDTO>(ReviewDTO(3))
+    fun getAllReviews() = listOf<ReviewDTO>(ReviewDTO(5, true, "ok"))
 
-    fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4)
+    fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4, true, "I accept")
 
     fun addReview(appId: Long, reviewId: Long) {
         TODO("Not yet implemented")
