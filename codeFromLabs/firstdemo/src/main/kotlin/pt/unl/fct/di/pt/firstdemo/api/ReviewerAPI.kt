@@ -15,7 +15,7 @@ interface ReviewerAPI {
     fun deleteReviewer(@PathVariable reviewerNr: Long)
 
     @PutMapping("{reviewerNr}")
-    fun updateReviewer(@PathVariable reviewerNr: Long)
+    fun editReviewer(@PathVariable reviewerNr: Long)
 
 
     /* panel handling */

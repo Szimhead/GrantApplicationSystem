@@ -2,6 +2,8 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
+import pt.unl.fct.di.pt.firstdemo.api.FinalDTO
+import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
 import java.util.*
 
 @Service
@@ -11,9 +13,16 @@ class ApplicationService {
 
     fun getOne(id:Long) = ApplicationDTO(2, Date(), 0)
 
-    fun getAllReviews() = listOf<ReviewDTO>(ReviewDTO(3))
+    /* Review handling */
+    fun getAllReviews() = listOf<ReviewDTO>(ReviewDTO(5, true, "ok"))
 
-    fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4)
+    fun getReview(appId: Long, reviewId: Long) = ReviewDTO(4, true, "I accept")
 
-    fun getFinal() = FinalDTO(5)
+    fun addReview(appId: Long, reviewId: Long) {
+        TODO("Not yet implemented")
+    }
+
+    /* Final Evaluation handling */
+    fun getFinal() = FinalDTO(5, "passed", "Very good student!")
+
 }

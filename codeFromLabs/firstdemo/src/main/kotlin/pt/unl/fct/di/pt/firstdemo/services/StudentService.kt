@@ -15,11 +15,11 @@ class StudentService {
 
     fun getOneApplication(studentNr: Long, id:Long) = ApplicationDTO(1, Date(), 0)
 
-    fun delete(studentNr:Long) {
+    fun deleteStudent(studentNr:Long) {
         TODO("Not yet implemented")
     }
 
-    fun update(studentNr: Long) {
+    fun editStudent(studentNr: Long) {
         TODO("Not yet implemented")
     }
 }

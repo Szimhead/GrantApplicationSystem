@@ -2,7 +2,7 @@ package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/panel")
+@RequestMapping("/panels")
 interface PanelAPI {
 
     @GetMapping
@@ -11,15 +11,19 @@ interface PanelAPI {
     @GetMapping("/{id}")
     fun getOne(@PathVariable id:Long):PanelDTO
 
-    @PostMapping("/id")
-    fun addReviewerToPanel(@PathVariable id:Long)
-
     @PutMapping("/{id}")
     fun editPanel(@PathVariable id:Long)
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     fun deletePanel(@PathVariable id:Long)
 
-    @DeleteMapping("/panel_id/reviewer_id")
-    fun deleteReviewerFromPanel(@PathVariable panelId: Long, @PathVariable reviewerId:Long)
+    /* Reviewer handling */
+    @GetMapping("/{id}/reviewers")
+    fun getReviewers(@PathVariable id: Long): List<ReviewerDTO>
+
+    @PostMapping("/{id}/reviewers/{reviewerId}")
+    fun addReviewerToPanel(@PathVariable id:Long, @PathVariable reviewerId: Long)
+
+    @DeleteMapping("/{id}/reviewers/{reviewerId}")
+    fun deleteReviewerFromPanel(@PathVariable id: Long, @PathVariable reviewerId:Long)
 }

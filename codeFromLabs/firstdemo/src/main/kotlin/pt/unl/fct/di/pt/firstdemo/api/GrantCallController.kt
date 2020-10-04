@@ -18,4 +18,14 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
     override fun editCall(title: String) = calls.editCall(title)
 
     override fun deleteCall(title: String) = calls.deleteCall(title)
+
+    override fun getPanel() = calls.getPanel()
+
+    override fun addPanel(panelId: Long) = calls.addPanel(panelId)
+
+    override fun getCallApplications(title: String) = calls.getCallApplications(title)
+
+    override fun getOneCallApplication(title: String, id: Long) = calls.getOneCallApplication(title, id)
+
+    override fun addApplication(title: String, id: Long) = calls.addApplication(title, id)
 }

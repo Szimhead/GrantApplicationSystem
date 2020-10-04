@@ -32,14 +32,12 @@ interface GrantCallAPI {
 
     /* Application handling */
     @GetMapping("/{title}/applications")
-    fun getCallApplications(@PathVariable title: String): ApplicationDTO
+    fun getCallApplications(@PathVariable title: String): List<ApplicationDTO>
 
     @GetMapping("/{title}/applications/{id}")
-    fun getOneCallApplication(@PathVariable title: String, @PathVariable id: String): ApplicationDTO
+    fun getOneCallApplication(@PathVariable title: String, @PathVariable id: Long): ApplicationDTO
 
     @PostMapping("/{title}/applications/{id}")
-    fun addApplication(@PathVariable title: String, @PathVariable id: String)
-
-
+    fun addApplication(@PathVariable title: String, @PathVariable id: Long)
 
 }

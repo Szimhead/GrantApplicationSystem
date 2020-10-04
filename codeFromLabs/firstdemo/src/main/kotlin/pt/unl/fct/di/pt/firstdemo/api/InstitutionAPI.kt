@@ -17,7 +17,7 @@ interface InstitutionAPI {
     fun deleteInstitution(@PathVariable id:Long)
 
     @PutMapping("/{id}")
-    fun updateInstitution(@PathVariable id:Long)
+    fun editInstitution(@PathVariable id:Long)
 
 
     /* student handling */

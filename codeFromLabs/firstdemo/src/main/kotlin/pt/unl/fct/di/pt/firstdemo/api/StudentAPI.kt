@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/students")
 interface StudentAPI {
+
     @GetMapping("")
     fun getAll(): List<StudentDTO>
 
@@ -11,10 +12,10 @@ interface StudentAPI {
     fun getOne(@PathVariable studentNr:Long): StudentDTO
 
     @DeleteMapping("/{studentNr}")
-    fun delete(@PathVariable studentNr: Long)
+    fun deleteStudent(@PathVariable studentNr: Long)
 
     @PutMapping("{studentNr}")
-    fun update(@PathVariable studentNr: Long)
+    fun editStudent(@PathVariable studentNr: Long)
 
     /* application handling */
     @GetMapping("/{studentNr}/applications")

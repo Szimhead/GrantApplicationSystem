@@ -14,7 +14,7 @@ class StudentController(val students: StudentService): StudentAPI {
 
     override fun getOneApplication(studentNr: Long, id:Long) = students.getOneApplication(studentNr, id)
 
-    override fun delete(studentNr: Long) = students.delete(studentNr)
+    override fun deleteStudent(studentNr: Long) = students.deleteStudent(studentNr)
 
-    override fun update(studentNr:Long) = students.update(studentNr)
+    override fun editStudent(studentNr:Long) = students.editStudent(studentNr)
 }

@@ -2,10 +2,10 @@ package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/chair")
+@RequestMapping("/chairs")
 interface ChairAPI {
 
-    @GetMapping
+    @GetMapping("")
     fun getAll():List<ChairDTO>
 
     @GetMapping("/{id}")

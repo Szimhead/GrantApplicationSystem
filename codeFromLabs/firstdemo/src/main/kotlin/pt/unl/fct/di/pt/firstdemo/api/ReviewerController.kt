@@ -12,13 +12,12 @@ class ReviewerController(val reviewers: ReviewerService): ReviewerAPI {
 
     override fun deleteReviewer(reviewerNr: Long) = reviewers.deleteReviewer(reviewerNr)
 
-    override fun updateReviewer(reviewerNr: Long) = reviewers.updateReviewer(reviewerNr)
+    override fun editReviewer(reviewerNr: Long) = reviewers.updateReviewer(reviewerNr)
 
     /* panel handling */
     override fun getPanels(reviewerNr: Long) = reviewers.getPanels(reviewerNr)
 
     override fun getOnePanel(reviewerNr: Long, p_id:Long) = reviewers.getOnePanel(reviewerNr, p_id)
-
 
     /* reviews handling */
     override fun getReviews(reviewerNr: Long) = reviewers.getReviews(reviewerNr)
