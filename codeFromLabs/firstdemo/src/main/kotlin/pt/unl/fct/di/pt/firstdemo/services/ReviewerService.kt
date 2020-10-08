@@ -1,16 +1,15 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.InstitutionDTO
 import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
-import pt.unl.fct.di.pt.firstdemo.api.ReviewerDTO
+import pt.unl.fct.di.pt.firstdemo.api.UserDTO
 
 @Service
 class ReviewerService {
-    fun getAll() = listOf<ReviewerDTO>(ReviewerDTO(1, "John Smith"))
+    fun getAll() = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
 
-    fun getOne(id:Long) = ReviewerDTO(2, "Mike Smith")
+    fun getOne(id:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
     fun deleteReviewer(reviewerNr:Long) {
         TODO("Not yet implemented")
@@ -21,17 +20,9 @@ class ReviewerService {
     }
 
     /* panel handling */
-    fun getPanels(reviewerNr: Long) = listOf<PanelDTO>(PanelDTO(
-            0,
-            "Grant title all",
-            listOf<ReviewerDTO>(ReviewerDTO(1, "Hannah"))
-    ))
+    fun getPanels(reviewerNr: Long) = listOf<PanelDTO>(PanelDTO(0))
 
-    fun getOnePanel(reviewerNr: Long, p_id:Long) = PanelDTO(
-            1,
-            "Grant title one",
-            listOf<ReviewerDTO>(ReviewerDTO(2, "Mary"))
-    )
+    fun getOnePanel(reviewerNr: Long, p_id:Long) = PanelDTO(1)
 
     /* reviews handling */
     fun getReviews(reviewerNr: Long) = listOf<ReviewDTO>(ReviewDTO(1, true, "very nice"))

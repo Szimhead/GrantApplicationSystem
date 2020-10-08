@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/sponsors")
 interface SponsorAPI {
     @GetMapping
-    fun getAll():List<SponsorDTO>
+    fun getAll():List<OrganizationDTO>
 
     @GetMapping("/{id}")
-    fun getOne(@PathVariable id:Long): SponsorDTO
+    fun getOne(@PathVariable id:Long): OrganizationDTO
 
     @PostMapping("")
     fun addSponsor()

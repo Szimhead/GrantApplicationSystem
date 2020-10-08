@@ -2,13 +2,15 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.GrantCallDTO
-import pt.unl.fct.di.pt.firstdemo.api.SponsorDTO
+import pt.unl.fct.di.pt.firstdemo.api.OrganizationDTO
+import java.util.*
+
 
 @Service
 class SponsorService {
-    fun getAll() = listOf(SponsorDTO(1, "Firm1", "no contact"))
+    fun getAll() = listOf(OrganizationDTO(1, "Firm1", "no contact"))
 
-    fun getOne(id:Long) = SponsorDTO(2, "Firm2", "no contact")
+    fun getOne(id:Long) = OrganizationDTO(2, "Firm2", "no contact")
 
     fun addSponsor() {
         TODO("Not yet implemented")
@@ -24,7 +26,8 @@ class SponsorService {
 
 
     /* grant call handling */
-    fun getGrantCalls(id:Long) = listOf(GrantCallDTO("research grant"))
+    fun getGrantCalls(id:Long) = listOf(GrantCallDTO("all success", "some grant call", 500000.00,
+            Date(),  Date()))
 
     fun addGrantCall(id:Long) {
         TODO("Not yet implemented")

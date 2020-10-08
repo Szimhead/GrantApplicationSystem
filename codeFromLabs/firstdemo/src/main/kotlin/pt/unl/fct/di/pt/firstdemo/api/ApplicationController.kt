@@ -1,9 +1,10 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import org.springframework.web.bind.annotation.*
 import pt.unl.fct.di.pt.firstdemo.services.ApplicationService
 import java.util.*
 
@@ -14,5 +15,27 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getOne(id:Long) = applications.getOne(id)
 
-    override fun getFinal(id: Long) = applications.getFinal()
+    override fun deleteApplication(id: Long) = applications.deleteApplication(id)
+
+    override fun editApplication(id:Long) = applications.editApplication(id)
+
+    override fun getAllReviewsFromApplication(id:Long) = applications.getAllReviewsFromApplication(id)
+
+    override fun getOneReview(id:Long, review_id:Long) = applications.getOneReview(id, review_id)
+
+    override fun deleteReview(id:Long, review_id: Long) = applications.deleteReview(id, review_id)
+
+    override fun editReview(id:Long, review_id: Long) = applications.editReview(id, review_id)
+
+    override fun addReview(id:Long, review_id:Long) = applications.addReview(id, review_id)
+
+    override fun getAllAnswers(id:Long) = applications.getAllAnswers(id)
+
+    override fun getOneAnswer(id:Long, name: String) = applications.getOneAnswer(id, name)
+
+    override fun addAnswer(id:Long) = applications.addAnswer(id)
+
+    override fun editAnswer(id:Long, name: String) = applications.editAnswer(id, name)
+
+    override fun deleteAnswer(id:Long, name: String) = applications.deleteAnswer(id, name)
 }

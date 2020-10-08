@@ -1,7 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import pt.unl.fct.di.pt.firstdemo.services.GrantCallService
 
 @RestController
@@ -19,13 +18,28 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun deleteCall(title: String) = calls.deleteCall(title)
 
-    override fun getPanel() = calls.getPanel()
-
-    override fun addPanel(panelId: Long) = calls.addPanel(panelId)
-
-    override fun getCallApplications(title: String) = calls.getCallApplications(title)
-
-    override fun getOneCallApplication(title: String, id: Long) = calls.getOneCallApplication(title, id)
+    override fun getAllApplicationsFromGrantCall(title: String) = calls.getCallApplications(title)
 
     override fun addApplication(title: String, id: Long) = calls.addApplication(title, id)
+
+    override fun getPanelFromGrantCall(title:String) = calls.getPanelFromGrantCall(title)
+
+    override fun addPanel(title: String) = calls.addPanel(title)
+
+    override fun getReviewers(title: String) = calls.getReviewers(title)
+
+    override fun addReviewerToPanel(title: String, reviewerId: Long) = calls.addReviewerToPanel(title, reviewerId)
+
+    override fun deleteReviewerFromPanel(title: String, reviewerId:Long) = calls.deleteReviewerFromPanel(title, reviewerId)
+
+    override fun getAllDataItems(title: String) = calls.getAllDataItems(title)
+
+    override fun getOneDataItem(title: String, name: String) = calls.getOneDataItem(title, name)
+
+    override fun addDataItem(title: String) = calls.addDataItem(title)
+
+    override fun deleteDataItem(title: String, name: String) = calls.deleteDataItem(title, name)
+
+    override fun editDataItem(title: String, name: String) = calls.editDataItem(title, name)
+
 }
