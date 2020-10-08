@@ -14,11 +14,5 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getOne(id:Long) = applications.getOne(id)
 
-    override fun getAllReviews(id: Long) = applications.getAllReviews()
-
-    override fun getReview(app_id: Long, review_id: Long) = applications.getReview(app_id, review_id)
-
-    override fun addReview(app_id: Long, review_id: Long) = applications.addReview(app_id, review_id)
-
     override fun getFinal(id: Long) = applications.getFinal()
 }

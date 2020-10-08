@@ -16,4 +16,10 @@ class ReviewService {
     fun deleteReview(id:Long) {
         TODO("Not yet implemented")
     }
+
+    fun getAllReviewsFromApplication(id: Long) = listOf(ReviewDTO(3, true, "very very nice"))
+
+    fun addReview(reviewId: Long, appId: Long) {
+        TODO("Not yet implemented")
+    }
 }

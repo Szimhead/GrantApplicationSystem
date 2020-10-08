@@ -13,4 +13,8 @@ class ReviewController(val reviews: ReviewService): ReviewAPI {
     override fun editReview(id:Long) = reviews.editReview(id)
 
     override fun deleteReview(id:Long) = reviews.deleteReview(id)
+
+    override fun getAllReviewsFromApplication(id: Long) = reviews.getAllReviewsFromApplication(id)
+
+    override fun addReview(review_id: Long, app_id: Long) = reviews.addReview(review_id, app_id)
 }
