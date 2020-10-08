@@ -10,6 +10,8 @@ data class GrantCallDTO(val title:String, val description: String, val funding: 
 
 data class ApplicationDTO(val id:Long, val submissionDate: Date, val status:Int)
 
+data class PanelDTO(val id: Long)
+
 data class ReviewDTO(val id:Long, val isAccepted: Boolean, val comment: String)
 
 data class DataItemDTO(val name: String, val datatype: String, val isMandatory: Boolean)

@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*
 interface StudentAPI {
 
     @GetMapping("")
-    fun getAll(): List<StudentDTO>
+    fun getAll(): List<UserDTO>
 
     @GetMapping("/{studentNr}")
-    fun getOne(@PathVariable studentNr:Long): StudentDTO
+    fun getOne(@PathVariable studentNr:Long): UserDTO
 
     @DeleteMapping("/{studentNr}")
     fun deleteStudent(@PathVariable studentNr: Long)
