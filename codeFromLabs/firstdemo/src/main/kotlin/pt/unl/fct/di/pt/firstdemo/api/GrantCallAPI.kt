@@ -54,12 +54,57 @@ interface GrantCallAPI {
 
     /* Application handling */
     @GetMapping("/{title}/applications")
-    fun getCallApplications(@PathVariable title: String): List<ApplicationDTO>
+    fun getAllApplicationsFromGrantCall(@PathVariable title: String): List<ApplicationDTO>
 
-    @GetMapping("/{title}/applications/{id}")
-    fun getOneCallApplication(@PathVariable title: String, @PathVariable id: Long): ApplicationDTO
-
-    @PostMapping("/{title}/applications/{id}")
+    @PostMapping("/{title}/applications")
     fun addApplication(@PathVariable title: String, @PathVariable id: Long)
+
+    /* Panel handling */
+    @ApiOperation(value = "Get panel assigned to a grant call with given title", response = PanelDTO::class)
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully retrieved Panel."),
+        ApiResponse(code = 401, message = "Not authorized to get Panel!"),
+        ApiResponse(code = 403, message = "Get Panel forbidden."),
+        ApiResponse(code = 404, message = "Panel not found.")
+    ])
+    @GetMapping("/{title}/panel")
+    fun getPanelFromGrantCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to get the panel from", required = true)
+                              @PathVariable title: String):PanelDTO
+
+    @ApiOperation(value = "Assign a panel to a grant call with a given title", response = PanelDTO::class)
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully retrieved Panel."),
+        ApiResponse(code = 401, message = "Not authorized to get Panel!"),
+        ApiResponse(code = 403, message = "Get Panel forbidden."),
+        ApiResponse(code = 404, message = "Grant Call not found.")
+    ])
+    @PostMapping("/{title}/panel")
+    fun addPanel(@ApiParam(name = "title", type = "String", value = "The title of the grant call to assign the panel to", required = true)
+                 @PathVariable title: String)
+
+    @GetMapping("/{title}/panel/reviewers")
+    fun getReviewers(@PathVariable title: String): List<UserDTO>
+
+    @PostMapping("/{title}/panel/reviewers/{reviewerId}")
+    fun addReviewerToPanel(@PathVariable title: String, @PathVariable reviewerId: Long)
+
+    @DeleteMapping("/{title}/panel/reviewers/{reviewerId}")
+    fun deleteReviewerFromPanel(@PathVariable title: String, @PathVariable reviewerId:Long)
+
+    /* data item handling */
+    @GetMapping("/{title}/data_items")
+    fun getAllDataItems(@PathVariable title: String): List<DataItemDTO>
+
+    @GetMapping("/{title}/{name}")
+    fun getOneDataItem(@PathVariable title: String, @PathVariable name: String): DataItemDTO
+
+    @PostMapping("/{title}")
+    fun addDataItem(@PathVariable title: String)
+
+    @DeleteMapping("/{title}/{name}")
+    fun deleteDataItem(@PathVariable title: String, @PathVariable name: String)
+
+    @PutMapping("/{title}{name}")
+    fun editDataItem(@PathVariable title: String, @PathVariable name: String)
 
 }

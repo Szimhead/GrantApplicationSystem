@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.*
 interface ReviewerAPI {
 
     @GetMapping("")
-    fun getAll():List<ReviewerDTO>
+    fun getAll():List<UserDTO>
 
     @GetMapping("/{reviewerNr}")
-    fun getOne(@PathVariable reviewerNr:Long): ReviewerDTO
+    fun getOne(@PathVariable reviewerNr:Long): UserDTO
 
     @DeleteMapping("/{reviewerNr}")
     fun deleteReviewer(@PathVariable reviewerNr: Long)

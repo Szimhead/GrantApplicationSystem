@@ -1,16 +1,15 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.InstitutionDTO
-import pt.unl.fct.di.pt.firstdemo.api.ReviewerDTO
-import pt.unl.fct.di.pt.firstdemo.api.StudentDTO
+import pt.unl.fct.di.pt.firstdemo.api.OrganizationDTO
+import pt.unl.fct.di.pt.firstdemo.api.UserDTO
 
 @Service
 class InstitutionService {
 
-    fun getAll() = listOf<InstitutionDTO>(InstitutionDTO(1, "FCT UNL", "no contact"))
+    fun getAll() = listOf<OrganizationDTO>(OrganizationDTO(1, "FCT UNL", "no contact"))
 
-    fun getOne(id:Long) = InstitutionDTO(2, "IMS UNL", "no contact")
+    fun getOne(id:Long) = OrganizationDTO(2, "IMS UNL", "no contact")
 
     fun addInstitution() {
         TODO("Not yet implemented")
@@ -25,9 +24,9 @@ class InstitutionService {
     }
 
     /* student handling */
-    fun getStudents(id:Long) = listOf<StudentDTO>(StudentDTO(1, "Luke Smith"))
+    fun getStudents(id:Long) = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
 
-    fun getOneStudent(id:Long, studentNr:Long) = StudentDTO(1, "Luke Smith")
+    fun getOneStudent(id:Long, studentNr:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
     fun addStudent(id:Long) {
         TODO("Not yet implemented")
@@ -35,9 +34,9 @@ class InstitutionService {
 
 
     /* reviewer handling */
-    fun getReviewers(id:Long) = listOf<ReviewerDTO>(ReviewerDTO(1, "John Smith"))
+    fun getReviewers(id:Long) = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
 
-    fun getOneReviewer(id:Long, reviewerNr:Long) = ReviewerDTO(1, "John Smith")
+    fun getOneReviewer(id:Long, reviewerNr:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
     fun addReviewer(id:Long) {
         TODO("Not yet implemented")
