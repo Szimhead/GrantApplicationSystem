@@ -1,13 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.*
 
+@Api(value="Grant Management - Students API",
+        description="Operation management of Students")
 @RequestMapping("/students")
-interface StudentAPI {
+interface StudentsAPI {
 
     @ApiOperation(value = "Get list of all Students", response = Iterable::class)
     @ApiResponses(value = [

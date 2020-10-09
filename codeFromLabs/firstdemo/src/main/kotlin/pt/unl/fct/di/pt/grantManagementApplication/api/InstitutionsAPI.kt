@@ -1,13 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.*
 
+@Api(value="Grant Management - Institutions API",
+        description="Operation management of Institutions")
 @RequestMapping("/institutions")
-interface InstitutionAPI {
+interface InstitutionsAPI {
 
     @ApiOperation(value = "Get list of all Institutions", response = Iterable::class)
     @ApiResponses(value = [
@@ -50,7 +49,6 @@ interface InstitutionAPI {
     fun deleteInstitution( @ApiParam(name = "id", type = "Long", value = "The id of the institution being deleted", required = true)
                            @PathVariable id: Long)
 
-
     @ApiOperation(value = "Edit Institution by id")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully edit institution."),
@@ -61,7 +59,6 @@ interface InstitutionAPI {
     @PutMapping("/{id}")
     fun editInstitution(@ApiParam(name = "id", type = "Long", value = "The id of the institution being edited", required = true)
                         @PathVariable id: Long)
-
 
     /* student handling */
     @ApiOperation(value = "Get list of all Students in Institution with a given id", response = Iterable::class)

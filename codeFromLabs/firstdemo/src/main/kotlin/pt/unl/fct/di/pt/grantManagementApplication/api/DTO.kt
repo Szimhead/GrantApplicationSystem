@@ -1,4 +1,4 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
 import java.util.Date
 

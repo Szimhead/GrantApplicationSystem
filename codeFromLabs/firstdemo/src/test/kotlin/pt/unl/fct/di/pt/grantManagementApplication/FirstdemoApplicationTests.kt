@@ -1,4 +1,4 @@
-package pt.unl.fct.di.pt.firstdemo
+package pt.unl.fct.di.pt.grantManagementApplication
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

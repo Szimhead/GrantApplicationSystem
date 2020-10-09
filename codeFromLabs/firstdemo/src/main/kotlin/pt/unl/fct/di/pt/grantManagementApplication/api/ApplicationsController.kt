@@ -1,15 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.ApplicationService
-import java.util.*
+import pt.unl.fct.di.pt.grantManagementApplication.services.ApplicationsService
 
+@Api(value="Applications", description = "Operation management of Applications", tags=["Applications"])
 @RestController
-class ApplicationController(val applications: ApplicationService): ApplicationAPI {
+class ApplicationsController(val applications: ApplicationsService): ApplicationsAPI {
 
     override fun getAll() = applications.getAll()
 

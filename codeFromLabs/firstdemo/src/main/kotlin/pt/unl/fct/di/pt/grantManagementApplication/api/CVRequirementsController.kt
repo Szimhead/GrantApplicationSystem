@@ -1,10 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
+import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.CVRequirementService
+import pt.unl.fct.di.pt.grantManagementApplication.services.CVRequirementsService
 
+@Api(value="CV Requirements", description = "Operation management of CV Requirements", tags=["CV Requirements"])
 @RestController
-class CVRequirementController(val requirements: CVRequirementService): CVRequirementAPI {
+class CVRequirementsController(val requirements: CVRequirementsService): CVRequirementsAPI {
     override fun getAll() = requirements.getAll()
 
     override fun getOne(name: String) = requirements.getOne(name)

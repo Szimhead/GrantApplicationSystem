@@ -1,13 +1,14 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.GrantCallDTO
-import pt.unl.fct.di.pt.firstdemo.api.OrganizationDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.GrantCallDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.OrganizationDTO
 import java.util.*
 
 
 @Service
-class SponsorService {
+class SponsorsService {
+
     fun getAll() = listOf(OrganizationDTO(1, "Firm1", "no contact"))
 
     fun getOne(id:Long) = OrganizationDTO(2, "Firm2", "no contact")

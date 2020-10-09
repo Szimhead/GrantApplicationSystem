@@ -1,13 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
 import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.*
 
-@Api(value="Grant Management - Applications API",
-        description="Operation management of CVRequirement")
-
+@Api(value="Grant Management - CV Requirements API",
+        description="Operation management of CVRequirements")
 @RequestMapping("/cvrequirements")
-interface CVRequirementAPI {
+interface CVRequirementsAPI {
 
     @ApiOperation(value = "Get list of all CVRequirements", response = Iterable::class)
     @ApiResponses(value = [

@@ -1,14 +1,13 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
-import pt.unl.fct.di.pt.firstdemo.api.CVDTO
-import pt.unl.fct.di.pt.firstdemo.api.CVItemDTO
-import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.ApplicationDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.CVDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.UserDTO
 import java.util.*
 
 @Service
-class StudentService {
+class StudentsService {
     fun getAll() = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
 
     fun getOne(id:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")

@@ -1,10 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
+import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.GrantCallService
+import pt.unl.fct.di.pt.grantManagementApplication.services.GrantCallsService
 
+@Api(value="Grant Calls", description = "Operation management of Grant Calls", tags=["Grant Calls"])
 @RestController
-class GrantCallController(val calls:GrantCallService): GrantCallAPI {
+class GrantCallsController(val calls:GrantCallsService): GrantCallsAPI {
 
     override fun getAll() = calls.getAll()
 

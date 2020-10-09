@@ -1,10 +1,10 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.CVRequirementDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.CVRequirementDTO
 
 @Service
-class CVRequirementService {
+class CVRequirementsService {
     fun getAll() = listOf<CVRequirementDTO>()
 
     fun getOne(name: String) = CVRequirementDTO("age", "Int", true)

@@ -1,13 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.*
 
+@Api(value="Grant Management - Sponsors API",
+        description="Operation management of Sponsors")
 @RequestMapping("/sponsors")
-interface SponsorAPI {
+interface SponsorsAPI {
 
     @ApiOperation(value = "Get list of all Sponsors", response = Iterable::class)
     @ApiResponses(value = [

@@ -1,11 +1,11 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.OrganizationDTO
-import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.OrganizationDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.UserDTO
 
 @Service
-class InstitutionService {
+class InstitutionsService {
 
     fun getAll() = listOf<OrganizationDTO>(OrganizationDTO(1, "FCT UNL", "no contact"))
 

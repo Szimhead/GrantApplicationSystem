@@ -1,10 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
+import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.SponsorService
+import pt.unl.fct.di.pt.grantManagementApplication.services.SponsorsService
 
+@Api(value="Sponsors", description = "Operation management of Sponsors", tags=["Sponsors"])
 @RestController
-class SponsorController(val sponsors: SponsorService): SponsorAPI {
+class SponsorsController(val sponsors: SponsorsService): SponsorsAPI {
 
     override fun getAll() = sponsors.getAll()
 

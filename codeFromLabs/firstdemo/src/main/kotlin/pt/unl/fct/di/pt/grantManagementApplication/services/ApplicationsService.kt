@@ -1,13 +1,13 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.AnswerDTO
-import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
-import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.AnswerDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.ApplicationDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.ReviewDTO
 import java.util.*
 
 @Service
-class ApplicationService {
+class ApplicationsService {
 
     fun getAll() = listOf<ApplicationDTO>(ApplicationDTO(1, Date(), 0))
 

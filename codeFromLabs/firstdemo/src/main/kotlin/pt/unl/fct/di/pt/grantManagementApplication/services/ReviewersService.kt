@@ -1,12 +1,13 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
-import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
-import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.PanelDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.ReviewDTO
+import pt.unl.fct.di.pt.grantManagementApplication.api.UserDTO
 
 @Service
-class ReviewerService {
+class ReviewersService {
+
     fun getAll() = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
 
     fun getOne(id:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")

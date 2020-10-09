@@ -1,11 +1,11 @@
-package pt.unl.fct.di.pt.firstdemo.services
+package pt.unl.fct.di.pt.grantManagementApplication.services
 
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.api.*
+import pt.unl.fct.di.pt.grantManagementApplication.api.*
 import java.util.*
 
 @Service
-class GrantCallService {
+class GrantCallsService {
     fun getAll() = listOf<GrantCallDTO>(GrantCallDTO("all success", "some grant call", 500000.00,
             Date(),  Date()))
 

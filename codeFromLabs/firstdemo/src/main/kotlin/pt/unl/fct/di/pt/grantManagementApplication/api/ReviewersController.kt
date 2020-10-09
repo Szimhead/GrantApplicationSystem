@@ -1,10 +1,12 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
+import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.ReviewerService
+import pt.unl.fct.di.pt.grantManagementApplication.services.ReviewersService
 
+@Api(value="Reviewers", description = "Operation management of Reviewers", tags=["Reviewers"])
 @RestController
-class ReviewerController(val reviewers: ReviewerService): ReviewerAPI {
+class ReviewersController(val reviewers: ReviewersService): ReviewersAPI {
 
     override fun getAll() = reviewers.getAll()
 

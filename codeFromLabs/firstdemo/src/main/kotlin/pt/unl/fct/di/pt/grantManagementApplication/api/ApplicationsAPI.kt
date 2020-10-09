@@ -1,15 +1,13 @@
-package pt.unl.fct.di.pt.firstdemo.api
+package pt.unl.fct.di.pt.grantManagementApplication.api
 
 import io.swagger.annotations.*
 import org.springframework.web.bind.annotation.*
 import kotlin.collections.*
-import java.util.*
 
 @Api(value="Grant Management - Applications API",
         description="Operation management of Applications")
-
 @RequestMapping("/applications")
-interface ApplicationAPI {
+interface ApplicationsAPI {
 
     @ApiOperation(value = "Get list of all Applications", response = Iterable::class)
     @ApiResponses(value = [
