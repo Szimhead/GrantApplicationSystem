@@ -26,7 +26,7 @@ interface ReviewerAPI {
         ApiResponse(code = 404, message = "Reviewer not found.")
     ])
     @GetMapping("/{reviewerNr}")
-    fun getOne(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer", required = true)
+    fun getOne(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being retrieved", required = true)
                @PathVariable reviewerNr:Long): UserDTO
 
     @ApiOperation(value = "Add Reviewer with reviewerNr")

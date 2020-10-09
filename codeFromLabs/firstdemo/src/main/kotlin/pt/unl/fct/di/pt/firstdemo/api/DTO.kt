@@ -20,6 +20,6 @@ data class CVRequirementDTO(val name: String, val datatype: String, val isMandat
 
 data class AnswerDTO(val name: String, val value: String, val datatype: String)
 
-data class CVItemDTO(val value: String, val datatype: String)
+data class CVItemDTO(val name: String, val value: String, val datatype: String)
 
 data class CVDTO(val items: List<CVItemDTO>)
