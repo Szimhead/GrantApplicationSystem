@@ -1,0 +1,9 @@
+- missing doc and error codes
+
+- data_item as weak entity in ER
+
+
+
+
+
+
