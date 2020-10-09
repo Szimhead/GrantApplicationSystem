@@ -1,0 +1,59 @@
+- USER
+id: Long
+name: String
+email: String
+address: String
+
+- INSTITUITION
+id: Long
+name: String
+contact: String
+
+- SPONSORS
+id: Long
+name: String
+contact: String
+
+- GRANT CALL
+title: String
+description: String
+funding: Float
+openDate: Date
+closeDate: Date
+
+- APPLICATION
+id: Long
+submissionDate: Date
+status: Int
+
+- REVIEW
+id: Long
+isAccepted: Boolean
+comment: String
+
+- PANEL
+id: Long
+
+- DATA_ITEM
+name: String
+datatype: String
+isMandatory: Boolean
+
+- CV_REQUIREMENT
+name: String
+datatype: String
+isMandatory: Boolean
+
+- ANSWER
+value: String
+datatype: String
+
+- CV_ITEM
+value: String
+dataype: String
+
+- CV
+items: List<CV_ITEMdto>
+
+
+ 

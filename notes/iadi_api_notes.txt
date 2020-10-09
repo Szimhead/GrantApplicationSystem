@@ -1,0 +1,34 @@
+- review goes to application, reviewAPI is removed - Weronika
+
+- panel goes to grantcall, panelAPI is removed - Weronika
+
+- cv goes to student, cvAPI is removed. cv is a subresource of student, but it is also just a list of cv_items, so I guess we don't need to create a cv entity/API, and just have a list of cv_items in each student and perform operations on it directly, like "add cv item to cv" or "get all cv items from cv" - Weronika
+
+- data_item goes to grantCall, add crud methods for it - Weronika
+
+- create cvRequirementAPI - Weronika
+
+- answer goes to application, add crud methods for it - Weronika
+
+- documentation and error codes - Tiago
+
+- write/print report
+
+- add atributes to ER - Szymon only! 
+
+
+
+----------------------------!!-----------------------------
+- add answer or add answers??
+
+- added /name in url of CVRequirement just to have something for now and see that it works
+
+- delete add panel? all grant calls are created with an empty panel, you just need to add reviewers
+
+- added /dataitems in grancall
+
+- added a addReviewer so we can register reviewers in the system that can then be selected by sponsors to be part of a panel in a grant call.
+
+- added add student, discuss where this should be
+
+- should we have getOneApplication in student?
