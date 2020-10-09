@@ -36,7 +36,7 @@ interface ReviewerAPI {
         ApiResponse(code = 403, message = "Add reviewer forbidden.")
     ])
     @PostMapping("/{reviewerNr}")
-    fun addReviewer(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewe being addedr", required = true)
+    fun addReviewer(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being added", required = true)
                     @PathVariable reviewerNr:Long)
 
     @ApiOperation(value = "Delete Reviewer with reviewerNr")
@@ -60,7 +60,6 @@ interface ReviewerAPI {
     @PutMapping("{reviewerNr}")
     fun editReviewer(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being deleted", required = true)
                      @PathVariable reviewerNr: Long)
-
 
     /* panel handling */
     @ApiOperation(value = "Get list of all Panels that Reviewer with reviewerNr is assigned to", response = Iterable::class)
