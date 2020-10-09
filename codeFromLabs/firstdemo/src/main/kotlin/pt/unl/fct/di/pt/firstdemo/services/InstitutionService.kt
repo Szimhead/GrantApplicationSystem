@@ -11,7 +11,7 @@ class InstitutionService {
 
     fun getOne(id:Long) = OrganizationDTO(2, "IMS UNL", "no contact")
 
-    fun addInstitution() {
+    fun addInstitution(id: Long) {
         TODO("Not yet implemented")
     }
 
@@ -28,7 +28,7 @@ class InstitutionService {
 
     fun getOneStudent(id:Long, studentNr:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
-    fun addStudent(id:Long) {
+    fun addStudent(id:Long, studentNr: Long) {
         TODO("Not yet implemented")
     }
 
@@ -38,7 +38,7 @@ class InstitutionService {
 
     fun getOneReviewer(id:Long, reviewerNr:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
-    fun addReviewer(id:Long) {
+    fun addReviewer(id:Long, reviewerNr: Long) {
         TODO("Not yet implemented")
     }
 }

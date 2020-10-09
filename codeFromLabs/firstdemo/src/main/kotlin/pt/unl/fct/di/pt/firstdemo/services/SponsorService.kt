@@ -12,7 +12,7 @@ class SponsorService {
 
     fun getOne(id:Long) = OrganizationDTO(2, "Firm2", "no contact")
 
-    fun addSponsor() {
+    fun addSponsor(id: Long) {
         TODO("Not yet implemented")
     }
 
@@ -29,7 +29,7 @@ class SponsorService {
     fun getGrantCalls(id:Long) = listOf(GrantCallDTO("all success", "some grant call", 500000.00,
             Date(),  Date()))
 
-    fun addGrantCall(id:Long) {
+    fun addGrantCall(id:Long, title: String) {
         TODO("Not yet implemented")
     }
 }

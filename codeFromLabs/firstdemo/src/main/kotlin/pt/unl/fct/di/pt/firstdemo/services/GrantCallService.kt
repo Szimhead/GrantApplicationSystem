@@ -15,7 +15,7 @@ class GrantCallService {
     fun getOne(title: String) = GrantCallDTO("all success", "some grant call", 500000.00,
             Date(),  Date())
 
-    fun addCall() {
+    fun addCall(title: String) {
         TODO("Not yet implemented")
     }
 
@@ -59,7 +59,7 @@ class GrantCallService {
 
     fun getOneDataItem(title: String, name: String) = DataItemDTO("age", "Int", true)
 
-    fun addDataItem(title: String) {
+    fun addDataItem(title: String, name: String) {
         TODO("Not yet implemented")
     }
 

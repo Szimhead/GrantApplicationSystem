@@ -33,7 +33,7 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getOneAnswer(id:Long, name: String) = applications.getOneAnswer(id, name)
 
-    override fun addAnswer(id:Long) = applications.addAnswer(id)
+    override fun addAnswer(id: Long, name: String) = applications.addAnswer(id, name)
 
     override fun editAnswer(id:Long, name: String) = applications.editAnswer(id, name)
 

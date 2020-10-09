@@ -36,7 +36,7 @@ interface StudentAPI {
         ApiResponse(code = 403, message = "Add student forbidden.")
     ])
     @PostMapping("/{studentNr}")
-    fun addReviewer(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student being added", required = true)
+    fun addStudent(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student being added", required = true)
                     @PathVariable studentNr:Long)
 
     @ApiOperation(value = "Delete Student with studentNr")

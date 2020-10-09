@@ -43,7 +43,7 @@ class ApplicationService {
 
     fun getOneAnswer(id:Long, name: String) = AnswerDTO("experience","3","Int")
 
-    fun addAnswer(id:Long) {
+    fun addAnswer(id:Long, name: String) {
         TODO("Not yet implemented")
     }
 

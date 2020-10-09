@@ -12,13 +12,17 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getOne(title: String) = calls.getOne(title)
 
-    override fun addCall() = calls.addCall()
+    override fun addCall(title: String) = calls.addCall(title)
 
     override fun editCall(title: String) = calls.editCall(title)
 
     override fun deleteCall(title: String) = calls.deleteCall(title)
 
-    override fun getCallApplications(title: String) = calls.getCallApplications(title)
+    override fun getAllApplicationsFromGrantCall(title: String) = calls.getCallApplications(title)
+
+    override fun addApplication(title: String, id: Long) = calls.addApplication(title, id)
+
+    override fun getPanelFromGrantCall(title: String): PanelDTO = calls.getPanelFromGrantCall(title)
 
     override fun addPanel(title: String) = calls.addPanel(title)
 
@@ -32,7 +36,7 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getOneDataItem(title: String, name: String) = calls.getOneDataItem(title, name)
 
-    override fun addDataItem(title: String) = calls.addDataItem(title)
+    override fun addDataItem(title: String, name: String) = calls.addDataItem(title, name)
 
     override fun deleteDataItem(title: String, name: String) = calls.deleteDataItem(title, name)
 

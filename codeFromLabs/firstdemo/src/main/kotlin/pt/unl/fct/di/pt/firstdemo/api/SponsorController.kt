@@ -5,11 +5,12 @@ import pt.unl.fct.di.pt.firstdemo.services.SponsorService
 
 @RestController
 class SponsorController(val sponsors: SponsorService): SponsorAPI {
+
     override fun getAll() = sponsors.getAll()
 
     override fun getOne(id:Long) = sponsors.getOne(id)
 
-    override fun addSponsor() = sponsors.addSponsor()
+    override fun addSponsor(id: Long) = sponsors.addSponsor(id)
 
     override fun deleteSponsor(id:Long) = sponsors.deleteSponsor(id)
 
@@ -19,5 +20,6 @@ class SponsorController(val sponsors: SponsorService): SponsorAPI {
     /* grant call handling */
     override fun getGrantCalls(id:Long) = sponsors.getGrantCalls(id)
 
-    override fun addGrantCall(id:Long) = sponsors.addGrantCall(id)
+    override fun addGrantCall(id: Long, title: String) = sponsors.addGrantCall(id, title)
+
 }

@@ -11,6 +11,10 @@ class ReviewerService {
 
     fun getOne(id:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
+    fun addReviewer(reviewerNr: Long) {
+        TODO("Not yet implemented")
+    }
+
     fun deleteReviewer(reviewerNr:Long) {
         TODO("Not yet implemented")
     }
@@ -28,4 +32,5 @@ class ReviewerService {
     fun getReviews(reviewerNr: Long) = listOf<ReviewDTO>(ReviewDTO(1, true, "very nice"))
 
     fun getOneReview(reviewerNr: Long, r_id:Long) = ReviewDTO(2, false, "not very nice")
+
 }

@@ -10,6 +10,8 @@ class ReviewerController(val reviewers: ReviewerService): ReviewerAPI {
 
     override fun getOne(reviewerNr:Long) = reviewers.getOne(reviewerNr)
 
+    override fun addReviewer(reviewerNr: Long) = reviewers.addReviewer(reviewerNr)
+
     override fun deleteReviewer(reviewerNr: Long) = reviewers.deleteReviewer(reviewerNr)
 
     override fun editReviewer(reviewerNr: Long) = reviewers.updateReviewer(reviewerNr)

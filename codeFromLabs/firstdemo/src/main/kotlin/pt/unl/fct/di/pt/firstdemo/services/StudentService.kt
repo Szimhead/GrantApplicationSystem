@@ -13,6 +13,10 @@ class StudentService {
 
     fun getOne(id:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
 
+    fun addStudent(studentNr: Long) {
+        TODO("Not yet implemented")
+    }
+
     fun deleteStudent(studentNr:Long) {
         TODO("Not yet implemented")
     }
@@ -21,22 +25,23 @@ class StudentService {
         TODO("Not yet implemented")
     }
 
-
     fun getApplications(studentNr: Long) = listOf<ApplicationDTO>(ApplicationDTO(1, Date(), 0))
 
     fun getOneApplication(studentNr: Long, id:Long) = ApplicationDTO(1, Date(), 0)
 
     fun getCV(studentNr:Long) = CVDTO(listOf())
 
-    fun editCV(studentNr:Long) {
+    fun addCVItem(studentNr: Long, name: String) {
         TODO("Not yet implemented")
     }
 
-    fun addCV(studentNr:Long) {
+    fun editCVItem(studentNr: Long, name: String) {
         TODO("Not yet implemented")
     }
 
-    fun deleteCV(id:Long) {
+    fun deleteCVItem(studentNr: Long, name: String) {
         TODO("Not yet implemented")
     }
+
+
 }

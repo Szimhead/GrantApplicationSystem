@@ -10,6 +10,8 @@ class StudentController(val students: StudentService): StudentAPI {
 
     override fun getOne(studentNr:Long) = students.getOne(studentNr)
 
+    override fun addStudent(studentNr: Long) = students.addStudent(studentNr)
+
     override fun deleteStudent(studentNr: Long) = students.deleteStudent(studentNr)
 
     override fun editStudent(studentNr:Long) = students.editStudent(studentNr)
@@ -20,9 +22,10 @@ class StudentController(val students: StudentService): StudentAPI {
 
     override fun getCV(studentNr:Long) = students.getCV(studentNr)
 
-    override fun addCV(studentNr:Long) = students.addCV(studentNr)
+    override fun addCVItem(studentNr: Long, name: String) = students.addCVItem(studentNr, name)
 
-    override fun editCV(studentNr:Long) = students.editCV(studentNr)
+    override fun editCVItem(studentNr: Long, name: String) = students.editCVItem(studentNr, name)
 
-    override fun deleteCV(studentNr:Long) = students.deleteCV(studentNr)
+    override fun deleteCVItem(studentNr: Long, name: String) = students.deleteCVItem(studentNr, name)
+
 }

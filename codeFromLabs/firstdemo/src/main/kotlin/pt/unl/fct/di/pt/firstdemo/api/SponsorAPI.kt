@@ -37,7 +37,7 @@ interface SponsorAPI {
     ])
     @PostMapping("/{id}")
     fun addSponsor(@ApiParam(name = "id", type = "Long", value = "The id of the sponsor being added", required = true)
-                   @PathVariable reviewerNr:Long)
+                   @PathVariable id:Long)
 
     @ApiOperation(value = "Delete Sponsor with reviewerNr")
     @ApiResponses(value = [

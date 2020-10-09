@@ -158,7 +158,7 @@ interface ApplicationAPI {
         ApiResponse(code = 404, message = "Application not found.")
     ])
     @PostMapping("/{id}/answers/{name}")
-    fun addAnswers(@ApiParam(name = "id", type = "Long", value = "The id of the application to add the answer to", required = true)
+    fun addAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to add the answer to", required = true)
                    @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to add", required = true)
                    @PathVariable name: String)
 
