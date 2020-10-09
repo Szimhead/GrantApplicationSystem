@@ -146,7 +146,7 @@ interface ApplicationAPI {
     ])
     @GetMapping("/{id}/answers/{name}")
     fun getOneAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to get the answer from", required = true)
-                     @PathVariable id:Long, @ApiParam(name = "name", type = "Long", value = "The name of the answer to get", required = true)
+                     @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to get", required = true)
                      @PathVariable name: String): AnswerDTO
 
 
@@ -159,7 +159,7 @@ interface ApplicationAPI {
     ])
     @PostMapping("/{id}/answers/{name}")
     fun addAnswers(@ApiParam(name = "id", type = "Long", value = "The id of the application to add the answer to", required = true)
-                   @PathVariable id:Long, @ApiParam(name = "name", type = "Long", value = "The name of the answer to add", required = true)
+                   @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to add", required = true)
                    @PathVariable name: String)
 
     @ApiOperation(value = "Edit answer by name in Application with a given id")
@@ -171,7 +171,7 @@ interface ApplicationAPI {
     ])
     @PutMapping("/{id}/answers/{name}")
     fun editAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to edit the answer from", required = true)
-                   @PathVariable id:Long, @ApiParam(name = "name", type = "Long", value = "The name of the answer to edit", required = true)
+                   @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to edit", required = true)
                    @PathVariable name: String)
 
     @ApiOperation(value = "Delete answer by name in Application with a given id")
@@ -183,7 +183,7 @@ interface ApplicationAPI {
     ])
     @DeleteMapping("/{id}/answers/name")
     fun deleteAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to delete the answer from", required = true)
-                     @PathVariable id:Long, @ApiParam(name = "name", type = "Long", value = "The name of the answer to delete", required = true)
+                     @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to delete", required = true)
                      @PathVariable name: String)
 
 }
