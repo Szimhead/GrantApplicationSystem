@@ -19,10 +19,10 @@ class ApplicationService(val applications: ApplicationRepository) {
 
     fun deleteApplication(id: Long) = applications.deleteById(id)
 
-    fun addOne(application: ApplicationDAO) {
+    /*fun addOne(application: ApplicationDAO) {
         application.id = 0;
         applications.save(application)
-    }
+    } */
 
     fun editApplication(id:Long) {
         TODO("Not yet implemented")

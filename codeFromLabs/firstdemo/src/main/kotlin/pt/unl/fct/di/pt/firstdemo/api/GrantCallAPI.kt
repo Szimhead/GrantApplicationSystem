@@ -78,10 +78,9 @@ interface GrantCallAPI {
         ApiResponse(code = 403, message = "Add application to grant call forbidden."),
         ApiResponse(code = 404, message = "Grant call not found.")
     ])
-    @PostMapping("/{title}/applications/{id}")
+    @PostMapping("/{title}/applications")
     fun addApplication(@ApiParam(name = "title", type = "String", value = "The title of the grant call to add the application to", required = true)
-                       @PathVariable title: String, @ApiParam(name = "id", type = "Long", value = "The id of the application to be added", required = true)
-                       @PathVariable id: Long)
+                       @PathVariable title: String, @RequestBody app: ApplicationDTO)
 
     /* Panel handling */
 

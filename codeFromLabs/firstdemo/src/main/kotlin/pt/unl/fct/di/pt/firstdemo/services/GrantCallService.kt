@@ -33,7 +33,7 @@ class GrantCallService {
             ApplicationDTO(2, Date(), 1)
     )
 
-    fun addApplication(title: String, id: Long) {
+    fun addApplication(title: String, app: ApplicationDTO) {
         TODO("Not yet implemented")
     }
 
