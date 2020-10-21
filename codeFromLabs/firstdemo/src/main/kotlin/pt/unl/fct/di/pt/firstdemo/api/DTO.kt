@@ -1,14 +1,17 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
+import pt.unl.fct.di.pt.firstdemo.services.ApplicationDAO
 import java.util.Date
 
 data class UserDTO(val id: Long, val name: String, val email: String, val address: String)
 
 data class OrganizationDTO(val id: Long, val name: String, val contact: String)
 
-data class GrantCallDTO(val title:String, val description: String, val funding: Double, val openDate: Date, val closeDate: Date)
+data class GrantCallDTO(val title: String, val description: String, val funding: Double, val openDate: Date, val closeDate: Date)
 
-data class ApplicationDTO(val id:Long, val submissionDate: Date, val status:Int)
+data class ApplicationDTO(val id: Long, val submissionDate: Date, val status:Int) {
+    constructor(app: ApplicationDAO) : this(app.id, app.submissionDate, app.status)
+}
 
 data class PanelDTO(val id: Long)
 

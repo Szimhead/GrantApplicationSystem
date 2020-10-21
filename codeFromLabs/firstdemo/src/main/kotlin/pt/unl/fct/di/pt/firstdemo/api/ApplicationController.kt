@@ -11,9 +11,9 @@ import java.util.*
 @RestController
 class ApplicationController(val applications: ApplicationService): ApplicationAPI {
 
-    override fun getAll() = applications.getAll()
+    override fun getAll() = applications.getAll().map { ApplicationDTO(it) }
 
-    override fun getOne(id:Long) = applications.getOne(id)
+    override fun getOne(id:Long) = ApplicationDTO(applications.getOne(id))
 
     override fun deleteApplication(id: Long) = applications.deleteApplication(id)
 

@@ -4,17 +4,24 @@ import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.AnswerDTO
 import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
+import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
+import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
 import java.util.*
 
 @Service
-class ApplicationService {
+class ApplicationService(val applications: ApplicationRepository) {
 
-    fun getAll() = listOf<ApplicationDTO>(ApplicationDTO(1, Date(), 0))
+    fun getAll(): Iterable<ApplicationDAO> = applications.findAll()
 
-    fun getOne(id:Long) = ApplicationDTO(2, Date(), 0)
+    fun getOne(id:Long): ApplicationDAO = applications.findById(id).orElseThrow {
+        NotFoundException("Application with $id not found")
+    }
 
-    fun deleteApplication(id: Long) {
-        TODO("Not yet implemented")
+    fun deleteApplication(id: Long) = applications.deleteById(id)
+
+    fun addOne(application: ApplicationDAO) {
+        application.id = 0;
+        applications.save(application)
     }
 
     fun editApplication(id:Long) {
