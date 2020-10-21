@@ -6,13 +6,13 @@ import pt.unl.fct.di.pt.firstdemo.services.GrantCallService
 @RestController
 class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
-    override fun getAll() = calls.getAll()
+    override fun getAll() = calls.getAll().map { GrantCallDTO(it) }
 
     override fun getAllOpen() = calls.getAllOpen()
 
     override fun getOne(title: String) = calls.getOne(title)
 
-    override fun addCall(title: String) = calls.addCall(title)
+    override fun addCall(call: GrantCallDTO) = calls.addCall(call)
 
     override fun editCall(title: String) = calls.editCall(title)
 
@@ -24,11 +24,11 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getPanelFromGrantCall(title: String): PanelDTO = calls.getPanelFromGrantCall(title)
 
-    override fun addPanel(title: String) = calls.addPanel(title)
+    override fun addPanel(title: String, panel: PanelDTO) = calls.addPanel(title, panel)
 
     override fun getReviewers(title: String) = calls.getReviewers(title)
 
-    override fun addReviewerToPanel(title: String, reviewerId: Long) = calls.addReviewerToPanel(title, reviewerId)
+    override fun addReviewerToPanel(title: String, reviewer: UserDTO) = calls.addReviewerToPanel(title, reviewer)
 
     override fun deleteReviewerFromPanel(title: String, reviewerId:Long) = calls.deleteReviewerFromPanel(title, reviewerId)
 
@@ -36,7 +36,7 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getOneDataItem(title: String, name: String) = calls.getOneDataItem(title, name)
 
-    override fun addDataItem(title: String, name: String) = calls.addDataItem(title, name)
+    override fun addDataItem(title: String, dataItem: DataItemDTO) = calls.addDataItem(title, dataItem)
 
     override fun deleteDataItem(title: String, name: String) = calls.deleteDataItem(title, name)
 

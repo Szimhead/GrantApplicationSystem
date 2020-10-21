@@ -9,7 +9,7 @@ class CVRequirementController(val requirements: CVRequirementService): CVRequire
 
     override fun getOne(name: String) = requirements.getOne(name)
 
-    override fun addRequirement(name: String) = requirements.addRequirement(name)
+    override fun addRequirement(requirement: CVRequirementDTO) = requirements.addRequirement(requirement)
 
     override fun deleteRequirement(name: String) = requirements.deleteRequirement(name)
 

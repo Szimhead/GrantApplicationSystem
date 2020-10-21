@@ -9,7 +9,7 @@ class CVRequirementService {
 
     fun getOne(name: String) = CVRequirementDTO("age", "Int", true)
 
-    fun addRequirement(name: String) {
+    fun addRequirement(requirement: CVRequirementDTO) {
         TODO("Not yet implemented")
     }
 

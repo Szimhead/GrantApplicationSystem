@@ -2,22 +2,18 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.*
+import pt.unl.fct.di.pt.firstdemo.model.GrantCallRepository
 import java.util.*
 
 @Service
-class GrantCallService {
-    fun getAll() = listOf<GrantCallDTO>(GrantCallDTO("all success", "some grant call", 500000.00,
-            Date(),  Date()))
+class GrantCallService(val calls: GrantCallRepository) {
+    fun getAll() = calls.findAll()
 
-    fun getAllOpen() = listOf<GrantCallDTO>(GrantCallDTO("all success", "some grant call", 500000.00,
-            Date(),  Date(2020,10,25)))
+    fun getAllOpen() = calls.findByOpenDateBeforeAndCloseDateAfter(Date(), Date())
 
-    fun getOne(title: String) = GrantCallDTO("all success", "some grant call", 500000.00,
-            Date(),  Date())
+    fun getOne(title: String) = calls.findByTitle(title)
 
-    fun addCall(title: String) {
-        TODO("Not yet implemented")
-    }
+    fun addCall(call: GrantCallDAO) = calls.save(call)
 
     fun editCall(title: String) {
         TODO("Not yet implemented")
@@ -40,13 +36,13 @@ class GrantCallService {
     /* Panel handling */
     fun getPanelFromGrantCall(title: String) = PanelDTO(0)
 
-    fun addPanel(title: String) {
+    fun addPanel(title: String, panel: PanelDTO) {
         TODO("Not yet implemented")
     }
 
     fun getReviewers(title: String) = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
 
-    fun addReviewerToPanel(title: String, reviewerId: Long){
+    fun addReviewerToPanel(title: String, reviewer: UserDTO){
         TODO("Not yet implemented")
     }
 
@@ -59,7 +55,7 @@ class GrantCallService {
 
     fun getOneDataItem(title: String, name: String) = DataItemDTO("age", "Int", true)
 
-    fun addDataItem(title: String, name: String) {
+    fun addDataItem(title: String, dataItem: DataItemDTO) {
         TODO("Not yet implemented")
     }
 
