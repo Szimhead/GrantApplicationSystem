@@ -1,5 +1,9 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
+import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
+import pt.unl.fct.di.pt.firstdemo.api.GrantCallDTO
+import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
+import pt.unl.fct.di.pt.firstdemo.api.UserDTO
 import java.util.*
 import javax.persistence.*
 
@@ -14,6 +18,7 @@ data class ApplicationDAO(
     var grantCall: GrantCallDAO
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO())
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO())
 }
 
 @Entity
@@ -35,9 +40,12 @@ data class ReviewerDAO(
         var id: Long,
         val name: String,
         val email: String,
-        val address: String
+        val address: String,
+        @ManyToMany
+        var panels: List<PanelDAO>
 ) {
-    constructor() : this(0, "name", "e-mail", "address")
+    constructor() : this(0, "name", "e-mail", "address", listOf<PanelDAO>())
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, listOf<PanelDAO>())
 }
 
 @Entity
@@ -53,11 +61,12 @@ data class GrantCallDAO(
         @OneToMany
         var applications: List<ApplicationDAO>,
         @OneToOne
-        var panel: PanelDAO,
+        var panel: PanelDAO?,
         @ManyToMany
         var dataItems: List<DataItemDAO>
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date(), listOf<ApplicationDAO>(), PanelDAO(), listOf<DataItemDAO>())
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), listOf<ApplicationDAO>(), null, listOf<DataItemDAO>())
+    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, listOf<ApplicationDAO>(), null, listOf<DataItemDAO>())
 }
 
 @Entity
@@ -148,6 +157,7 @@ data class PanelDAO(
         var id: Long
 ) {
     constructor() : this(0)
+    constructor(panel: PanelDTO) : this(panel.id)
 }
 
 @Entity
