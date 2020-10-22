@@ -1,9 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
-import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
-import pt.unl.fct.di.pt.firstdemo.api.GrantCallDTO
-import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
-import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.firstdemo.api.*
 import java.util.*
 import javax.persistence.*
 
@@ -41,11 +38,11 @@ data class ReviewerDAO(
         val name: String,
         val email: String,
         val address: String,
-        @ManyToMany
-        var panels: List<PanelDAO>
+        @ManyToMany(mappedBy = "reviewers")
+        var panels: MutableList<PanelDAO>
 ) {
-    constructor() : this(0, "name", "e-mail", "address", listOf<PanelDAO>())
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, listOf<PanelDAO>())
+    constructor() : this(0, "name", "e-mail", "address", emptyList<PanelDAO>() as MutableList<PanelDAO>)
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, emptyList<PanelDAO>() as MutableList<PanelDAO>)
 }
 
 @Entity
@@ -61,12 +58,12 @@ data class GrantCallDAO(
         @OneToMany
         var applications: List<ApplicationDAO>,
         @OneToOne
-        var panel: PanelDAO?,
+        var panel: PanelDAO,
         @ManyToMany
         var dataItems: List<DataItemDAO>
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date(), listOf<ApplicationDAO>(), null, listOf<DataItemDAO>())
-    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, listOf<ApplicationDAO>(), null, listOf<DataItemDAO>())
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), listOf<ApplicationDAO>(), PanelDAO(), listOf<DataItemDAO>())
+    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, listOf<ApplicationDAO>(), PanelDAO(), listOf<DataItemDAO>())
 }
 
 @Entity
@@ -114,6 +111,7 @@ data class CVRequirementDAO(
         val isMandatory: Boolean
 ) {
     constructor() : this(0, "name", "data type", false)
+    constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory)
 }
 
 @Entity
@@ -121,11 +119,14 @@ data class DataItemDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val dataType: String,
-        val isMandatory: Boolean
+        var name: String,
+        var dataType: String,
+        var isMandatory: Boolean,
+        @OneToOne
+        var grantCall: GrantCallDAO
 ) {
-    constructor() : this(0, "name", "data type", false)
+    constructor() : this(0, "name", "data type", false, GrantCallDAO())
+    constructor(dItem: DataItemDTO) : this(0, dItem.name, dItem.datatype, dItem.isMandatory, GrantCallDAO())
 }
 
 @Entity
@@ -154,10 +155,14 @@ data class SponsorDAO(
 data class PanelDAO(
         @Id
         @GeneratedValue
-        var id: Long
+        var id: Long,
+        @ManyToMany
+        var reviewers: List<ReviewerDAO>,
+        @OneToOne
+        var grantCall: GrantCallDAO
 ) {
-    constructor() : this(0)
-    constructor(panel: PanelDTO) : this(panel.id)
+    constructor() : this(0, listOf<ReviewerDAO>(), GrantCallDAO())
+    constructor(panel: PanelDTO) : this(panel.id, listOf<ReviewerDAO>(), GrantCallDAO())
 }
 
 @Entity
