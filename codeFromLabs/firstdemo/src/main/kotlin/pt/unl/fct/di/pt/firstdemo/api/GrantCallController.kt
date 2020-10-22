@@ -1,28 +1,34 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
+import pt.unl.fct.di.pt.firstdemo.services.GrantCallDAO
 import pt.unl.fct.di.pt.firstdemo.services.GrantCallService
+import pt.unl.fct.di.pt.firstdemo.services.PanelDAO
+import pt.unl.fct.di.pt.firstdemo.services.ApplicationDAO
 
 @RestController
 class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getAll() = calls.getAll().map { GrantCallDTO(it) }
 
-    override fun getAllOpen() = calls.getAllOpen()
+    override fun getAllOpen() = calls.getAllOpen().map { GrantCallDTO(it) }
 
-    override fun getOne(title: String) = calls.getOne(title)
+    override fun getOne(title: String) = GrantCallDTO(calls.getOne(title))
 
-    override fun addCall(call: GrantCallDTO) = calls.addCall(call)
+    override fun addCall(call: GrantCallDTO) =
+            calls.addCall(GrantCallDAO(0,call.title,call.description,call.funding,call.openDate,call.closeDate,listOf(),PanelDAO(),listOf()))
 
-    override fun editCall(title: String) = calls.editCall(title)
+    override fun editCall(title: String, call: GrantCallDTO) =
+            calls.editCall(title, GrantCallDAO(0,call.title,call.description,call.funding,call.openDate,call.closeDate,listOf(),PanelDAO(),listOf()))
 
     override fun deleteCall(title: String) = calls.deleteCall(title)
 
-    override fun getAllApplicationsFromGrantCall(title: String) = calls.getCallApplications(title)
+    override fun getAllApplicationsFromGrantCall(title: String) = calls.getCallApplications(title).map {ApplicationDTO(it)}
 
-    override fun addApplication(title: String, app: ApplicationDTO) = calls.addApplication(title, app)
+    override fun addApplication(title: String, app: ApplicationDTO) =
+            calls.addApplication(title, ApplicationDAO(app.id, app.submissionDate, app.status, GrantCallDAO()))
 
-    override fun getPanelFromGrantCall(title: String): PanelDTO = calls.getPanelFromGrantCall(title)
+    override fun getPanelFromGrantCall(title: String) = PanelDTO(calls.getPanelFromGrantCall(title))
 
     override fun addPanel(title: String, panel: PanelDTO) = calls.addPanel(title, panel)
 
@@ -40,6 +46,6 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun deleteDataItem(title: String, name: String) = calls.deleteDataItem(title, name)
 
-    override fun editDataItem(title: String, name: String) = calls.editDataItem(title, name)
+    override fun editDataItem(title: String, name: String, dataItem: DataItemDTO) = calls.editDataItem(title, name, dataItem)
 
 }

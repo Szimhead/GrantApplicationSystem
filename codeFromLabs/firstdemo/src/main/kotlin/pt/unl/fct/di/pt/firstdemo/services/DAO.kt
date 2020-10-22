@@ -1,10 +1,7 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 @Entity
 data class ApplicationDAO(
@@ -12,9 +9,11 @@ data class ApplicationDAO(
     @GeneratedValue
     var id: Long,
     val submissionDate: Date,
-    val status: Int
+    val status: Int,
+    @ManyToOne
+    var grantCall: GrantCallDAO
 ) {
-    constructor() : this(0, Date(), 0)
+    constructor() : this(0, Date(), 0, GrantCallDAO())
 }
 
 @Entity
@@ -46,13 +45,19 @@ data class GrantCallDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val title: String,
-        val description: String,
-        val funding: Double,
-        val openDate: Date,
-        val closeDate: Date
+        var title: String,
+        var description: String,
+        var funding: Double,
+        var openDate: Date,
+        var closeDate: Date,
+        @OneToMany
+        var applications: List<ApplicationDAO>,
+        @OneToOne
+        var panel: PanelDAO,
+        @ManyToMany
+        var dataItems: List<DataItemDAO>
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date())
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), listOf<ApplicationDAO>(), PanelDAO(), listOf<DataItemDAO>())
 }
 
 @Entity

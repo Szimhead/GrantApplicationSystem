@@ -1,40 +1,61 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import pt.unl.fct.di.pt.firstdemo.api.*
+import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
 import pt.unl.fct.di.pt.firstdemo.model.GrantCallRepository
 import java.util.*
 
 @Service
-class GrantCallService(val calls: GrantCallRepository) {
+class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepository) {
     fun getAll() = calls.findAll()
 
     fun getAllOpen() = calls.findByOpenDateBeforeAndCloseDateAfter(Date(), Date())
 
     fun getOne(title: String) = calls.findByTitle(title)
 
-    fun addCall(call: GrantCallDAO) = calls.save(call)
-
-    fun editCall(title: String) {
-        TODO("Not yet implemented")
+    fun addCall(call: GrantCallDAO) {
+        calls.save(call)
     }
 
+    @Transactional
+    fun editCall(title: String, call: GrantCallDAO) {
+        val editedCall = calls.findByTitle(title)
+        editedCall.title = call.title
+        editedCall.description = call.description
+        editedCall.funding = call.funding
+        editedCall.openDate = call.openDate
+        editedCall.closeDate = call.closeDate
+        calls.save(editedCall)
+    }
+
+    @Transactional
     fun deleteCall(title: String) {
-        TODO("Not yet implemented")
+        val deletedCall = calls.findByTitle(title)
+        calls.delete(deletedCall)
     }
 
     /* Application handling */
-    fun getCallApplications(title: String) = listOf<ApplicationDTO>(
-            ApplicationDTO(1, Date(), 0),
-            ApplicationDTO(2, Date(), 1)
-    )
+    @Transactional
+    fun getCallApplications(title: String): List<ApplicationDAO> {
+        val call = calls.findByTitle(title)
+        return  call.applications
+    }
 
-    fun addApplication(title: String, app: ApplicationDTO) {
-        TODO("Not yet implemented")
+    @Transactional
+    fun addApplication(title: String, app: ApplicationDAO) {
+        val call = calls.findByTitle(title)
+        app.grantCall = call
+        apps.save(app)
     }
 
     /* Panel handling */
-    fun getPanelFromGrantCall(title: String) = PanelDTO(0)
+    @Transactional
+    fun getPanelFromGrantCall(title: String): PanelDAO {
+        val call = calls.findByTitle(title)
+        return call.panel
+    }
 
     fun addPanel(title: String, panel: PanelDTO) {
         TODO("Not yet implemented")
@@ -63,7 +84,7 @@ class GrantCallService(val calls: GrantCallRepository) {
         TODO("Not yet implemented")
     }
 
-    fun editDataItem(title: String, name: String) {
+    fun editDataItem(title: String, name: String, dataItem: DataItemDTO) {
         TODO("Not yet implemented")
     }
 

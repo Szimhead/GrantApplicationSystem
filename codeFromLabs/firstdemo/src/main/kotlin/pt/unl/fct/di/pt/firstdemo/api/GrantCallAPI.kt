@@ -57,7 +57,8 @@ interface GrantCallAPI {
         ApiResponse(code = 404, message = "Not found.")
     ])
     @PutMapping("/{title}")
-    fun editCall(@PathVariable title:String)
+    fun editCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to edit", required = true)
+                 @PathVariable title:String, @RequestBody call: GrantCallDTO)
 
     @ApiOperation(value = "Delete Grant Call with given id", response = Iterable::class)
     @ApiResponses(value = [
@@ -67,7 +68,8 @@ interface GrantCallAPI {
         ApiResponse(code = 404, message = "Not found.")
     ])
     @DeleteMapping("/{title}")
-    fun deleteCall(@PathVariable title: String)
+    fun deleteCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to delete", required = true)
+                   @PathVariable title: String)
 
 
     /* Application handling */
@@ -208,6 +210,6 @@ interface GrantCallAPI {
     @PutMapping("/{title}/dataitems/{name}")
     fun editDataItem(@ApiParam(name = "title", type = "String", value = "The title of the grant call to edit the data item from", required = true)
                      @PathVariable title: String, @ApiParam(name = "name", type = "String", value = "The name of the data item being edited", required = true)
-                     @PathVariable name: String)
+                     @PathVariable name: String, @RequestBody dataItem: DataItemDTO)
 
 }

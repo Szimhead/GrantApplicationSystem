@@ -17,7 +17,9 @@ data class ApplicationDTO(val id: Long, val submissionDate: Date, val status:Int
     constructor(app: ApplicationDAO) : this(app.id, app.submissionDate, app.status)
 }
 
-data class PanelDTO(val id: Long)
+data class PanelDTO(val id: Long){
+    constructor(panel: PanelDAO) : this(panel.id)
+}
 
 data class ReviewDTO(val id:Long, val isAccepted: Boolean, val comment: String)
 
