@@ -5,6 +5,7 @@ import java.util.Date
 
 data class UserDTO(val id: Long, val name: String, val email: String, val address: String) {
     constructor(rev: ReviewerDAO) : this(rev.id, rev.name, rev.email, rev.address)
+    constructor(stud: StudentDAO) : this(stud.id, stud.name, stud.email, stud.address)
 }
 
 data class OrganizationDTO(val id: Long, val name: String, val contact: String) {

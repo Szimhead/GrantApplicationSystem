@@ -36,8 +36,7 @@ interface CVRequirementAPI {
         ApiResponse(code = 403, message = "Add CVRequirement forbidden.")
     ])
     @PostMapping("")
-    fun addRequirement(@ApiParam(name = "name", type = "String", value = "The name of the CVRequirement being added", required = true)
-                       @RequestBody requirement: CVRequirementDTO)
+    fun addRequirement(@RequestBody requirement: CVRequirementDTO)
 
     @ApiOperation(value = "Delete CVRequirement by name")
     @ApiResponses(value = [
@@ -59,5 +58,5 @@ interface CVRequirementAPI {
     ])
     @PutMapping("{name}")
     fun editRequirement(@ApiParam(name = "name", type = "String", value = "The name of the CVRequirement to edit", required = true)
-                        @PathVariable name: String)
+                        @PathVariable name: String, @RequestBody requirement: CVRequirementDTO)
 }

@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository
 import pt.unl.fct.di.pt.firstdemo.services.CVRequirementDAO
 
 interface CVRequirementRepository : CrudRepository<CVRequirementDAO, Long> {
-
+    fun findByName(name: String) : CVRequirementDAO
 }

@@ -59,7 +59,7 @@ interface InstitutionAPI {
     ])
     @PutMapping("/{id}")
     fun editInstitution(@ApiParam(name = "id", type = "Long", value = "The id of the institution being edited", required = true)
-                        @PathVariable id: Long)
+                        @PathVariable id: Long, @RequestBody institution: OrganizationDTO)
 
 
     /* student handling */
@@ -74,17 +74,6 @@ interface InstitutionAPI {
     fun getStudents(@ApiParam(name = "id", type = "Long", value = "The id of the institution to get all students from", required = true)
                     @PathVariable id:Long): List<UserDTO>
 
-    @ApiOperation(value = "Get Student with studentNr in Institution with a given id", response = UserDTO::class)
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully retrieved student from institution."),
-        ApiResponse(code = 401, message = "Not authorized to add student from institution!"),
-        ApiResponse(code = 403, message = "Add student from institution forbidden."),
-        ApiResponse(code = 404, message = "Not found.")
-    ])
-    @GetMapping("/{id}/students/{studentNr}")
-    fun getOneStudent(@ApiParam(name = "id", type = "Long", value = "The id of the institution to get the student from", required = true)
-                      @PathVariable id:Long, @ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student being retrieved", required = true)
-                      @PathVariable studentNr:Long): UserDTO
 
     @ApiOperation(value = "Add new Student to Institution with a given id")
     @ApiResponses(value = [
@@ -108,17 +97,6 @@ interface InstitutionAPI {
     fun getReviewers(@ApiParam(name = "id", type = "Long", value = "The id of the institution to get all reviewers from", required = true)
                      @PathVariable id:Long): List<UserDTO>
 
-    @ApiOperation(value = "Get Reviewer with reviewerNr in Institution with a given id", response = UserDTO::class)
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully retrieved reviewer from institution."),
-        ApiResponse(code = 401, message = "Not authorized to add reviewer from institution!"),
-        ApiResponse(code = 403, message = "Add reviewer from institution forbidden."),
-        ApiResponse(code = 404, message = "Not found.")
-    ])
-    @GetMapping("/{id}/reviewers/{reviewerNr}")
-    fun getOneReviewer(@ApiParam(name = "id", type = "Long", value = "The id of the institution to get the reviewer from", required = true)
-                       @PathVariable id:Long, @ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being retrieved", required = true)
-                       @PathVariable reviewerNr:Long): UserDTO
 
     @ApiOperation(value = "Add new Reviewer to Institution with a given id")
     @ApiResponses(value = [

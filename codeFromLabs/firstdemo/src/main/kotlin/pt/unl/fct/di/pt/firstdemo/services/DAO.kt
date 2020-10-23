@@ -25,9 +25,12 @@ data class StudentDAO(
         var id: Long,
         val name: String,
         val email: String,
-        val address: String
+        val address: String,
+        @ManyToOne
+        var institution: InstitutionDAO
 ) {
-    constructor() : this(0, "name", "e-mail", "address")
+    constructor() : this(0, "name", "e-mail", "address", InstitutionDAO())
+    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, InstitutionDAO())
 }
 
 @Entity
@@ -39,10 +42,12 @@ data class ReviewerDAO(
         val email: String,
         val address: String,
         @ManyToMany(mappedBy = "reviewers")
-        var panels: MutableList<PanelDAO>
+        var panels: MutableList<PanelDAO>,
+        @ManyToOne
+        var institution: InstitutionDAO
 ) {
-    constructor() : this(0, "name", "e-mail", "address", emptyList<PanelDAO>() as MutableList<PanelDAO>)
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, emptyList<PanelDAO>() as MutableList<PanelDAO>)
+    constructor() : this(0, "name", "e-mail", "address", emptyList<PanelDAO>() as MutableList<PanelDAO>,InstitutionDAO())
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, emptyList<PanelDAO>() as MutableList<PanelDAO>,InstitutionDAO())
 }
 
 @Entity
@@ -106,9 +111,9 @@ data class CVRequirementDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val dataType: String,
-        val isMandatory: Boolean
+        var name: String,
+        var dataType: String,
+        var isMandatory: Boolean
 ) {
     constructor() : this(0, "name", "data type", false)
     constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory)
@@ -134,10 +139,16 @@ data class InstitutionDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val contact: String
+        var name: String,
+        var contact: String,
+        @OneToMany
+        var students: MutableList<StudentDAO>,
+        @OneToMany
+        var reviewers: MutableList<ReviewerDAO>
 ) {
-    constructor() : this(0, "name", "contact")
+    constructor() : this(0, "name", "contact", emptyList<StudentDAO>() as MutableList<StudentDAO>, emptyList<ReviewerDAO>() as MutableList<ReviewerDAO>)
+    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, emptyList<StudentDAO>() as MutableList<StudentDAO>, emptyList<ReviewerDAO>() as MutableList<ReviewerDAO>)
+
 }
 
 @Entity
