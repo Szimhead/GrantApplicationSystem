@@ -32,13 +32,15 @@ data class StudentDAO(
         val name: String,
         val email: String,
         val address: String,
+        @OneToMany
+        var applications: MutableList<ApplicationDAO>,
         @ManyToOne
         var institution: InstitutionDAO,
         @OneToOne
         var cv: CVDAO
 ) {
-    constructor() : this(0, "name", "e-mail", "address", InstitutionDAO(), CVDAO())
-    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, InstitutionDAO(), CVDAO())
+    constructor() : this(0, "name", "e-mail", "address", mutableListOf<ApplicationDAO>(), InstitutionDAO(), CVDAO())
+    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableListOf<ApplicationDAO>(), InstitutionDAO(), CVDAO())
 }
 
 @Entity
@@ -49,6 +51,8 @@ data class ReviewerDAO(
         val name: String,
         val email: String,
         val address: String,
+        @OneToMany
+        var panelsInCharge: MutableList<PanelDAO>,
         @ManyToMany(mappedBy = "reviewers")
         var panels: MutableList<PanelDAO>,
         @ManyToOne
@@ -56,8 +60,8 @@ data class ReviewerDAO(
         @OneToMany
         var reviews: MutableList<ReviewDAO>
 ) {
-    constructor() : this(0, "name", "e-mail", "address", mutableListOf(),InstitutionDAO(), mutableListOf())
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableListOf() ,InstitutionDAO(), mutableListOf())
+    constructor() : this(0, "name", "e-mail", "address", mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
 }
 
 @Entity
@@ -182,9 +186,12 @@ data class SponsorDAO(
         @GeneratedValue
         var id: Long,
         val name: String,
-        val contact: String
+        val contact: String,
+        @OneToMany
+        var grantCalls: MutableList<GrantCallDAO>
 ) {
-    constructor() : this(0, "name", "contact")
+    constructor() : this(0, "name", "contact", mutableListOf<GrantCallDAO>())
+    constructor(sponsor: SponsorDAO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableListOf<GrantCallDAO>())
 }
 
 @Entity
@@ -192,13 +199,16 @@ data class PanelDAO(
         @Id
         @GeneratedValue
         var id: Long,
+        @ManyToOne
+        var chair: ReviewerDAO,
         @ManyToMany
         var reviewers: List<ReviewerDAO>,
         @OneToOne
         var grantCall: GrantCallDAO
 ) {
-    constructor() : this(0, listOf<ReviewerDAO>(), GrantCallDAO())
-    constructor(panel: PanelDTO) : this(panel.id, listOf<ReviewerDAO>(), GrantCallDAO())
+    constructor() : this(0, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO())
+    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
+    // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
 }
 
 @Entity
