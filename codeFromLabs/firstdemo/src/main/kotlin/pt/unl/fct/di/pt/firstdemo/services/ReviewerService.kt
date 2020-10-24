@@ -4,23 +4,39 @@ import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
 import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
+import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
+import javax.persistence.*
 
 @Service
-class ReviewerService {
-    fun getAll() = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
+class ReviewerService (val reviewers: ReviewerRepository) {
+    fun getAll(): Iterable<ReviewerDAO> = reviewers.findAll()
 
-    fun getOne(id:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
+    fun getOne(id:Long): ReviewerDAO = reviewers.findById(id).orElseThrow{
+        NotFoundException("Reviewer with $id not found")
+    }
 
-    fun addReviewer(reviewerNr: Long) {
-        TODO("Not yet implemented")
+    fun addReviewer(reviewer: ReviewerDAO) {
+        reviewers.save(reviewer)
     }
 
     fun deleteReviewer(reviewerNr:Long) {
-        TODO("Not yet implemented")
+        val reviewer = reviewers.findById(reviewerNr).orElseThrow{
+            NotFoundException("Reviewer with $reviewerNr not found")
+        }
+        reviewers.delete(reviewer);
     }
 
-    fun updateReviewer(reviewerNr: Long) {
-        TODO("Not yet implemented")
+    fun updateReviewer(reviewerNr: Long, reviewer: ReviewerDAO) {
+        val editedReviewer = reviewers.findById(reviewerNr).orElseThrow{
+            NotFoundException("Reviewer with $reviewerNr not found")
+        };
+        editedReviewer.address=reviewer.address
+        editedReviewer.email =reviewer.email
+        editedReviewer.institution=reviewer.institution
+        editedReviewer.name=reviewer.name
+
+        reviewers.save(editedReviewer)
     }
 
     /* panel handling */

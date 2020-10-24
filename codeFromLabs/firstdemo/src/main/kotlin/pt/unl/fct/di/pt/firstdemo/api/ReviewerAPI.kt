@@ -36,8 +36,8 @@ interface ReviewerAPI {
         ApiResponse(code = 403, message = "Add reviewer forbidden.")
     ])
     @PostMapping("/{reviewerNr}")
-    fun addReviewer(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being added", required = true)
-                    @PathVariable reviewerNr:Long)
+    fun addReviewer(@ApiParam(name = "review_id", type = "UserDto", value = "The reviewer to be created", required = true)
+                    @RequestBody review:UserDTO)
 
     @ApiOperation(value = "Delete Reviewer with reviewerNr")
     @ApiResponses(value = [
@@ -58,8 +58,9 @@ interface ReviewerAPI {
         ApiResponse(code = 404, message = "Reviewer not found.")
     ])
     @PutMapping("{reviewerNr}")
-    fun editReviewer(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being deleted", required = true)
-                     @PathVariable reviewerNr: Long)
+    fun editReviewer(@ApiParam(name = "reviewerNr", type = "Long", value = "The reviewerNr of the reviewer being updated", required = true)
+                     @PathVariable reviewerNr: Long,
+                     @RequestBody reviewer: UserDTO)
 
     /* panel handling */
     @ApiOperation(value = "Get list of all Panels that Reviewer with reviewerNr is assigned to", response = Iterable::class)
