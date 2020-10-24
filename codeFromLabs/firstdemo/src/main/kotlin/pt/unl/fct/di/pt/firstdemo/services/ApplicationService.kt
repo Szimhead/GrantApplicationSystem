@@ -77,7 +77,7 @@ class ApplicationService(val applications: ApplicationRepository, val reviews: R
         return app.answers;
     }
 
-   //fun getOneAnswer(id:Long, name: String) = AnswerDTO("experience","3","Int") //TODO("Add to answer service")
+   fun getOneAnswer(id:Long, name: String) = AnswerDTO(0, "experience","3","Int") //TODO("Add to answer service????")
 
     fun addAnswer(id:Long, answer:AnswerDAO) {
         val app = applications.findById(id).orElseThrow() {

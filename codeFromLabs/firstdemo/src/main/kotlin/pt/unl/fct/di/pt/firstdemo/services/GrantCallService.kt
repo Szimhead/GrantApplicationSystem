@@ -44,8 +44,8 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
     @Transactional
     fun addApplication(title: String, app: ApplicationDAO) {
-        val call = calls.findByTitle(title)
-        app.grantCall = call
+        val call = calls.findByTitle(title) //set id = 0 just to be sure? this function can be called with some "app" which id is not 0
+        app.grantCall = call                // same for all adds on other services
         apps.save(app)
     }
 
@@ -58,8 +58,8 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
     @Transactional
     fun addPanel(title: String, panel: PanelDAO) {
-        val call = calls.findByTitle(title)
-        panel.grantCall = call
+        val call = calls.findByTitle(title)  // need orElseThrow() and should we make an id for calls?
+        panel.grantCall = call              //also maybe we should just create a call with an empty panel so we just need to add reviewers
         panels.save(panel)
     }
 
@@ -97,7 +97,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     @Transactional
     fun getOneDataItem(title: String, name: String): DataItemDAO {
         val call = calls.findByTitle(title)
-        return dataItems.findByNameAndGrantCall(name, call)
+        return dataItems.findByNameAndGrantCall(name, call)  // i added an id because i also needed to do what you did here, keep id?
     }
 
     @Transactional
