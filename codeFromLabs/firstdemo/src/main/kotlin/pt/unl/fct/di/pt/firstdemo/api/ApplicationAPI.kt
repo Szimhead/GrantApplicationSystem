@@ -79,11 +79,11 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Get review from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @GetMapping("{id}/reviews/{review_id}")
+    @GetMapping("{id}/reviews/{reviewId}")
     fun getOneReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to get the review from", required = true)
                   @PathVariable id:Long,
-                  @ApiParam(name = "review_id", type = "Long", value = "The id of the review to get", required = true)
-                  @PathVariable review_id:Long): ReviewDTO
+                  @ApiParam(name = "reviewId", type = "Long", value = "The id of the review to get", required = true)
+                  @PathVariable reviewId:Long): ReviewDTO
 
     @ApiOperation(value = "Delete review by id in Application with a given id")
     @ApiResponses(value = [
@@ -92,10 +92,10 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Delete review from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @DeleteMapping("{id}/reviews/{review_id}")
+    @DeleteMapping("{id}/reviews/{reviewId}")
     fun deleteReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to delete the review from", required = true)
-                     @PathVariable id:Long, @ApiParam(name = "review_id", type = "Long", value = "The id of the review to delete", required = true)
-                     @RequestBody review:ReviewDTO)
+                     @PathVariable id:Long, @ApiParam(name = "reviewId", type = "Long", value = "The id of the review to delete", required = true)
+                     @PathVariable reviewId: Long)
 
 
     @ApiOperation(value = "Edit review by id in Application with a given id")
@@ -105,10 +105,10 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Edit review from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @PutMapping("{id}/reviews/{review_id}")
+    @PutMapping("{id}/reviews")
     fun editReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to edit the review from", required = true)
                    @PathVariable id:Long,
-                   @ApiParam(name = "review_id", type = "Long", value = "The id of the review to edit", required = true)
+                   @ApiParam(name = "reviewId", type = "Long", value = "The id of the review to edit", required = true)
                    @RequestBody review:ReviewDTO)
 
 
@@ -144,10 +144,10 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Get answer from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @GetMapping("/{id}/answers/{name}")
+    @GetMapping("/{id}/answers/{answerId}")
     fun getOneAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to get the answer from", required = true)
-                     @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to get", required = true)
-                     @PathVariable name: String): AnswerDTO
+                     @PathVariable id:Long, @ApiParam(name = "answerId", type = "String", value = "The id of the answer to get", required = true)
+                     @PathVariable answerId: Long): AnswerDTO
 
 
     @ApiOperation(value = "Adds an answer to an application with a given id")
@@ -181,9 +181,9 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Delete answer from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @DeleteMapping("/{id}/answers")
+    @DeleteMapping("/{id}/answers/{answerId}")
     fun deleteAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to delete the answer from", required = true)
-                     @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to delete", required = true)
-                     @RequestBody answer:AnswerDTO)
+                     @PathVariable id:Long, @ApiParam(name = "answerId", type = "String", value = "The id of the answer to get", required = true)
+                     @PathVariable answerId: Long)
 
 }

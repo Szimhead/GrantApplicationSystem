@@ -2,15 +2,12 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import pt.unl.fct.di.pt.firstdemo.api.AnswerDTO
-import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
 import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.model.AnswerRepository
 import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
-import java.util.*
 
 @Service
 class ApplicationService(val applications: ApplicationRepository, val reviews: ReviewRepository, val answers:AnswerRepository, val reviewers:ReviewerRepository) {
@@ -21,10 +18,12 @@ class ApplicationService(val applications: ApplicationRepository, val reviews: R
         NotFoundException("Application with $id not found")
     }
 
+    @Transactional
     fun deleteApplication(id: Long) = applications.deleteById(id)
 
+    @Transactional
     fun editApplication(id:Long, app:ApplicationDAO) {
-        var editedApplication = applications.findById(id).orElseThrow() {
+        val editedApplication = applications.findById(id).orElseThrow {
             NotFoundException("Application with $id not found")
         }
         editedApplication.submissionDate = app.submissionDate
@@ -35,67 +34,87 @@ class ApplicationService(val applications: ApplicationRepository, val reviews: R
 
     /* Review handling */
     fun getAllReviewsFromApplication(id: Long): Iterable<ReviewDAO> {
-        val app = applications.findById(id).orElseThrow() {
+        val app = applications.findById(id).orElseThrow {
             NotFoundException("Application with $id not found")
         }
         return app.reviews
     }
 
+    @Transactional
     fun addReview(id: Long, reviewerId: Long, review:ReviewDAO) {
-        var app = applications.findById(id).orElseThrow() {
+        val app = applications.findById(id).orElseThrow {
             NotFoundException("Application with $id not found")
         }
-        var reviewer = reviewers.findById(reviewerId).orElseThrow() {
+        val reviewer = reviewers.findById(reviewerId).orElseThrow {
             NotFoundException("Reviewer with $reviewerId not found")
         }
-        review.id = 0;
-        reviews.save(review);
+        review.id = 0
+        review.application = app
+        review.reviewer = reviewer
 
-        app.reviews.add(review)
-        reviewer.reviews.add(review)
-
-        applications.save(app)
-        reviewers.save(reviewer) //change to only add to review and only save review
+        reviews.save(review)
     }
 
-    fun deleteReview(id:Long, review:ReviewDTO) {
-        val app = applications.findById(id).orElseThrow() {
-            NotFoundException("Application with $id not found")
+    @Transactional
+    fun deleteReview(id:Long, reviewId: Long) {
+        val review = reviews.findById(reviewId).orElseThrow {
+            NotFoundException("Review with $reviewId not found")
         }
-        applications.delete(app)
+
+        reviews.delete(review)
     }
 
+    @Transactional
     fun editReview(id:Long, review:ReviewDTO) {
-        TODO("Not yet implemented, should this be in review service? just like get one review")
+        val editedReview = reviews.findById(review.id).orElseThrow {
+            NotFoundException("Review with id not found")
+        }
+
+        editedReview.isAccepted
+        editedReview.comment
+        reviews.save(editedReview)
     }
 
     /* Answers handling */
     fun getAllAnswers(id:Long) : Iterable<AnswerDAO> {
-        val app = applications.findById(id).orElseThrow() {
+        val app = applications.findById(id).orElseThrow {
             NotFoundException("Application with $id not found")
         }
-        return app.answers;
+        return app.answers
     }
 
-   fun getOneAnswer(id:Long, name: String) = AnswerDTO(0, "experience","3","Int") //TODO("Add to answer service????")
+   fun getOneAnswer(id:Long, answerId:Long): AnswerDAO = answers.findById(answerId).orElseThrow {
+       NotFoundException("Answer with $answerId not found")
+   }
 
-    fun addAnswer(id:Long, answer:AnswerDAO) {
-        val app = applications.findById(id).orElseThrow() {
+   @Transactional
+   fun addAnswer(id:Long, answer:AnswerDAO) {
+        val app = applications.findById(id).orElseThrow {
             NotFoundException("Application with $id not found")
         }
-        answer.id = 0;
+        answer.id = 0
+        answer.application = app
         answers.save(answer)
-
-        app.answers.add(answer)
-        applications.save(app)
     }
 
+    @Transactional
     fun editAnswer(id:Long, answer:AnswerDAO) {
-        TODO("Not yet implemented")
+        val editedAnswer = answers.findById(answer.id).orElseThrow {
+            NotFoundException("Answer with id not found")
+        }
+
+        editedAnswer.name = answer.name
+        editedAnswer.value = answer. value
+        editedAnswer.dataType = answer. dataType
     }
 
-    fun deleteAnswer(id:Long, answer:AnswerDAO) {
-        TODO("Not yet implemented")
+    @Transactional
+    fun deleteAnswer(id:Long, answerId:Long) {
+        val answer = answers.findById(answerId).orElseThrow {
+            NotFoundException("Answer with $answerId not found")
+        }
+
+        answers.delete(answer)
     }
 
 }

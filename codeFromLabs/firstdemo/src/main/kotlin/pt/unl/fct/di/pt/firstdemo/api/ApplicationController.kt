@@ -26,7 +26,7 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getOneReview(id:Long, review_id:Long) = ReviewDTO(0, true,"", 0)//TODO: applications.getOneReview(id, review_id)
 
-    override fun deleteReview(id:Long, review:ReviewDTO) = applications.deleteReview(id, review)
+    override fun deleteReview(id:Long, reviewId: Long) = applications.deleteReview(id, reviewId)
 
     override fun editReview(id:Long, review:ReviewDTO) = applications.editReview(id, review)
 
@@ -34,11 +34,11 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getAllAnswers(id:Long) = applications.getAllAnswers(id).map { AnswerDTO(it) }
 
-    override fun getOneAnswer(id:Long, name: String) = AnswerDTO()//TODO: applications.getOneAnswer(id, name)
+    override fun getOneAnswer(id:Long, answerId:Long) = AnswerDTO(applications.getOneAnswer(id, answerId))
 
     override fun addAnswer(id: Long, answer:AnswerDTO) = applications.addAnswer(id, AnswerDAO(answer))
 
     override fun editAnswer(id:Long, answer:AnswerDTO) = applications.editAnswer(id, AnswerDAO(answer))
 
-    override fun deleteAnswer(id:Long, answer:AnswerDTO) = applications.deleteAnswer(id, AnswerDAO(answer))
+    override fun deleteAnswer(id:Long, answerId:Long) = applications.deleteAnswer(id, answerId)
 }

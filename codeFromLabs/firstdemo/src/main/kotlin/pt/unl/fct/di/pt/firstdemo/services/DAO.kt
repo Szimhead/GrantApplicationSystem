@@ -20,8 +20,8 @@ data class ApplicationDAO(
         @OneToMany
         var answers: MutableList<AnswerDAO>
 ) {
-    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableListOf(), StudentDAO(), mutableListOf())
-    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableListOf(), StudentDAO(), mutableListOf())
+    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableListOf<ReviewDAO>(), StudentDAO(), mutableListOf<AnswerDAO>())
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableListOf<ReviewDAO>(), StudentDAO(), mutableListOf<AnswerDAO>())
 }
 
 @Entity
@@ -90,9 +90,9 @@ data class AnswerDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val value: String,
-        val dataType: String,
+        var name: String,
+        var value: String,
+        var dataType: String,
         @ManyToOne
         var dataItem: DataItemDAO,
         @ManyToOne
@@ -219,9 +219,9 @@ data class ReviewDAO(
         val isAccepted: Boolean,
         val comment: String,
         @ManyToOne
-        val application: ApplicationDAO,
+        var application: ApplicationDAO,
         @ManyToOne
-        val reviewer: ReviewerDAO
+        var reviewer: ReviewerDAO
 ) {
     constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
     constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), ReviewerDAO())
