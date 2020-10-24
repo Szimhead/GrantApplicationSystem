@@ -48,9 +48,9 @@ data class ReviewerDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val email: String,
-        val address: String,
+        var name: String,
+        var email: String,
+        var address: String,
         @OneToMany
         var panelsInCharge: MutableList<PanelDAO>,
         @ManyToMany(mappedBy = "reviewers")

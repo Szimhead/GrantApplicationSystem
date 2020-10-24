@@ -122,7 +122,7 @@ interface ApplicationAPI {
     @PostMapping("{id}/reviews")
     fun addReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to add the review to", required = true)
                   @PathVariable id:Long,
-                  @ApiParam(name = "review_id", type = "Long", value = "The id of the review to be created", required = true)
+                  @ApiParam(name = "review_id", type = "Long", value = "The id of the review to be created", required = true) //not clear, that is not an id, it is a review
                   @RequestBody review:ReviewDTO)
 
     /* Answer handling */
