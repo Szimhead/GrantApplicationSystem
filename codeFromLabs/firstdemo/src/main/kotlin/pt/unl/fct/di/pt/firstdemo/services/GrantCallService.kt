@@ -97,27 +97,27 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     @Transactional
     fun getOneDataItem(title: String, name: String): DataItemDAO {
         val call = calls.findByTitle(title)
-        return dataItems.findByNameAndGrantCall(name, call)  // i added an id because i also needed to do what you did here, keep id!
+        return dataItems.findByNameAndGrantCalls(name, call)  // i added an id because i also needed to do what you did here, keep id!
     }
 
     @Transactional
     fun addDataItem(title: String, dataItem: DataItemDAO) {
         val call = calls.findByTitle(title)
-        dataItem.grantCall = call
+        dataItem.grantCalls.add(call)
         dataItems.save(dataItem)
     }
 
     @Transactional
     fun deleteDataItem(title: String, name: String) {
         val call = calls.findByTitle(title)
-        val deletedDataItem = dataItems.findByNameAndGrantCall(name, call)
+        val deletedDataItem = dataItems.findByNameAndGrantCalls(name, call)
         dataItems.delete(deletedDataItem)
     }
 
     @Transactional
     fun editDataItem(title: String, name: String, dataItem: DataItemDAO) {
         val call = calls.findByTitle(title)
-        val editedDataItem = dataItems.findByNameAndGrantCall(name, call)
+        val editedDataItem = dataItems.findByNameAndGrantCalls(name, call)
         editedDataItem.name = dataItem.name
         editedDataItem.dataType = dataItem.dataType
         editedDataItem.isMandatory = dataItem.isMandatory

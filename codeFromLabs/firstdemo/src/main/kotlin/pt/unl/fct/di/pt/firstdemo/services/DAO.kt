@@ -1,5 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
+import org.springframework.lang.Nullable
 import pt.unl.fct.di.pt.firstdemo.api.*
 import java.util.*
 import javax.persistence.*
@@ -126,9 +127,9 @@ data class CVDAO(
         @OneToMany
         val CVItems: MutableList<CVItemDAO>,
         @OneToOne
-        var student: StudentDAO
+        var student: StudentDAO?
 ) {
-    constructor() : this(0, mutableListOf<CVItemDAO>(), StudentDAO())
+    constructor() : this(0, mutableListOf<CVItemDAO>(), null)
 }
 
 @Entity
@@ -155,7 +156,7 @@ data class DataItemDAO(
         var dataType: String,
         var isMandatory: Boolean,
         @ManyToMany(mappedBy = "dataItems")
-        var grantCall: MutableList<GrantCallDAO>,
+        var grantCalls: MutableList<GrantCallDAO>,
         @OneToMany
         var answers: MutableList<AnswerDAO>
 ) {
@@ -204,9 +205,9 @@ data class PanelDAO(
         @ManyToMany
         var reviewers: List<ReviewerDAO>,
         @OneToOne
-        var grantCall: GrantCallDAO
+        var grantCall: GrantCallDAO?
 ) {
-    constructor() : this(0, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO())
+    constructor() : this(0, ReviewerDAO(), listOf<ReviewerDAO>(), null)
     constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
     // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
 }

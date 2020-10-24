@@ -6,5 +6,5 @@ import pt.unl.fct.di.pt.firstdemo.services.GrantCallDAO
 
 interface DataItemRepository : CrudRepository<DataItemDAO, Long> {
     fun findByName(name: String) : DataItemDAO
-    fun findByNameAndGrantCall(name: String, gc: GrantCallDAO) : DataItemDAO
+    fun findByNameAndGrantCalls(name: String, gc: GrantCallDAO) : DataItemDAO
 }
