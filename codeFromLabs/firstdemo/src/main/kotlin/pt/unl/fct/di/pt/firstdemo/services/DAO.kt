@@ -6,16 +6,22 @@ import javax.persistence.*
 
 @Entity
 data class ApplicationDAO(
-    @Id
-    @GeneratedValue
-    var id: Long,
-    val submissionDate: Date,
-    val status: Int,
-    @ManyToOne
-    var grantCall: GrantCallDAO
+        @Id
+        @GeneratedValue
+        var id: Long,
+        var submissionDate: Date,
+        var status: Int,
+        @ManyToOne
+        var grantCall: GrantCallDAO,
+        @OneToMany
+        var reviews: MutableList<ReviewDAO>,
+        @ManyToOne
+        var student: StudentDAO,
+        @OneToMany
+        var answers: MutableList<AnswerDAO>
 ) {
-    constructor() : this(0, Date(), 0, GrantCallDAO())
-    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO())
+    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableListOf(), StudentDAO(), mutableListOf())
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableListOf(), StudentDAO(), mutableListOf())
 }
 
 @Entity
@@ -182,7 +188,11 @@ data class ReviewDAO(
         @GeneratedValue
         var id: Long,
         val isAccepted: Boolean,
-        val comment: String
+        val comment: String,
+        @ManyToOne
+        val application: ApplicationDAO,
+        @ManyToOne
+        val reviewer: ReviewerDAO
 ) {
-    constructor() : this(0, false, "comment")
+    constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
 }

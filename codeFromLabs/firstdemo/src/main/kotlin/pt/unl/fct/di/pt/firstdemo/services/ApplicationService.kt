@@ -1,15 +1,18 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import pt.unl.fct.di.pt.firstdemo.api.AnswerDTO
 import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
 import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
+import pt.unl.fct.di.pt.firstdemo.model.AnswerRepository
 import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
+import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 import java.util.*
 
 @Service
-class ApplicationService(val applications: ApplicationRepository) {
+class ApplicationService(val applications: ApplicationRepository, val reviews: ReviewRepository, val answers:AnswerRepository) {
 
     fun getAll(): Iterable<ApplicationDAO> = applications.findAll()
 
@@ -19,46 +22,72 @@ class ApplicationService(val applications: ApplicationRepository) {
 
     fun deleteApplication(id: Long) = applications.deleteById(id)
 
-    /*fun addOne(application: ApplicationDAO) {
-        application.id = 0;
-        applications.save(application)
-    } */
-
-    fun editApplication(id:Long) {
-        TODO("Not yet implemented")
+    fun editApplication(id:Long, app:ApplicationDAO) {
+        var editedApplication = applications.findById(id).orElseThrow() {
+            NotFoundException("Application with $id not found")
+        }
+        editedApplication.submissionDate = app.submissionDate
+        editedApplication.status = app.status
+        editedApplication.grantCall = app.grantCall
+        applications.save(editedApplication)
     }
 
     /* Review handling */
-    fun getAllReviewsFromApplication(id: Long) = listOf<ReviewDTO>(ReviewDTO(5, true, "ok"))
-
-    fun getOneReview(id: Long, review_id: Long) = ReviewDTO(4, true, "I accept")
-
-    fun addReview(id: Long, review_id: Long) {
-        TODO("Not yet implemented")
+    fun getAllReviewsFromApplication(id: Long): Iterable<ReviewDAO> {
+        val app = applications.findById(id).orElseThrow() {
+            NotFoundException("Application with $id not found")
+        }
+        return app.reviews
     }
 
-    fun deleteReview(id:Long, review_id: Long) {
-        TODO("Not yet implemented")
+    fun addReview(id: Long, review:ReviewDAO) {
+        var app = applications.findById(id).orElseThrow() {
+            NotFoundException("Application with $id not found")
+        }
+        review.id = 0;
+        reviews.save(review);
+
+        app.reviews.add(review)
+        applications.save(app)
     }
 
-    fun editReview(id:Long, review_id: Long) {
-        TODO("Not yet implemented")
+    fun deleteReview(id:Long, review:ReviewDTO) {
+        val app = applications.findById(id).orElseThrow() {
+            NotFoundException("Application with $id not found")
+        }
+        applications.delete(app)
+    }
+
+    fun editReview(id:Long, review:ReviewDTO) {
+        TODO("Not yet implemented, should this be in review service? just like get one review")
     }
 
     /* Answers handling */
-    fun getAllAnswers(id:Long) = listOf<AnswerDTO>(AnswerDTO("experience","3","Int"))
+    fun getAllAnswers(id:Long) : Iterable<AnswerDAO> {
+        val app = applications.findById(id).orElseThrow() {
+            NotFoundException("Application with $id not found")
+        }
+        return app.answers;
+    }
 
-    fun getOneAnswer(id:Long, name: String) = AnswerDTO("experience","3","Int")
+   //fun getOneAnswer(id:Long, name: String) = AnswerDTO("experience","3","Int") //TODO("Add to answer service")
 
-    fun addAnswer(id:Long, name: String) {
+    fun addAnswer(id:Long, answer:AnswerDAO) {
+        val app = applications.findById(id).orElseThrow() {
+            NotFoundException("Application with $id not found")
+        }
+        answer.id = 0;
+        answers.save(answer)
+
+        app.answers.add(answer)
+        applications.save(app)
+    }
+
+    fun editAnswer(id:Long, answer:AnswerDAO) {
         TODO("Not yet implemented")
     }
 
-    fun editAnswer(id:Long, name: String) {
-        TODO("Not yet implemented")
-    }
-
-    fun deleteAnswer(id:Long, name: String) {
+    fun deleteAnswer(id:Long, answer:AnswerDAO) {
         TODO("Not yet implemented")
     }
 

@@ -23,19 +23,19 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getOneReview(id:Long, review_id:Long) = applications.getOneReview(id, review_id)
 
-    override fun deleteReview(id:Long, review_id: Long) = applications.deleteReview(id, review_id)
+    override fun deleteReview(id:Long, review:ReviewDTO) = applications.deleteReview(id, review)
 
-    override fun editReview(id:Long, review_id: Long) = applications.editReview(id, review_id)
+    override fun editReview(id:Long, review:ReviewDTO) = applications.editReview(id, review)
 
-    override fun addReview(id:Long, review_id:Long) = applications.addReview(id, review_id)
+    override fun addReview(id:Long, review:ReviewDTO) = applications.addReview(id, review)
 
     override fun getAllAnswers(id:Long) = applications.getAllAnswers(id)
 
     override fun getOneAnswer(id:Long, name: String) = applications.getOneAnswer(id, name)
 
-    override fun addAnswer(id: Long, name: String) = applications.addAnswer(id, name)
+    override fun addAnswer(id: Long, answer:AnswerDTO) = applications.addAnswer(id, answer)
 
-    override fun editAnswer(id:Long, name: String) = applications.editAnswer(id, name)
+    override fun editAnswer(id:Long, answer:AnswerDTO) = applications.editAnswer(id, answer)
 
-    override fun deleteAnswer(id:Long, name: String) = applications.deleteAnswer(id, name)
+    override fun deleteAnswer(id:Long, answer:AnswerDTO) = applications.deleteAnswer(id, answer)
 }

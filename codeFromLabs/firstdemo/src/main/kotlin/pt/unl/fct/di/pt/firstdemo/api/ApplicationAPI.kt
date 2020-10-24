@@ -95,7 +95,7 @@ interface ApplicationAPI {
     @DeleteMapping("{id}/reviews/{review_id}")
     fun deleteReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to delete the review from", required = true)
                      @PathVariable id:Long, @ApiParam(name = "review_id", type = "Long", value = "The id of the review to delete", required = true)
-                     @PathVariable review_id: Long)
+                     @RequestBody review:ReviewDTO)
 
 
     @ApiOperation(value = "Edit review by id in Application with a given id")
@@ -109,7 +109,7 @@ interface ApplicationAPI {
     fun editReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to edit the review from", required = true)
                    @PathVariable id:Long,
                    @ApiParam(name = "review_id", type = "Long", value = "The id of the review to edit", required = true)
-                   @PathVariable review_id: Long)
+                   @RequestBody review:ReviewDTO)
 
 
     @ApiOperation(value = "Adds a review to an application with a given id")
@@ -119,11 +119,11 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Add review to application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @PostMapping("{id}/reviews/{review_id}")
+    @PostMapping("{id}/reviews")
     fun addReview(@ApiParam(name = "id", type = "Long", value = "The id of the application to add the review to", required = true)
                   @PathVariable id:Long,
                   @ApiParam(name = "review_id", type = "Long", value = "The id of the review to be created", required = true)
-                  @PathVariable review_id:Long)
+                  @RequestBody review:ReviewDTO)
 
     /* Answer handling */
     @ApiOperation(value = "Get list of all Answers in Application with a given id", response = Iterable::class)
@@ -157,10 +157,10 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Add answer to application forbidden."),
         ApiResponse(code = 404, message = "Application not found.")
     ])
-    @PostMapping("/{id}/answers/{name}")
+    @PostMapping("/{id}/answers")
     fun addAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to add the answer to", required = true)
                    @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to add", required = true)
-                   @PathVariable name: String)
+                   @RequestBody answer:AnswerDTO)
 
     @ApiOperation(value = "Edit answer by name in Application with a given id")
     @ApiResponses(value = [
@@ -169,10 +169,10 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Edit answer from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @PutMapping("/{id}/answers/{name}")
+    @PutMapping("/{id}/answers")
     fun editAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to edit the answer from", required = true)
                    @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to edit", required = true)
-                   @PathVariable name: String)
+                   @RequestBody answer:AnswerDTO)
 
     @ApiOperation(value = "Delete answer by name in Application with a given id")
     @ApiResponses(value = [
@@ -181,9 +181,9 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Delete answer from application forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @DeleteMapping("/{id}/answers/name")
+    @DeleteMapping("/{id}/answers")
     fun deleteAnswer(@ApiParam(name = "id", type = "Long", value = "The id of the application to delete the answer from", required = true)
                      @PathVariable id:Long, @ApiParam(name = "name", type = "String", value = "The name of the answer to delete", required = true)
-                     @PathVariable name: String)
+                     @RequestBody answer:AnswerDTO)
 
 }
