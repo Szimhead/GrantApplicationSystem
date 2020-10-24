@@ -53,7 +53,7 @@ interface ApplicationAPI {
     ])
     @PutMapping("/{id}")
     fun editApplication(@ApiParam(name = "id", type = "Long", value = "The id of the application", required = true)
-                        @PathVariable id: Long)
+                        @PathVariable id: Long, @RequestBody app: ApplicationDTO)
 
 
     /* Review handling */

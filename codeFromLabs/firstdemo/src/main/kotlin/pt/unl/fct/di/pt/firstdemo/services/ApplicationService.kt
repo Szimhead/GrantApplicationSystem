@@ -9,10 +9,11 @@ import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.model.AnswerRepository
 import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
+import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
 import java.util.*
 
 @Service
-class ApplicationService(val applications: ApplicationRepository, val reviews: ReviewRepository, val answers:AnswerRepository) {
+class ApplicationService(val applications: ApplicationRepository, val reviews: ReviewRepository, val answers:AnswerRepository, val reviewers:ReviewerRepository) {
 
     fun getAll(): Iterable<ApplicationDAO> = applications.findAll()
 
@@ -40,15 +41,21 @@ class ApplicationService(val applications: ApplicationRepository, val reviews: R
         return app.reviews
     }
 
-    fun addReview(id: Long, review:ReviewDAO) {
+    fun addReview(id: Long, reviewerId: Long, review:ReviewDAO) {
         var app = applications.findById(id).orElseThrow() {
             NotFoundException("Application with $id not found")
+        }
+        var reviewer = reviewers.findById(reviewerId).orElseThrow() {
+            NotFoundException("Reviewer with $reviewerId not found")
         }
         review.id = 0;
         reviews.save(review);
 
         app.reviews.add(review)
+        reviewer.reviews.add(review)
+
         applications.save(app)
+        reviewers.save(reviewer)
     }
 
     fun deleteReview(id:Long, review:ReviewDTO) {

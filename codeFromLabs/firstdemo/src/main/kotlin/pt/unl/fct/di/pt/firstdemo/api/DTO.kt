@@ -24,7 +24,9 @@ data class PanelDTO(val id: Long){
     constructor(panel: PanelDAO) : this(panel.id)
 }
 
-data class ReviewDTO(val id:Long, val isAccepted: Boolean, val comment: String)
+data class ReviewDTO(val id:Long, val isAccepted: Boolean, val comment: String, val reviewerId: Long) {
+    constructor(review: ReviewDAO) : this(review.id, review.isAccepted, review.comment, review.reviewer.id)
+}
 
 data class DataItemDTO(val name: String, val datatype: String, val isMandatory: Boolean) {
     constructor(dItem: DataItemDAO) : this(dItem.name, dItem.dataType, dItem.isMandatory)
@@ -34,7 +36,10 @@ data class CVRequirementDTO(val name: String, val datatype: String, val isMandat
     constructor(req: CVRequirementDAO) : this(req.name, req.dataType, req.isMandatory)
 }
 
-data class AnswerDTO(val name: String, val value: String, val datatype: String)
+data class AnswerDTO(val id: Long, val name: String, val value: String, val datatype: String) {
+    constructor() : this(0, "", "", "")
+    constructor(answer: AnswerDAO) : this(answer.id, answer.name, answer.value, answer.dataType)
+}
 
 data class CVItemDTO(val name: String, val value: String, val datatype: String)
 

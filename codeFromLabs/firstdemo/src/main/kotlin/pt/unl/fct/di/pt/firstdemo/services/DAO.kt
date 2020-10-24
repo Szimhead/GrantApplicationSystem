@@ -50,10 +50,12 @@ data class ReviewerDAO(
         @ManyToMany(mappedBy = "reviewers")
         var panels: MutableList<PanelDAO>,
         @ManyToOne
-        var institution: InstitutionDAO
+        var institution: InstitutionDAO,
+        @OneToMany
+        var reviews: MutableList<ReviewDAO>
 ) {
-    constructor() : this(0, "name", "e-mail", "address", emptyList<PanelDAO>() as MutableList<PanelDAO>,InstitutionDAO())
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, emptyList<PanelDAO>() as MutableList<PanelDAO>,InstitutionDAO())
+    constructor() : this(0, "name", "e-mail", "address", mutableListOf(),InstitutionDAO(), mutableListOf())
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableListOf() ,InstitutionDAO(), mutableListOf())
 }
 
 @Entity
@@ -87,6 +89,7 @@ data class AnswerDAO(
         val dataType: String
 ) {
     constructor() : this(0, "name", "value", "data type")
+    constructor(answer: AnswerDTO) : this(answer.id, answer.name, answer.value, answer.datatype)
 }
 
 @Entity
@@ -195,4 +198,5 @@ data class ReviewDAO(
         val reviewer: ReviewerDAO
 ) {
     constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
+    constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), ReviewerDAO())
 }
