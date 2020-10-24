@@ -3,42 +3,55 @@ package pt.unl.fct.di.pt.firstdemo.services
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.OrganizationDTO
 import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.firstdemo.model.InstitutionRepository
+import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
+import pt.unl.fct.di.pt.firstdemo.model.StudentRepository
 
 @Service
-class InstitutionService {
+class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepository, val revs: ReviewerRepository) {
 
-    fun getAll() = listOf<OrganizationDTO>(OrganizationDTO(1, "FCT UNL", "no contact"))
+    fun getAll() = inst.findAll()
 
-    fun getOne(id:Long) = OrganizationDTO(2, "IMS UNL", "no contact")
+    fun getOne(id:Long) = inst.findById(id).orElse(null)
 
-    fun addInstitution(id: Long) {
-        TODO("Not yet implemented")
+    fun addInstitution(institution: InstitutionDAO) {
+        inst.save(institution)
     }
 
     fun deleteInstitution(id:Long) {
-        TODO("Not yet implemented")
+        val deletedInst = inst.findById(id).orElse(null)
+        inst.delete(deletedInst)
     }
 
-    fun editInstitution(id:Long) {
-        TODO("Not yet implemented")
+    fun editInstitution(id:Long, institution: InstitutionDAO) {
+        val editedInst = inst.findById(id).orElse(null)
+        editedInst.name = institution.name
+        editedInst.contact = institution.contact
+        inst.save(editedInst)
     }
 
     /* student handling */
-    fun getStudents(id:Long) = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
+    fun getStudents(id:Long): MutableList<StudentDAO> {
+        val institution = inst.findById(id).orElse(null)
+        return institution.students
+    }
 
-    fun getOneStudent(id:Long, studentNr:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
-
-    fun addStudent(id:Long, studentNr: Long) {
-        TODO("Not yet implemented")
+    fun addStudent(id:Long, student: StudentDAO) {
+        val institution = inst.findById(id).orElse(null)
+        student.institution = institution
+        studs.save(student)
     }
 
 
     /* reviewer handling */
-    fun getReviewers(id:Long) = listOf<UserDTO>(UserDTO(1, "John Smith", "john.s@gmail.com", "no address"))
+    fun getReviewers(id:Long): MutableList<ReviewerDAO> {
+        val institution = inst.findById(id).orElse(null)
+        return institution.reviewers
+    }
 
-    fun getOneReviewer(id:Long, reviewerNr:Long) = UserDTO(1, "John Smith", "john.s@gmail.com", "no address")
-
-    fun addReviewer(id:Long, reviewerNr: Long) {
-        TODO("Not yet implemented")
+    fun addReviewer(id:Long, reviewer: ReviewerDAO) {
+        val institution = inst.findById(id).orElse(null)
+        reviewer.institution = institution
+        revs.save(reviewer)
     }
 }

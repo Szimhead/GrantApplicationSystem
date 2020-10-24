@@ -40,27 +40,40 @@ interface GrantCallAPI {
     fun getOne(@ApiParam(name = "title", type = "String", value = "The title of the grant call", required = true)
             @PathVariable title:String):GrantCallDTO
 
-    @ApiOperation(value = "Add call with given title")
+    @ApiOperation(value = "Add new grant call")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully added Grant Call."),
         ApiResponse(code = 401, message = "Not authorized to add Grant Call!"),
         ApiResponse(code = 403, message = "Add Grant Call forbidden.")
     ])
-    @PostMapping("/{title}")
-    fun addCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call", required = true)
-                @PathVariable title:String)
+    @PostMapping("")
+    fun addCall(@RequestBody call: GrantCallDTO)
 
     @ApiOperation(value = "Edit Grant Call with given id", response = Iterable::class)
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully edited grant call."),
+        ApiResponse(code = 401, message = "Not authorized to edit grant call!"),
+        ApiResponse(code = 403, message = "Edit grant call forbidden."),
+        ApiResponse(code = 404, message = "Not found.")
+    ])
     @PutMapping("/{title}")
-    fun editCall(@PathVariable title:String)
+    fun editCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to edit", required = true)
+                 @PathVariable title:String, @RequestBody call: GrantCallDTO)
 
     @ApiOperation(value = "Delete Grant Call with given id", response = Iterable::class)
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully deleted grant call."),
+        ApiResponse(code = 401, message = "Not authorized to delete grant call!"),
+        ApiResponse(code = 403, message = "Delete grant call forbidden."),
+        ApiResponse(code = 404, message = "Not found.")
+    ])
     @DeleteMapping("/{title}")
-    fun deleteCall(@PathVariable title: String)
+    fun deleteCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to delete", required = true)
+                   @PathVariable title: String)
 
 
     /* Application handling */
-    @ApiOperation(value = "Get list of all Applications in Grant Call with a given title", response = Iterable::class)
+    @ApiOperation(value = "Get list of all applications in grant call with a given title", response = Iterable::class)
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully retrieved all applications from grant call."),
         ApiResponse(code = 401, message = "Not authorized to get applications from grant call!"),
@@ -71,17 +84,16 @@ interface GrantCallAPI {
     fun getAllApplicationsFromGrantCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to get the applications from", required = true)
                                         @PathVariable title: String): List<ApplicationDTO>
 
-    @ApiOperation(value = "Add an application to an grant call with a given title")
+    @ApiOperation(value = "Add an application to a grant call with a given title")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully added application to grant call."),
         ApiResponse(code = 401, message = "Not authorized to add application to grant call!"),
         ApiResponse(code = 403, message = "Add application to grant call forbidden."),
         ApiResponse(code = 404, message = "Grant call not found.")
     ])
-    @PostMapping("/{title}/applications/{id}")
+    @PostMapping("/{title}/applications")
     fun addApplication(@ApiParam(name = "title", type = "String", value = "The title of the grant call to add the application to", required = true)
-                       @PathVariable title: String, @ApiParam(name = "id", type = "Long", value = "The id of the application to be added", required = true)
-                       @PathVariable id: Long)
+                       @PathVariable title: String, @RequestBody app: ApplicationDTO)
 
     /* Panel handling */
 
@@ -96,7 +108,6 @@ interface GrantCallAPI {
     fun getPanelFromGrantCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to get the panel from", required = true)
                               @PathVariable title: String):PanelDTO
 
-    /* TODO: DELETE?? */
     @ApiOperation(value = "Assign a panel to a grant call with a given title")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully retrieved Panel."),
@@ -106,7 +117,8 @@ interface GrantCallAPI {
     ])
     @PostMapping("/{title}/panel")
     fun addPanel(@ApiParam(name = "title", type = "String", value = "The title of the grant call to assign the panel to", required = true)
-                 @PathVariable title: String)
+                 @PathVariable title: String, @RequestBody panel: PanelDTO)
+
 
     @ApiOperation(value = "Get all reviewers in the panel assigned to a grant call with given title", response = Iterable::class)
     @ApiResponses(value = [
@@ -125,10 +137,9 @@ interface GrantCallAPI {
         ApiResponse(code = 401, message = "Not authorized to add reviewer!"),
         ApiResponse(code = 403, message = "Add reviewer forbidden.")
     ])
-    @PostMapping("/{title}/panel/reviewers/{reviewerId}")
+    @PostMapping("/{title}/panel/reviewers")
     fun addReviewerToPanel(@ApiParam(name = "title", type = "String", value = "The title of the grant call to add a reviewer to", required = true)
-                           @PathVariable title: String, @ApiParam(name = "reviewerId", type = "Long", value = "The id of the reviewer being added", required = true)
-                           @PathVariable reviewerId: Long)
+                           @PathVariable title: String, @RequestBody reviewer: UserDTO)
 
     @ApiOperation(value = "Remove a reviewer from the panel assigned to a grant call with given title")
     @ApiResponses(value = [
@@ -173,10 +184,9 @@ interface GrantCallAPI {
         ApiResponse(code = 403, message = "Add data item to grant call forbidden."),
         ApiResponse(code = 404, message = "Grant call not found.")
     ])
-    @PostMapping("/{title}/dataitems/{name}")
+    @PostMapping("/{title}/dataitems")
     fun addDataItem(@ApiParam(name = "title", type = "String", value = "The title of the grant call to add the data item to", required = true)
-                    @PathVariable title: String, @ApiParam(name = "name", type = "String", value = "The name of the data item being added", required = true)
-                    @PathVariable name: String)
+                    @PathVariable title: String, @RequestBody dataItem: DataItemDTO)
 
     @ApiOperation(value = "Delete data item from grant call with a given title")
     @ApiResponses(value = [
@@ -200,6 +210,6 @@ interface GrantCallAPI {
     @PutMapping("/{title}/dataitems/{name}")
     fun editDataItem(@ApiParam(name = "title", type = "String", value = "The title of the grant call to edit the data item from", required = true)
                      @PathVariable title: String, @ApiParam(name = "name", type = "String", value = "The name of the data item being edited", required = true)
-                     @PathVariable name: String)
+                     @PathVariable name: String, @RequestBody dataItem: DataItemDTO)
 
 }
