@@ -55,7 +55,7 @@ class ApplicationService(val applications: ApplicationRepository, val reviews: R
         reviewer.reviews.add(review)
 
         applications.save(app)
-        reviewers.save(reviewer)
+        reviewers.save(reviewer) //change to only add to review and only save review
     }
 
     fun deleteReview(id:Long, review:ReviewDTO) {

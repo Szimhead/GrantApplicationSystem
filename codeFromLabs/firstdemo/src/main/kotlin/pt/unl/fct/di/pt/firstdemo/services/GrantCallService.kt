@@ -97,7 +97,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     @Transactional
     fun getOneDataItem(title: String, name: String): DataItemDAO {
         val call = calls.findByTitle(title)
-        return dataItems.findByNameAndGrantCall(name, call)  // i added an id because i also needed to do what you did here, keep id?
+        return dataItems.findByNameAndGrantCall(name, call)  // i added an id because i also needed to do what you did here, keep id!
     }
 
     @Transactional

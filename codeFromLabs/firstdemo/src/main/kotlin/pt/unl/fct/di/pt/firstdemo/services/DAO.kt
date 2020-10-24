@@ -33,10 +33,12 @@ data class StudentDAO(
         val email: String,
         val address: String,
         @ManyToOne
-        var institution: InstitutionDAO
+        var institution: InstitutionDAO,
+        @OneToOne
+        var cv: CVDAO
 ) {
-    constructor() : this(0, "name", "e-mail", "address", InstitutionDAO())
-    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, InstitutionDAO())
+    constructor() : this(0, "name", "e-mail", "address", InstitutionDAO(), CVDAO())
+    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, InstitutionDAO(), CVDAO())
 }
 
 @Entity
@@ -86,10 +88,14 @@ data class AnswerDAO(
         var id: Long,
         val name: String,
         val value: String,
-        val dataType: String
+        val dataType: String,
+        @ManyToOne
+        var dataItem: DataItemDAO,
+        @ManyToOne
+        var application: ApplicationDAO
 ) {
-    constructor() : this(0, "name", "value", "data type")
-    constructor(answer: AnswerDTO) : this(answer.id, answer.name, answer.value, answer.datatype)
+    constructor() : this(0, "name", "value", "data type", DataItemDAO(), ApplicationDAO())
+    constructor(answer: AnswerDTO) : this(answer.id, answer.name, answer.value, answer.datatype, DataItemDAO(), ApplicationDAO())
 }
 
 @Entity
@@ -99,9 +105,13 @@ data class CVItemDAO(
         var id: Long,
         val name: String,
         val value: String,
-        val dataType: String
+        val dataType: String,
+        @ManyToOne
+        var CVRequirement: CVRequirementDAO,
+        @ManyToOne
+        var CV: CVDAO
 ) {
-    constructor() : this(0, "name", "value", "data type")
+    constructor() : this(0, "name", "value", "data type", CVRequirementDAO(), CVDAO())
 }
 
 @Entity
@@ -110,9 +120,11 @@ data class CVDAO(
         @GeneratedValue
         var id: Long,
         @OneToMany
-        val items: List<CVItemDAO>
+        val CVItems: MutableList<CVItemDAO>,
+        @OneToOne
+        var student: StudentDAO
 ) {
-    constructor() : this(0, listOf<CVItemDAO>())
+    constructor() : this(0, mutableListOf<CVItemDAO>(), StudentDAO())
 }
 
 @Entity
@@ -122,10 +134,12 @@ data class CVRequirementDAO(
         var id: Long,
         var name: String,
         var dataType: String,
-        var isMandatory: Boolean
+        var isMandatory: Boolean,
+        @OneToMany
+        var CVItems: MutableList<CVItemDAO>
 ) {
-    constructor() : this(0, "name", "data type", false)
-    constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory)
+    constructor() : this(0, "name", "data type", false,  mutableListOf<CVItemDAO>())
+    constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory, mutableListOf<CVItemDAO>())
 }
 
 @Entity
@@ -136,11 +150,13 @@ data class DataItemDAO(
         var name: String,
         var dataType: String,
         var isMandatory: Boolean,
-        @OneToOne
-        var grantCall: GrantCallDAO
+        @ManyToMany(mappedBy = "dataItems")
+        var grantCall: MutableList<GrantCallDAO>,
+        @OneToMany
+        var answers: MutableList<AnswerDAO>
 ) {
-    constructor() : this(0, "name", "data type", false, GrantCallDAO())
-    constructor(dItem: DataItemDTO) : this(0, dItem.name, dItem.datatype, dItem.isMandatory, GrantCallDAO())
+    constructor() : this(0, "name", "data type", false, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
+    constructor(dItem: DataItemDTO) : this(0, dItem.name, dItem.datatype, dItem.isMandatory, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
 }
 
 @Entity
@@ -155,8 +171,8 @@ data class InstitutionDAO(
         @OneToMany
         var reviewers: MutableList<ReviewerDAO>
 ) {
-    constructor() : this(0, "name", "contact", emptyList<StudentDAO>() as MutableList<StudentDAO>, emptyList<ReviewerDAO>() as MutableList<ReviewerDAO>)
-    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, emptyList<StudentDAO>() as MutableList<StudentDAO>, emptyList<ReviewerDAO>() as MutableList<ReviewerDAO>)
+    constructor() : this(0, "name", "contact", mutableListOf<StudentDAO>(), mutableListOf<ReviewerDAO>())
+    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableListOf<StudentDAO>(), mutableListOf<ReviewerDAO>())
 
 }
 
