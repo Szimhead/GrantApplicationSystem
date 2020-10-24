@@ -1,15 +1,18 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
+import org.springframework.boot.context.properties.bind.handler.NoUnboundElementsBindHandler
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.PanelDTO
 import pt.unl.fct.di.pt.firstdemo.api.ReviewDTO
 import pt.unl.fct.di.pt.firstdemo.api.UserDTO
 import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
+import pt.unl.fct.di.pt.firstdemo.model.PanelRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
+import java.util.*
 import javax.persistence.*
 
 @Service
-class ReviewerService (val reviewers: ReviewerRepository) {
+class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepository, val reviews: ReviewerRepository) {
     fun getAll(): Iterable<ReviewerDAO> = reviewers.findAll()
 
     fun getOne(id:Long): ReviewerDAO = reviewers.findById(id).orElseThrow{
@@ -40,13 +43,43 @@ class ReviewerService (val reviewers: ReviewerRepository) {
     }
 
     /* panel handling */
-    fun getPanels(reviewerNr: Long) = listOf<PanelDTO>(PanelDTO(0))
+    fun getPanels(reviewerNr: Long): Iterable<PanelDAO> {
+        val reviewer = reviewers.findById(reviewerNr).orElseThrow{
+            NotFoundException("Reviewer with $reviewerNr not found")
+        }
+        return reviewer.panels
+    }
 
-    fun getOnePanel(reviewerNr: Long, p_id:Long) = PanelDTO(1)
+    fun getOnePanel(reviewerNr: Long, panelId:Long) :PanelDAO{
+        val reviewer = reviewers.findById(reviewerNr).orElseThrow{
+            NotFoundException("Reviewer with $reviewerNr not found")
+        }
+        val panel = panels.findById(panelId).orElseThrow{
+            NotFoundException("Panel with $panelId not found")
+        }
+        if(reviewer.panels.contains(panel))
+            return panel
+        else throw NotFoundException("Panel with $panelId not found")
+    }
 
     /* reviews handling */
-    fun getReviews(reviewerNr: Long) = listOf<ReviewDTO>(ReviewDTO(1, true, "very nice", 0))
+    fun getReviews(reviewerNr: Long): Iterable<ReviewDAO>  {
+        val reviewer = reviewers.findById(reviewerNr).orElseThrow{
+            NotFoundException("Reviewer with $reviewerNr not found")
+        }
+        return reviewer.reviews
+    }
 
-    fun getOneReview(reviewerNr: Long, r_id:Long) = ReviewDTO(2, false, "not very nice", 0)
-
+    fun getOneReview(reviewerNr: Long, reviewId:Long): ReviewDAO {
+//        val reviewer = reviewers.findById(reviewerNr).orElseThrow{
+//            NotFoundException("Reviewer with $reviewerNr not found")
+//        }
+//        val review = reviews.findById(reviewId).orElseThrow{
+//            NotFoundException("Panel with $reviewId not found")
+//        }
+//        if(reviewer.reviews.contains(review))
+//            return review
+//        else throw NotFoundException("Panel with $reviewId not found")
+        //TODO: works in getOnePanel, displays errors in this one, idk y
+    }
 }

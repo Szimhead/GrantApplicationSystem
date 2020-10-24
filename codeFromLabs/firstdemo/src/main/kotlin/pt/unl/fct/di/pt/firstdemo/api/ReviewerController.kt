@@ -18,12 +18,12 @@ class ReviewerController(val reviewers: ReviewerService): ReviewerAPI {
     override fun editReviewer(reviewerNr: Long, reviewer: UserDTO) = reviewers.updateReviewer(reviewerNr, ReviewerDAO(reviewer))
 
     /* panel handling */
-    override fun getPanels(reviewerNr: Long) = reviewers.getPanels(reviewerNr)
+    override fun getPanels(reviewerNr: Long) = reviewers.getPanels(reviewerNr).map { PanelDTO(it) }
 
-    override fun getOnePanel(reviewerNr: Long, p_id:Long) = reviewers.getOnePanel(reviewerNr, p_id)
+    override fun getOnePanel(reviewerNr: Long, panelId:Long) = PanelDTO(reviewers.getOnePanel(reviewerNr, panelId))
 
     /* reviews handling */
-    override fun getReviews(reviewerNr: Long) = reviewers.getReviews(reviewerNr)
+    override fun getReviews(reviewerNr: Long) = reviewers.getReviews(reviewerNr).map { ReviewDTO(it) }
 
-    override fun getOneReview(reviewerNr: Long, r_id:Long) = reviewers.getOneReview(reviewerNr, r_id)
+    override fun getOneReview(reviewerNr: Long, reviewId:Long) = ReviewDTO(reviewers.getOneReview(reviewerNr, reviewId))
 }
