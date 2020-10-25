@@ -1,20 +1,21 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
+import pt.unl.fct.di.pt.firstdemo.services.StudentDAO
 import pt.unl.fct.di.pt.firstdemo.services.StudentService
 
 @RestController
 class StudentController(val students: StudentService): StudentAPI {
 
-    override fun getAll() = students.getAll()
+    override fun getAll() = students.getAll().map { UserDTO(it) }
 
-    override fun getOne(studentNr:Long) = students.getOne(studentNr)
+    override fun getOne(studentNr:Long) = UserDTO(students.getOne(studentNr))
 
-    override fun addStudent(studentNr: Long) = students.addStudent(studentNr)
+    override fun addStudent(student: UserDTO) = students.addStudent(StudentDAO(student))
 
     override fun deleteStudent(studentNr: Long) = students.deleteStudent(studentNr)
 
-    override fun editStudent(studentNr:Long) = students.editStudent(studentNr)
+    override fun editStudent(studentNr:Long, student: UserDTO) = students.editStudent(studentNr, StudentDAO(student))
 
     override fun getApplications(studentNr: Long) = students.getApplications(studentNr)
 

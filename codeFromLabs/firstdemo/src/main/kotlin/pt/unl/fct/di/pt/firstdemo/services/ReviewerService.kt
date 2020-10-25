@@ -27,7 +27,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         val reviewer = reviewers.findById(reviewerNr).orElseThrow{
             NotFoundException("Reviewer with $reviewerNr not found")
         }
-        reviewers.delete(reviewer);
+        reviewers.delete(reviewer)
     }
 
     fun updateReviewer(reviewerNr: Long, reviewer: ReviewerDAO) {

@@ -1,6 +1,7 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
+import pt.unl.fct.di.pt.firstdemo.services.GrantCallDAO
 import pt.unl.fct.di.pt.firstdemo.services.SponsorDAO
 import pt.unl.fct.di.pt.firstdemo.services.SponsorService
 
@@ -19,8 +20,8 @@ class SponsorController(val sponsors: SponsorService): SponsorAPI {
 
 
     /* grant call handling */
-    override fun getGrantCalls(id:Long) = sponsors.getGrantCalls(id)
+    override fun getGrantCalls(id:Long) = sponsors.getGrantCalls(id).map { GrantCallDTO(it) }
 
-    override fun addGrantCall(id: Long, title: String) = sponsors.addGrantCall(id, title)
+    override fun addGrantCall(id: Long, grantCall: GrantCallDTO) = sponsors.addGrantCall(id, GrantCallDAO(grantCall))
 
 }

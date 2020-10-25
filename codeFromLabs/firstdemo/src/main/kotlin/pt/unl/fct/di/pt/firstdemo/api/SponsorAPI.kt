@@ -83,7 +83,7 @@ interface SponsorAPI {
     ])
     @PostMapping("/{id}/grantcalls/{title}")
     fun addGrantCall(@ApiParam(name = "id", type = "Long", value = "The id of the sponsor to add the grant call to", required = true)
-                     @PathVariable id:Long, @ApiParam(name = "title", type = "String", value = "The title of the grant call being created", required = true)
-                     @PathVariable title: String)
+                     @PathVariable id:Long,
+                     @RequestBody grantCall: GrantCallDTO)
 
 }

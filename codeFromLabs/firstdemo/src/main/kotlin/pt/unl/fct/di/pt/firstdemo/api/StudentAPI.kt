@@ -36,8 +36,7 @@ interface StudentAPI {
         ApiResponse(code = 403, message = "Add student forbidden.")
     ])
     @PostMapping("/{studentNr}")
-    fun addStudent(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student being added", required = true)
-                    @PathVariable studentNr:Long)
+    fun addStudent(@RequestBody student:UserDTO)
 
     @ApiOperation(value = "Delete Student with studentNr")
     @ApiResponses(value = [
@@ -59,7 +58,8 @@ interface StudentAPI {
     ])
     @PutMapping("{studentNr}")
     fun editStudent(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student being edited", required = true)
-                    @PathVariable studentNr: Long)
+                    @PathVariable studentNr: Long,
+                    @RequestBody student:UserDTO)
 
     /* application handling */
     @ApiOperation(value = "Get list of all Applications that Reviewer with reviewerNr has made", response = Iterable::class)
