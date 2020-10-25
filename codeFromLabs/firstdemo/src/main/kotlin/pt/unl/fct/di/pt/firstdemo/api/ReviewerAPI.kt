@@ -35,7 +35,7 @@ interface ReviewerAPI {
         ApiResponse(code = 401, message = "Not authorized to add reviewer!"),
         ApiResponse(code = 403, message = "Add reviewer forbidden.")
     ])
-    @PostMapping("/{reviewerNr}")
+    @PostMapping("")
     fun addReviewer(@ApiParam(name = "review_id", type = "UserDto", value = "The reviewer to be created", required = true)
                     @RequestBody review:UserDTO)
 

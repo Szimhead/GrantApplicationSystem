@@ -70,7 +70,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         return reviewer.reviews
     }
 
-    fun getOneReview(reviewerNr: Long, reviewId:Long): ReviewDAO {
+    fun getOneReview(reviewerNr: Long, reviewId:Long) {
 //        val reviewer = reviewers.findById(reviewerNr).orElseThrow{
 //            NotFoundException("Reviewer with $reviewerNr not found")
 //        }

@@ -10,6 +10,7 @@ data class UserDTO(val id: Long, val name: String, val email: String, val addres
 
 data class OrganizationDTO(val id: Long, val name: String, val contact: String) {
     constructor(inst: InstitutionDAO) : this(inst.id, inst.name, inst.contact)
+    constructor(spon: SponsorDAO) : this(spon.id, spon.name, spon.contact)
 }
 
 data class GrantCallDTO(val title: String, val description: String, val funding: Double, val openDate: Date, val closeDate: Date) {

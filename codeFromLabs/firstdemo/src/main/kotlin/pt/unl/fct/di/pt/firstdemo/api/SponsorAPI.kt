@@ -35,9 +35,9 @@ interface SponsorAPI {
         ApiResponse(code = 401, message = "Not authorized to add sponsor!"),
         ApiResponse(code = 403, message = "Add sponsor forbidden.")
     ])
-    @PostMapping("/{id}")
-    fun addSponsor(@ApiParam(name = "id", type = "Long", value = "The id of the sponsor being added", required = true)
-                   @PathVariable id:Long)
+    @PostMapping("")
+    fun addSponsor(@ApiParam(name = "sponsor", type = "OrganizationDto", value = "The sponsor to be created", required = true)
+                   @RequestBody sponsor:OrganizationDTO)
 
     @ApiOperation(value = "Delete Sponsor with reviewerNr")
     @ApiResponses(value = [
@@ -59,7 +59,8 @@ interface SponsorAPI {
     ])
     @PutMapping("/{id}")
     fun editSponsor(@ApiParam(name = "id", type = "Long", value = "The id of the sponsor being edited", required = true)
-                    @PathVariable id:Long)
+                    @PathVariable id:Long,
+                    @RequestBody sponsor: OrganizationDTO)
 
     /* grant call handling */
     @ApiOperation(value = "Get list of all Grant Calls that Sponsor with id has created", response = Iterable::class)

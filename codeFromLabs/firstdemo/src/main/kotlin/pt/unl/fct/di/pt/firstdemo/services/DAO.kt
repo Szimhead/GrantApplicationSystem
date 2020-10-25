@@ -179,6 +179,7 @@ data class InstitutionDAO(
     constructor() : this(0, "name", "contact", mutableListOf<StudentDAO>(), mutableListOf<ReviewerDAO>())
     constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableListOf<StudentDAO>(), mutableListOf<ReviewerDAO>())
 
+
 }
 
 @Entity
@@ -186,13 +187,13 @@ data class SponsorDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val contact: String,
+        var name: String,
+        var contact: String,
         @OneToMany
         var grantCalls: MutableList<GrantCallDAO>
 ) {
     constructor() : this(0, "name", "contact", mutableListOf<GrantCallDAO>())
-    constructor(sponsor: SponsorDAO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableListOf<GrantCallDAO>())
+    constructor(sponsor: OrganizationDTO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableListOf<GrantCallDAO>())
 }
 
 @Entity
