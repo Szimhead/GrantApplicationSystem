@@ -20,6 +20,7 @@ class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCal
     }
 
     fun addSponsor(sponsor: SponsorDAO)  {
+        sponsor.id=0
         sponsors.save(sponsor)
     }
 
@@ -53,7 +54,7 @@ class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCal
         val sponsor = sponsors.findById(id).orElseThrow{
             NotFoundException("Sponsor with $id not found")
         }
-
+        grantCall.id=0
         sponsor.grantCalls.add(grantCall)
     }
 }
