@@ -24,8 +24,6 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getPanelFromGrantCall(title: String) = PanelDTO(calls.getPanelFromGrantCall(title))
 
-    override fun addPanel(title: String, panel: PanelDTO) = calls.addPanel(title, PanelDAO(panel))
-
     override fun getReviewers(title: String) = calls.getReviewers(title).map { UserDTO(it) }
 
     override fun addReviewerToPanel(title: String, reviewer: UserDTO) = calls.addReviewerToPanel(title, ReviewerDAO(reviewer))

@@ -204,12 +204,12 @@ data class PanelDAO(
         @ManyToOne
         var chair: ReviewerDAO,
         @ManyToMany
-        var reviewers: List<ReviewerDAO>,
+        var reviewers: MutableList<ReviewerDAO>,
         @OneToOne
         var grantCall: GrantCallDAO?
 ) {
-    constructor() : this(0, ReviewerDAO(), listOf<ReviewerDAO>(), null)
-    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
+    constructor() : this(0, ReviewerDAO(), mutableListOf<ReviewerDAO>(), null)
+    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableListOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
     // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
 }
 

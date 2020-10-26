@@ -6,5 +6,5 @@ import java.util.*
 
 interface GrantCallRepository : CrudRepository<GrantCallDAO, Long> {
     fun findByOpenDateBeforeAndCloseDateAfter(before: Date, after: Date):List<GrantCallDAO>
-    fun findByTitle(title: String): GrantCallDAO
+    fun findByTitle(title: String): Optional<GrantCallDAO>
 }

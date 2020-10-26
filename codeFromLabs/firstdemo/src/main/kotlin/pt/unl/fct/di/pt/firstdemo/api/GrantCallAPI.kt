@@ -108,17 +108,6 @@ interface GrantCallAPI {
     fun getPanelFromGrantCall(@ApiParam(name = "title", type = "String", value = "The title of the grant call to get the panel from", required = true)
                               @PathVariable title: String):PanelDTO
 
-    @ApiOperation(value = "Assign a panel to a grant call with a given title")
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully retrieved Panel."),
-        ApiResponse(code = 401, message = "Not authorized to get Panel!"),
-        ApiResponse(code = 403, message = "Get Panel forbidden."),
-        ApiResponse(code = 404, message = "Grant Call not found.")
-    ])
-    @PostMapping("/{title}/panel")
-    fun addPanel(@ApiParam(name = "title", type = "String", value = "The title of the grant call to assign the panel to", required = true)
-                 @PathVariable title: String, @RequestBody panel: PanelDTO)
-
 
     @ApiOperation(value = "Get all reviewers in the panel assigned to a grant call with given title", response = Iterable::class)
     @ApiResponses(value = [
