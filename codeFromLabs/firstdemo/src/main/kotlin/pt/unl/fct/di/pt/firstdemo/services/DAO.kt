@@ -1,6 +1,5 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
-import org.springframework.lang.Nullable
 import pt.unl.fct.di.pt.firstdemo.api.*
 import java.util.*
 import javax.persistence.*
@@ -14,11 +13,11 @@ data class ApplicationDAO(
         var status: Int,
         @ManyToOne
         var grantCall: GrantCallDAO,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var reviews: MutableList<ReviewDAO>,
         @ManyToOne
         var student: StudentDAO,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var answers: MutableList<AnswerDAO>
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableListOf<ReviewDAO>(), StudentDAO(), mutableListOf<AnswerDAO>())
@@ -33,15 +32,51 @@ data class StudentDAO(
         var name: String,
         var email: String,
         var address: String,
-        @OneToMany
-        var applications: MutableList<ApplicationDAO>,
-        @ManyToOne
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var applications: MutableSet<ApplicationDAO>,
+        @ManyToOne(fetch = FetchType.EAGER)
         var institution: InstitutionDAO,
-        @OneToOne
-        var cv: CVDAO
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var cv: CVDAO?
 ) {
-    constructor() : this(0, "name", "e-mail", "address", mutableListOf<ApplicationDAO>(), InstitutionDAO(), CVDAO())
-    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableListOf<ApplicationDAO>(), InstitutionDAO(), CVDAO())
+    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+
+    override fun toString(): String {
+        var apps = "["
+        var first = true;
+        for(app in applications) {
+            if(!first)
+                apps += ", "
+            apps += app.id;
+
+            first = false;
+        }
+        apps += "]"
+
+        var institutionId = institution.id
+
+        return "StudentDAO=(id: $id, name: $name, address: $address, applications: $apps, institution: $institutionId, cv: $cv)"
+    }
+
+    override fun hashCode(): Int {
+        return email.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is StudentDAO) return false;
+
+        val a = this.id == other.id
+        val b = this.name == other.name
+        val c = this.address == other.address
+        val d = this.applications == other.applications
+        val e = this.institution.id == other.institution.id &&
+                this.institution.name == other.institution.name &&
+                this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
+        val f = this.cv == other.cv
+
+        return a && b && c && d && e && f
+    }
 }
 
 @Entity
@@ -52,13 +87,13 @@ data class ReviewerDAO(
         var name: String,
         var email: String,
         var address: String,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panelsInCharge: MutableList<PanelDAO>,
-        @ManyToMany(mappedBy = "reviewers")
+        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panels: MutableList<PanelDAO>,
         @ManyToOne
         var institution: InstitutionDAO,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var reviews: MutableList<ReviewDAO>
 ) {
     constructor() : this(0, "name", "e-mail", "address", mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
@@ -75,15 +110,16 @@ data class GrantCallDAO(
         var funding: Double,
         var openDate: Date,
         var closeDate: Date,
-        @OneToMany
-        var applications: List<ApplicationDAO>,
-        @OneToOne
-        var panel: PanelDAO,
-        @ManyToMany
-        var dataItems: List<DataItemDAO>
+        @OneToMany(mappedBy = "grantCall", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var applications: MutableSet<ApplicationDAO>,
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var panel: PanelDAO?,
+        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var dataItems: Set<DataItemDAO>
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date(), listOf<ApplicationDAO>(), PanelDAO(), listOf<DataItemDAO>())
-    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, listOf<ApplicationDAO>(), PanelDAO(), listOf<DataItemDAO>())
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, setOf<DataItemDAO>())
+    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, setOf<DataItemDAO>())
+
 }
 
 @Entity
@@ -124,9 +160,9 @@ data class CVDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         val CVItems: MutableList<CVItemDAO>,
-        @OneToOne
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var student: StudentDAO?
 ) {
     constructor() : this(0, mutableListOf<CVItemDAO>(), null)
@@ -140,7 +176,7 @@ data class CVRequirementDAO(
         var name: String,
         var dataType: String,
         var isMandatory: Boolean,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var CVItems: MutableList<CVItemDAO>
 ) {
     constructor() : this(0, "name", "data type", false,  mutableListOf<CVItemDAO>())
@@ -155,9 +191,9 @@ data class DataItemDAO(
         var name: String,
         var dataType: String,
         var isMandatory: Boolean,
-        @ManyToMany(mappedBy = "dataItems")
+        @ManyToMany(mappedBy = "dataItems", fetch = FetchType.EAGER)
         var grantCalls: MutableList<GrantCallDAO>,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var answers: MutableList<AnswerDAO>
 ) {
     constructor() : this(0, "name", "data type", false, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
@@ -171,15 +207,13 @@ data class InstitutionDAO(
         var id: Long,
         var name: String,
         var contact: String,
-        @OneToMany
-        var students: MutableList<StudentDAO>,
-        @OneToMany
-        var reviewers: MutableList<ReviewerDAO>
+        @OneToMany(mappedBy = "institution", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var students: MutableSet<StudentDAO>,
+        @OneToMany(mappedBy = "institution", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        var reviewers: MutableSet<ReviewerDAO>
 ) {
-    constructor() : this(0, "name", "contact", mutableListOf<StudentDAO>(), mutableListOf<ReviewerDAO>())
-    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableListOf<StudentDAO>(), mutableListOf<ReviewerDAO>())
-
-
+    constructor() : this(0, "name", "contact", mutableSetOf<StudentDAO>(), mutableSetOf<ReviewerDAO>())
+    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableSetOf<StudentDAO>(), mutableSetOf<ReviewerDAO>())
 }
 
 @Entity
@@ -189,7 +223,7 @@ data class SponsorDAO(
         var id: Long,
         var name: String,
         var contact: String,
-        @OneToMany
+        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var grantCalls: MutableList<GrantCallDAO>
 ) {
     constructor() : this(0, "name", "contact", mutableListOf<GrantCallDAO>())
@@ -202,13 +236,13 @@ data class PanelDAO(
         @GeneratedValue
         var id: Long,
         @ManyToOne
-        var chair: ReviewerDAO,
-        @ManyToMany
+        var chair: ReviewerDAO?,
+        @ManyToMany(mappedBy = "panels", fetch = FetchType.EAGER)
         var reviewers: List<ReviewerDAO>,
-        @OneToOne
+        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var grantCall: GrantCallDAO?
 ) {
-    constructor() : this(0, ReviewerDAO(), listOf<ReviewerDAO>(), null)
+    constructor() : this(0, null, listOf<ReviewerDAO>(), null)
     constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
     // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
 }

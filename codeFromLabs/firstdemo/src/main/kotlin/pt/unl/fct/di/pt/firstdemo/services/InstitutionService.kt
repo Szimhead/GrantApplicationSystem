@@ -1,8 +1,10 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import pt.unl.fct.di.pt.firstdemo.api.OrganizationDTO
 import pt.unl.fct.di.pt.firstdemo.api.UserDTO
+import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.model.InstitutionRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
 import pt.unl.fct.di.pt.firstdemo.model.StudentRepository
@@ -14,6 +16,7 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
 
     fun getOne(id:Long) = inst.findById(id).orElse(null)
 
+    @Transactional
     fun addInstitution(institution: InstitutionDAO) {
         inst.save(institution)
     }
@@ -31,20 +34,24 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
     }
 
     /* student handling */
-    fun getStudents(id:Long): MutableList<StudentDAO> {
+    fun getStudents(id:Long): MutableSet<StudentDAO> {
         val institution = inst.findById(id).orElse(null)
         return institution.students
     }
 
+    @Transactional
     fun addStudent(id:Long, student: StudentDAO) {
-        val institution = inst.findById(id).orElse(null)
-        student.institution = institution
+        val institution = inst.findById(id).orElseThrow {
+            NotFoundException("Institution with id $id not found")
+        }
+        student.institution = institution;
+        institution.students.add(student)
         studs.save(student)
     }
 
 
     /* reviewer handling */
-    fun getReviewers(id:Long): MutableList<ReviewerDAO> {
+    fun getReviewers(id:Long): MutableSet<ReviewerDAO> {
         val institution = inst.findById(id).orElse(null)
         return institution.reviewers
     }

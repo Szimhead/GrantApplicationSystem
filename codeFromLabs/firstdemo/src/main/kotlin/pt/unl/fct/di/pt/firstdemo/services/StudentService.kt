@@ -1,6 +1,5 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
-import javafx.application.Application
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.api.ApplicationDTO
 import pt.unl.fct.di.pt.firstdemo.api.CVDTO
