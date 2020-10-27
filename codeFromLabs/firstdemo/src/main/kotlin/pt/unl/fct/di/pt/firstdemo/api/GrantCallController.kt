@@ -24,8 +24,6 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getPanelFromGrantCall(id: Long) = PanelDTO(calls.getPanelFromGrantCall(id))
 
-    override fun addPanel(id: Long, panel: PanelDTO) = calls.addPanel(id, PanelDAO(panel))
-
     override fun getReviewers(id: Long) = calls.getReviewers(id).map { UserDTO(it) }
 
     override fun addReviewerToPanel(id: Long, reviewer: UserDTO) = calls.addReviewerToPanel(id, ReviewerDAO(reviewer))
@@ -34,7 +32,7 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getAllDataItems(id: Long) = calls.getAllDataItems(id).map { DataItemDTO(it) }
 
-    override fun getOneDataItem(id: Long, name: String) = DataItemDTO(calls.getOneDataItem(id, name))
+    override fun getOneDataItem(id: Long, dataItemId: Long) = DataItemDTO(calls.getOneDataItem(id, dataItemId))
 
     override fun addDataItem(id: Long, dataItem: DataItemDTO) = calls.addDataItem(id, DataItemDAO(dataItem))
 

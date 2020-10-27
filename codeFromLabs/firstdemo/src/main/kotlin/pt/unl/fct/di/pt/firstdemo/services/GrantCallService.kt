@@ -15,12 +15,16 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     fun getAllOpen() = calls.findByOpenDateBeforeAndCloseDateAfter(Date(), Date())
 
     fun getOne(id: Long): GrantCallDAO = calls.findById(id).orElseThrow {
-        NotFoundException("Application with title $id not found")
+        NotFoundException("Grant Call with id $id not found")
     }
 
     @Transactional
     fun addCall(call: GrantCallDAO) {
-        call.panel = PanelDAO()
+        var panel = PanelDAO()
+        panel.grantCall = call
+
+        call.panel = panel
+
         calls.save(call)
     }
 
@@ -77,16 +81,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
         if(panel == null)
             throw NotFoundException("Application does not have a panel")
-        else return panel;
-    }
-
-    @Transactional
-    fun addPanel(id: Long, panel: PanelDAO) {
-        val call = calls.findById(id).orElseThrow {
-            NotFoundException("Application with title $id not found")
-        }                                                                   // need orElseThrow() and should we make an id for calls?
-        panel.grantCall = call                                              //also maybe we should just create a call with an empty panel so we just need to add reviewers
-        panels.save(panel)
+        else return panel
     }
 
     @Transactional
@@ -142,13 +137,13 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun getOneDataItem(id: Long, name: String): DataItemDAO {
-        val call = calls.findById(id).orElseThrow {
+    fun getOneDataItem(id: Long, dataItemId: Long): DataItemDAO {
+        calls.findById(id).orElseThrow {
             NotFoundException("Application with title $id not found")
         }
-        return dataItems.findByNameAndGrantCalls(name, call).orElseThrow {
-            NotFoundException("Data Item with name $name not found")
-        }  // i added an id because i also needed to do what you did here, keep id!
+        return dataItems.findById(dataItemId).orElseThrow {
+            NotFoundException("Data Item with id $dataItemId not found")
+        }
     }
 
     @Transactional

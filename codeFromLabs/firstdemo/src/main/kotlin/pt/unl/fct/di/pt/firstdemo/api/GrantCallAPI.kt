@@ -107,17 +107,6 @@ interface GrantCallAPI {
     fun getPanelFromGrantCall(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to get the panel from", required = true)
                               @PathVariable id: Long):PanelDTO
 
-    @ApiOperation(value = "Assign a panel to a grant call with a given id")
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully retrieved Panel."),
-        ApiResponse(code = 401, message = "Not authorized to get Panel!"),
-        ApiResponse(code = 403, message = "Get Panel forbidden."),
-        ApiResponse(code = 404, message = "Grant Call not found.")
-    ])
-    @PostMapping("/{id}/panel")
-    fun addPanel(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to assign the panel to", required = true)
-                 @PathVariable id: Long, @RequestBody panel: PanelDTO)
-
 
     @ApiOperation(value = "Get all reviewers in the panel assigned to a grant call with given id", response = Iterable::class)
     @ApiResponses(value = [
@@ -171,10 +160,10 @@ interface GrantCallAPI {
         ApiResponse(code = 403, message = "Get data item from grant call forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @GetMapping("/{id}/dataitems/{name}")
+    @GetMapping("/{id}/dataitems/{dataItemId}")
     fun getOneDataItem(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to get the data item from", required = true)
-                       @PathVariable id: Long, @ApiParam(name = "name", type = "String", value = "The name of the data item to get", required = true)
-                       @PathVariable name: String): DataItemDTO
+                       @PathVariable id: Long, @ApiParam(name = "dataItemId", type = "Long", value = "The id of the data item to get", required = true)
+                       @PathVariable dataItemId: Long): DataItemDTO
 
     @ApiOperation(value = "Add data item to grant call with a given id")
     @ApiResponses(value = [

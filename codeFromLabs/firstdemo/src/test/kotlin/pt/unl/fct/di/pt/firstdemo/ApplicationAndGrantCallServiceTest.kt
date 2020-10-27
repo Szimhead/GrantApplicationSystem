@@ -27,6 +27,9 @@ class ApplicationAndGrantCallServiceTest() {
     @Autowired
     lateinit var institutions: InstitutionService
 
+    @Autowired
+    lateinit var reviewers: ReviewerService
+
     companion object {
         //val app1 = ApplicationDAO(1, Date(), 0, GrantCallDAO(), mutableListOf(), StudentDAO(), mutableListOf())
         //val app2 = ApplicationDAO(2, Date(), 1, GrantCallDAO(), mutableListOf(), StudentDAO(), mutableListOf())
@@ -37,7 +40,11 @@ class ApplicationAndGrantCallServiceTest() {
         var app2 = ApplicationDAO()
         val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, emptySet())
         var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, emptySet())
+        var grantCall3 = GrantCallDAO(0, "Third Grant Call", "Third description", 60.0, Date(), Date(), mutableSetOf(), null, emptySet())
         val institution1 = InstitutionDAO(0, "first institution", "first_inst_contact", mutableSetOf(), mutableSetOf())
+        var reviewer1 = ReviewerDAO(0, "reviewer1", "reviewer1@email.com", "reviewer1.address", mutableSetOf(), mutableSetOf(), institution1, mutableSetOf())
+        var dataItem1 = DataItemDAO(0, "dataItem1", "Long", true, mutableSetOf(), mutableSetOf())
+        var dataItem2 = DataItemDAO(0, "dataItem2", "String", false, mutableSetOf(), mutableSetOf())
     }
 
     @Test
@@ -136,13 +143,19 @@ class ApplicationAndGrantCallServiceTest() {
         assertEquals(setOf(grantCall1), calls.getAll().toSet())
     }
 
+    @Test
+    fun `add third Grant Call test`() {
+        `delete second Grant call test`()
+        calls.addCall(grantCall3)
 
-
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet())
+        assertEquals(grantCall3, calls.getOne(grantCall3.id))
+    }
 
 
     @Test
     fun `add second application to Grant Call test`() {
-        `add one application to Grant Call test`()
+        `add third Grant Call test`()
 
         app2 = ApplicationDAO(0, Date(), 1, grantCall1, mutableSetOf(), student1, mutableSetOf())
         calls.addApplication(grantCall1.id, app2, student1.id)
@@ -150,7 +163,7 @@ class ApplicationAndGrantCallServiceTest() {
         grantCall1.applications.add(app2)
         student1.applications.add(app2)
 
-        assertEquals(setOf(grantCall1), calls.getAll().toSet())     // verify that calls stay the same
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet())     // verify that calls stay the same
         assertEquals(setOf(student1), students.getAll().toSet())    // verify that students stay the same
         assertEquals(setOf(app1, app2), applications.getAll().toSet())    // verify that app1 is created and only one
         assertEquals(app2, applications.getOne(app2.id))            // verify that we can access app by id
@@ -159,6 +172,67 @@ class ApplicationAndGrantCallServiceTest() {
         assertEquals(grantCall1, applications.getOne(app2.id).grantCall)               // verify that grant call is added to application
         assertEquals(student1, applications.getOne(app2.id).student)                   // verify that student is added to application
     }
+
+    @Test
+    fun `getCallApplications with two applications test`() {
+        `add second application to Grant Call test`()
+
+        assertEquals(setOf(app1, app2), calls.getCallApplications(grantCall1.id))
+    }
+
+    @Test
+    fun `basic get(empty)PanelFromGrantCall test`() {
+        `getCallApplications with two applications test`()
+
+        assertEquals(grantCall3, calls.getOne(grantCall3.id))
+
+        val panel = calls.getPanelFromGrantCall(grantCall3.id)
+
+        // verify that panel is in fact empty and that it corresponds to the right grant call
+        assertEquals(panel.grantCall, grantCall3)
+        assertEquals(panel.chair, null)
+        assertEquals(panel.reviewers, mutableSetOf<ReviewerDAO>())
+    }
+
+    @Test
+    fun `add reviewer to panel test`() {
+        `basic get(empty)PanelFromGrantCall test`()
+        //TODO: change creation of reviewer
+      /*
+
+        assertEquals(grantCall3, calls.getOne(grantCall3.id))
+
+        calls.addReviewerToPanel(grantCall3.id, reviewer1)
+
+        val panel = calls.getPanelFromGrantCall(grantCall3.id)
+        reviewer1.panels.add(panel)
+
+        assertEquals(setOf(reviewer1), reviewers.getAll().toSet()) // verify that reviewer was added
+        assertEquals(reviewer1, reviewers.getOne(reviewer1.id))  // verify get reviewer by id
+        assertEquals(setOf(reviewer1), calls.getReviewers(grantCall3.id)) // verify that reviewer was added to right panel
+        assertEquals(setOf(calls.getPanelFromGrantCall(grantCall3.id)), reviewers.getOne(reviewer1.id).panels)*/
+
+    }
+
+    @Test
+    fun `delete reviewer from panel test`() {
+        `add reviewer to panel test`()
+        //TODO: not yet implemented
+    }
+
+
+    @Test
+    fun `get empty dataItems from grant call test`() {
+        `delete reviewer from panel test`()
+
+        assertEquals(emptyList<DataItemDAO>(), calls.getAllDataItems(grantCall1.id).toList())
+    }
+
+    @Test
+    fun `add DataItem to grant call test`() {
+        
+    }
+
 
 
 
