@@ -14,8 +14,8 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
     fun getAllOpen() = calls.findByOpenDateBeforeAndCloseDateAfter(Date(), Date())
 
-    fun getOne(title: String): GrantCallDAO = calls.findByTitle(title).orElseThrow {
-        NotFoundException("Application with title $title not found")
+    fun getOne(id: Long): GrantCallDAO = calls.findById(id).orElseThrow {
+        NotFoundException("Application with title $id not found")
     }
 
     fun addCall(call: GrantCallDAO) {
@@ -24,9 +24,9 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun editCall(title: String, call: GrantCallDAO) {
-        val editedCall = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun editCall(id: Long, call: GrantCallDAO) {
+        val editedCall = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         editedCall.title = call.title
         editedCall.description = call.description
@@ -37,26 +37,26 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun deleteCall(title: String) {
-        val deletedCall = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun deleteCall(id: Long) {
+        val deletedCall = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         calls.delete(deletedCall)
     }
 
     /* Application handling */
     @Transactional
-    fun getCallApplications(title: String): Set<ApplicationDAO> {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun getCallApplications(id: Long): Set<ApplicationDAO> {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         return call.applications
     }
 
     @Transactional
-    fun addApplication(title: String, app: ApplicationDAO, studentId: Long) {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun addApplication(id: Long, app: ApplicationDAO, studentId: Long) {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         val student = students.findById(studentId).orElseThrow {
             NotFoundException("Student with id $studentId not found")
@@ -68,9 +68,9 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
     /* Panel handling */
     @Transactional
-    fun getPanelFromGrantCall(title: String): PanelDAO {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun getPanelFromGrantCall(id: Long): PanelDAO {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         val panel = call.panel
 
@@ -80,18 +80,18 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun addPanel(title: String, panel: PanelDAO) {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun addPanel(id: Long, panel: PanelDAO) {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }                                                                   // need orElseThrow() and should we make an id for calls?
         panel.grantCall = call                                              //also maybe we should just create a call with an empty panel so we just need to add reviewers
         panels.save(panel)
     }
 
     @Transactional
-    fun getReviewers(title: String): List<ReviewerDAO> {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun getReviewers(id: Long): List<ReviewerDAO> {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         val panel = call.panel
         if(panel == null) {
@@ -103,9 +103,9 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun addReviewerToPanel(title: String, reviewer: ReviewerDAO){
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun addReviewerToPanel(id: Long, reviewer: ReviewerDAO){
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         val panel = call.panel
         if(panel == null) {
@@ -118,10 +118,10 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun deleteReviewerFromPanel(title: String, reviewerId:Long) {
+    fun deleteReviewerFromPanel(id: Long, reviewerId:Long) {
         val reviewer = reviewers.findById(reviewerId).orElse(null)
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         if (reviewer != null) {
             reviewer.panels.remove(call.panel)
@@ -131,43 +131,43 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
     /* Data item handling */
     @Transactional
-    fun getAllDataItems(title: String): Set<DataItemDAO> {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun getAllDataItems(id: Long): Set<DataItemDAO> {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         return call.dataItems
     }
 
     @Transactional
-    fun getOneDataItem(title: String, name: String): DataItemDAO {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun getOneDataItem(id: Long, name: String): DataItemDAO {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         return dataItems.findByNameAndGrantCalls(name, call)  // i added an id because i also needed to do what you did here, keep id!
     }
 
     @Transactional
-    fun addDataItem(title: String, dataItem: DataItemDAO) {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun addDataItem(id: Long, dataItem: DataItemDAO) {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         dataItem.grantCalls.add(call)
         dataItems.save(dataItem)
     }
 
     @Transactional
-    fun deleteDataItem(title: String, name: String) {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun deleteDataItem(id: Long, name: String) {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         val deletedDataItem = dataItems.findByNameAndGrantCalls(name, call)
         dataItems.delete(deletedDataItem)
     }
 
     @Transactional
-    fun editDataItem(title: String, name: String, dataItem: DataItemDAO) {
-        val call = calls.findByTitle(title).orElseThrow {
-            NotFoundException("Application with title $title not found")
+    fun editDataItem(id: Long, name: String, dataItem: DataItemDAO) {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Application with title $id not found")
         }
         val editedDataItem = dataItems.findByNameAndGrantCalls(name, call)
         editedDataItem.name = dataItem.name

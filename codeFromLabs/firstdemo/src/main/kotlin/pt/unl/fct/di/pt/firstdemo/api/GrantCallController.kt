@@ -10,36 +10,36 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getAllOpen() = calls.getAllOpen().map { GrantCallDTO(it) }
 
-    override fun getOne(title: String) = GrantCallDTO(calls.getOne(title))
+    override fun getOne(id: Long) = GrantCallDTO(calls.getOne(id))
 
     override fun addCall(call: GrantCallDTO) = calls.addCall(GrantCallDAO(call))
 
-    override fun editCall(title: String, call: GrantCallDTO) = calls.editCall(title, GrantCallDAO(call))
+    override fun editCall(id: Long, call: GrantCallDTO) = calls.editCall(id, GrantCallDAO(call))
 
-    override fun deleteCall(title: String) = calls.deleteCall(title)
+    override fun deleteCall(id: Long) = calls.deleteCall(id)
 
-    override fun getAllApplicationsFromGrantCall(title: String) = calls.getCallApplications(title).map { ApplicationDTO(it) }
+    override fun getAllApplicationsFromGrantCall(id: Long) = calls.getCallApplications(id).map { ApplicationDTO(it) }
 
-    override fun addApplication(title: String, app: ApplicationDTO) = calls.addApplication(title, ApplicationDAO(app), app.studentId)
+    override fun addApplication(id: Long, app: ApplicationDTO) = calls.addApplication(id, ApplicationDAO(app), app.studentId)
 
-    override fun getPanelFromGrantCall(title: String) = PanelDTO(calls.getPanelFromGrantCall(title))
+    override fun getPanelFromGrantCall(id: Long) = PanelDTO(calls.getPanelFromGrantCall(id))
 
-    override fun addPanel(title: String, panel: PanelDTO) = calls.addPanel(title, PanelDAO(panel))
+    override fun addPanel(id: Long, panel: PanelDTO) = calls.addPanel(id, PanelDAO(panel))
 
-    override fun getReviewers(title: String) = calls.getReviewers(title).map { UserDTO(it) }
+    override fun getReviewers(id: Long) = calls.getReviewers(id).map { UserDTO(it) }
 
-    override fun addReviewerToPanel(title: String, reviewer: UserDTO) = calls.addReviewerToPanel(title, ReviewerDAO(reviewer))
+    override fun addReviewerToPanel(id: Long, reviewer: UserDTO) = calls.addReviewerToPanel(id, ReviewerDAO(reviewer))
 
-    override fun deleteReviewerFromPanel(title: String, reviewerId:Long) = calls.deleteReviewerFromPanel(title, reviewerId)
+    override fun deleteReviewerFromPanel(id: Long, reviewerId:Long) = calls.deleteReviewerFromPanel(id, reviewerId)
 
-    override fun getAllDataItems(title: String) = calls.getAllDataItems(title).map { DataItemDTO(it) }
+    override fun getAllDataItems(id: Long) = calls.getAllDataItems(id).map { DataItemDTO(it) }
 
-    override fun getOneDataItem(title: String, name: String) = DataItemDTO(calls.getOneDataItem(title, name))
+    override fun getOneDataItem(id: Long, name: String) = DataItemDTO(calls.getOneDataItem(id, name))
 
-    override fun addDataItem(title: String, dataItem: DataItemDTO) = calls.addDataItem(title, DataItemDAO(dataItem))
+    override fun addDataItem(id: Long, dataItem: DataItemDTO) = calls.addDataItem(id, DataItemDAO(dataItem))
 
-    override fun deleteDataItem(title: String, name: String) = calls.deleteDataItem(title, name)
+    override fun deleteDataItem(id: Long, name: String) = calls.deleteDataItem(id, name)
 
-    override fun editDataItem(title: String, name: String, dataItem: DataItemDTO) = calls.editDataItem(title, name, DataItemDAO(dataItem))
+    override fun editDataItem(id: Long, name: String, dataItem: DataItemDTO) = calls.editDataItem(id, name, DataItemDAO(dataItem))
 
 }

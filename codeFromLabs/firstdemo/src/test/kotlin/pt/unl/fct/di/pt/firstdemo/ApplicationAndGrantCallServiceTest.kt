@@ -53,7 +53,7 @@ class ApplicationAndGrantCallServiceTest() {
         calls.addCall(grantCall1)
 
         assertEquals(setOf(grantCall1), calls.getAll().toSet())
-        assertEquals(grantCall1, calls.getOne("Grant Call"))
+        assertEquals(grantCall1, calls.getOne(grantCall1.id))
     }
 
     @Test
@@ -88,7 +88,7 @@ class ApplicationAndGrantCallServiceTest() {
 
         app1 = ApplicationDAO(0, Date(), 0, grantCall1, mutableSetOf(), student1, mutableSetOf())
 
-        calls.addApplication(grantCall1.title, app1, student1.id)
+        calls.addApplication(grantCall1.id, app1, student1.id)
 
         grantCall1.applications.add(app1)
         student1.applications.add(app1)
@@ -97,7 +97,7 @@ class ApplicationAndGrantCallServiceTest() {
         assertEquals(setOf(student1), students.getAll().toSet())    // verify that students stay the same
         assertEquals(setOf(app1), applications.getAll().toSet())    // verify that app1 is created and only one
         assertEquals(app1, applications.getOne(app1.id))            // verify that we can access app by id
-        assertEquals(setOf(app1), calls.getOne(grantCall1.title).applications.toSet()) // verfiy that application is added to grant call
+        assertEquals(setOf(app1), calls.getOne(grantCall1.id).applications.toSet()) // verfiy that application is added to grant call
         assertEquals(setOf(app1), students.getOne(student1.id).applications.toSet())   // verify that application is added to student
         assertEquals(grantCall1, applications.getOne(app1.id).grantCall)               // verify that grant call is added to application
         assertEquals(student1, applications.getOne(app1.id).student)                   // verify that student is added to application
