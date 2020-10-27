@@ -5,7 +5,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-data class ApplicationDAO(
+data class ApplicationDAO (
         @Id
         @GeneratedValue
         var id: Long,
@@ -14,14 +14,46 @@ data class ApplicationDAO(
         @ManyToOne
         var grantCall: GrantCallDAO,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var reviews: MutableList<ReviewDAO>,
+        var reviews: MutableSet<ReviewDAO>,
         @ManyToOne
         var student: StudentDAO,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var answers: MutableList<AnswerDAO>
+        var answers: MutableSet<AnswerDAO>
 ) {
-    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableListOf<ReviewDAO>(), StudentDAO(), mutableListOf<AnswerDAO>())
-    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableListOf<ReviewDAO>(), StudentDAO(), mutableListOf<AnswerDAO>())
+    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
+
+    override fun toString(): String {
+        val grantCallId = grantCall.id
+        val studentId = student.id
+        return "ApplicationDAO=(id: $id, submissionDate: $submissionDate, status: $status, grantCallId: $grantCallId, " +
+                "reviews: $reviews, student: $studentId, answers: $answers)"
+    }
+
+    override fun hashCode(): Int {
+        return submissionDate.hashCode() //TODO: hashCodes
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is ApplicationDAO) return false
+
+        val a = this.id == other.id
+        val b = true //this.submissionDate == other.submissionDate
+        val c = this.status == other.status
+        val d = this.grantCall.id == other.grantCall.id &&
+                this.grantCall.title == other.grantCall.title &&
+                this.grantCall.description == other.grantCall.description &&
+                this.grantCall.funding == other.grantCall.funding
+                //this.grantCall.openDate == other.grantCall.openDate &&
+                //this.grantCall.closeDate == other.grantCall.closeDate
+        val e = this.student.id == other.student.id &&
+                this.student.name == other.student.name &&
+                this.student.email == other.student.email &&
+                this.student.address == other.student.address
+        val f = this.answers == other.answers
+
+        return a && b && c && d && e && f
+    }
 }
 
 @Entity
@@ -44,19 +76,19 @@ data class StudentDAO(
 
     override fun toString(): String {
         var apps = "["
-        var first = true;
+        var first = true
         for(app in applications) {
             if(!first)
                 apps += ", "
-            apps += app.id;
+            apps += app.id
 
-            first = false;
+            first = false
         }
         apps += "]"
 
-        var institutionId = institution.id
+        val institutionId = institution.id
 
-        return "StudentDAO=(id: $id, name: $name, address: $address, applications: $apps, institution: $institutionId, cv: $cv)"
+        return "StudentDAO=(id: $id, name: $name, email: $email, address: $address, applications: $apps, institution: $institutionId, cv: $cv)"
     }
 
     override fun hashCode(): Int {
@@ -64,7 +96,7 @@ data class StudentDAO(
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other == null || other !is StudentDAO) return false;
+        if(other == null || other !is StudentDAO) return false
 
         val a = this.id == other.id
         val b = this.name == other.name
@@ -74,8 +106,9 @@ data class StudentDAO(
                 this.institution.name == other.institution.name &&
                 this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
         val f = this.cv == other.cv
+        val g = this.email == other.email
 
-        return a && b && c && d && e && f
+        return a && b && c && d && e && f && g
     }
 }
 
@@ -98,6 +131,33 @@ data class ReviewerDAO(
 ) {
     constructor() : this(0, "name", "e-mail", "address", mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
     constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
+
+    override fun toString(): String {
+        val institutionId = institution.id
+
+        return "ReviewerDAO=(id: $id, name: $name, email: $email, address: $address, panelsInCharge: $panelsInCharge, panels: $panels, institutionId: $institutionId, " +
+                "reviews: $reviews)"
+    }
+
+    override fun hashCode(): Int {
+        return email.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is ReviewerDAO) return false
+
+        val a = this.id == other.id
+        val b = this.name == other.name
+        val c = this.address == other.address
+        val d = this.panelsInCharge == other.panelsInCharge
+        val e = this.institution.id == other.institution.id &&
+                this.institution.name == other.institution.name &&
+                this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
+        val f = this.reviews == other.reviews
+        val g = this.panels == other.panels
+
+        return a && b && c && d && e && f && g
+    }
 }
 
 @Entity
@@ -120,6 +180,30 @@ data class GrantCallDAO(
     constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, setOf<DataItemDAO>())
     constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, setOf<DataItemDAO>())
 
+    override fun toString(): String {
+        return "ApplicationDAO=(id: $id, title: $title, description: $description, funding: $funding, openDate: $openDate, closeDate: $closeDate, " +
+                "applications: $applications, panel: $panel, dataItems: $dataItems)"
+    }
+
+    override fun hashCode(): Int {
+        return description.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is GrantCallDAO) return false
+
+        val a = this.id == other.id
+        val b = this.title == other.title
+        val c = this.description == other.description
+        val d = this.funding == other.funding
+        val e = this.applications == other.applications
+        val f = this.panel == other.panel
+        val g = this.dataItems == other.dataItems
+        val h = true//this.openDate == other.openDate
+        val i = true//this.closeDate == other.closeDate
+
+        return a && b && c && d && e && f && g && h && i
+    }
 }
 
 @Entity
@@ -137,6 +221,35 @@ data class AnswerDAO(
 ) {
     constructor() : this(0, "name", "value", "data type", DataItemDAO(), ApplicationDAO())
     constructor(answer: AnswerDTO) : this(answer.id, answer.name, answer.value, answer.datatype, DataItemDAO(), ApplicationDAO())
+
+    override fun toString(): String {
+        val dataItemId = dataItem.id
+        val applicationId = application.id
+
+        return "AnswerDAO=(id: $id, name: $name, value: $value, dataType: $dataType, dataItemId: $dataItemId, applicationId: $applicationId)"
+    }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is AnswerDAO) return false
+
+        val a = this.id == other.id
+        val b = this.name == other.name
+        val c = this.value == other.value
+        val d = this.dataItem.id == other.dataItem.id &&
+                this.dataItem.name == other.dataItem.name &&
+                this.dataItem.dataType == other.dataItem.dataType &&
+                this.dataItem.isMandatory == other.dataItem.isMandatory
+        val e = this.application.id == other.application.id &&
+                //this.application.submissionDate == other.application.submissionDate &&
+                this.application.status == other.application.status
+        val f = this.dataType == other.dataType
+
+        return a && b && c && d && e && f
+    }
 }
 
 @Entity
@@ -153,6 +266,34 @@ data class CVItemDAO(
         var CV: CVDAO
 ) {
     constructor() : this(0, "name", "value", "data type", CVRequirementDAO(), CVDAO())
+
+    override fun toString(): String {
+        val cvRequirementId = CVRequirement.id
+        val cvId = CV.id
+
+        return "CVItemDAO=(id: $id, name: $name, value: $value, dataType: $dataType, cvRequirementId: $cvRequirementId, cvId: $cvId)"
+    }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is CVItemDAO) return false
+
+        val a = this.id == other.id
+        val b = this.name == other.name
+        val c = this.value == other.value
+        val d = this.CVRequirement.id == other.CVRequirement.id &&
+                this.CVRequirement.name == other.CVRequirement.name &&
+                this.CVRequirement.dataType == other.CVRequirement.dataType &&
+                this.CVRequirement.isMandatory == other.CVRequirement.isMandatory
+        val e = this.CV.id == other.CV.id
+        val f = this.dataType == other.dataType
+
+        return a && b && c && d && e && f
+    }
+
 }
 
 @Entity
@@ -163,9 +304,29 @@ data class CVDAO(
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         val CVItems: MutableList<CVItemDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var student: StudentDAO?
+        var student: StudentDAO
 ) {
-    constructor() : this(0, mutableListOf<CVItemDAO>(), null)
+    constructor() : this(0, mutableListOf<CVItemDAO>(), StudentDAO())
+
+    override fun toString(): String {
+        val studentId = student.id
+
+        return "CVItemDAO=(id: $id, CVItems: $CVItems, studentId: $studentId)"
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is CVDAO) return false
+
+        val a = this.id == other.id
+        val b = this.CVItems == other.CVItems
+        val c = this.student.id == other.student.id
+
+        return a && b && c
+    }
 }
 
 @Entity
@@ -181,6 +342,7 @@ data class CVRequirementDAO(
 ) {
     constructor() : this(0, "name", "data type", false,  mutableListOf<CVItemDAO>())
     constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory, mutableListOf<CVItemDAO>())
+    //no overrides needed
 }
 
 @Entity
@@ -198,6 +360,37 @@ data class DataItemDAO(
 ) {
     constructor() : this(0, "name", "data type", false, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
     constructor(dItem: DataItemDTO) : this(0, dItem.name, dItem.datatype, dItem.isMandatory, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
+
+    override fun toString(): String {
+        var calls = ""
+        var first = true
+        for(call in grantCalls) {
+            if(!first)
+                calls += ", "
+            calls += call.id
+
+            first = false
+        }
+        calls += "]"
+
+        return "CVItemDAO=(id: $id, name: $name, dataType: $dataType, isMandatory: $isMandatory, calls: $calls, answers: $answers)"
+    }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other == null || other !is DataItemDAO) return false
+
+        val a = this.id == other.id
+        val b = this.name == other.name
+        val c = this.dataType == other.dataType
+        val d = this.grantCalls.map { it.id } == other.grantCalls.map { it.id }
+        val e = this.answers == other.answers
+
+        return a && b && c && d && e
+    }
 }
 
 @Entity
@@ -214,6 +407,7 @@ data class InstitutionDAO(
 ) {
     constructor() : this(0, "name", "contact", mutableSetOf<StudentDAO>(), mutableSetOf<ReviewerDAO>())
     constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableSetOf<StudentDAO>(), mutableSetOf<ReviewerDAO>())
+    //no overrides needed
 }
 
 @Entity
@@ -239,12 +433,41 @@ data class PanelDAO(
         var chair: ReviewerDAO?,
         @ManyToMany(mappedBy = "panels", fetch = FetchType.EAGER)
         var reviewers: List<ReviewerDAO>,
-        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToOne(fetch = FetchType.EAGER)
         var grantCall: GrantCallDAO?
 ) {
     constructor() : this(0, null, listOf<ReviewerDAO>(), null)
     constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
     // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
+
+    override fun toString(): String {
+        var reviewers = ""
+        var first = true
+        for(reviewer in this.reviewers) {
+            if(!first)
+                reviewers += ", "
+            reviewers += reviewer.id
+
+            first = false
+        }
+        reviewers += "]"
+
+
+        return "CVItemDAO=(id: $id, reviewers: $reviewers)"
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is PanelDAO) return false
+
+        val a = this.id == other.id
+        val b = this.reviewers.map { it.id } == other.reviewers.map { it.id }
+
+        return a && b
+    }
 }
 
 @Entity
@@ -261,4 +484,31 @@ data class ReviewDAO(
 ) {
     constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
     constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), ReviewerDAO())
+
+    override fun toString(): String {
+        val applicationId = application.id
+        val reviewerId = reviewer.id
+
+        return "CVItemDAO=(id: $id, isAccepted: $isAccepted, comment: $comment, applicationId: $applicationId, reviewerId: $reviewerId)"
+    }
+
+    override fun hashCode(): Int {
+        return comment.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is ReviewDAO) return false
+
+        val a = this.id == other.id
+        val b = this.isAccepted == other.isAccepted
+        val c = this.comment == other.comment
+        val d = this.application.id == other.application.id &&
+                //this.application.submissionDate == other.application.submissionDate &&
+                this.application.status == other.application.status
+        val e = this.reviewer.id == other.reviewer.id &&
+                this.reviewer.name == other.reviewer.name &&
+                this.reviewer.email == other.reviewer.address
+
+        return a && b && c && d && e
+    }
 }

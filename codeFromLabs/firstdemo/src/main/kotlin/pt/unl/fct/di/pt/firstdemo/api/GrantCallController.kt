@@ -20,7 +20,7 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getAllApplicationsFromGrantCall(title: String) = calls.getCallApplications(title).map { ApplicationDTO(it) }
 
-    override fun addApplication(title: String, app: ApplicationDTO) = calls.addApplication(title, ApplicationDAO(app))
+    override fun addApplication(title: String, app: ApplicationDTO) = calls.addApplication(title, ApplicationDAO(app), app.studentId)
 
     override fun getPanelFromGrantCall(title: String) = PanelDTO(calls.getPanelFromGrantCall(title))
 

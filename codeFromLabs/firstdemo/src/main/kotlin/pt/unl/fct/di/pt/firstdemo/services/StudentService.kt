@@ -43,9 +43,9 @@ class StudentService (val students: StudentRepository, val applications: Applica
     }
 
     //application handling
-    fun getApplications(studentNr: Long) = listOf<ApplicationDTO>(ApplicationDTO(1, Date(), 0))
+    fun getApplications(studentNr: Long) = listOf<ApplicationDTO>(ApplicationDTO(1, Date(), 0, 0))
 
-    fun getOneApplication(studentNr: Long, id:Long) = ApplicationDTO(1, Date(), 0)
+    fun getOneApplication(studentNr: Long, id:Long) = ApplicationDTO(1, Date(), 0, 0)
 
     fun getCV(studentNr:Long) = CVDTO(listOf())
 

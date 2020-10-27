@@ -17,8 +17,8 @@ data class GrantCallDTO(val title: String, val description: String, val funding:
     constructor(gc: GrantCallDAO) : this(gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate)
 }
 
-data class ApplicationDTO(val id: Long, val submissionDate: Date, val status:Int) {
-    constructor(app: ApplicationDAO) : this(app.id, app.submissionDate, app.status)
+data class ApplicationDTO(val id: Long, val submissionDate: Date, val status:Int, val studentId:Long) {
+    constructor(app: ApplicationDAO) : this(app.id, app.submissionDate, app.status, app.student.id)
 }
 
 data class PanelDTO(val id: Long){

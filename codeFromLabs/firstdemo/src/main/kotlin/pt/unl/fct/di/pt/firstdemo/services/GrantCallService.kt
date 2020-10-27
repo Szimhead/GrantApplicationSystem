@@ -9,7 +9,7 @@ import pt.unl.fct.di.pt.firstdemo.model.*
 import java.util.*
 
 @Service
-class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepository, val panels: PanelRepository, val reviewers: ReviewerRepository,val dataItems: DataItemRepository) {
+class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepository, val panels: PanelRepository, val reviewers: ReviewerRepository,val dataItems: DataItemRepository, val students: StudentRepository) {
     fun getAll(): Iterable<GrantCallDAO> = calls.findAll()
 
     fun getAllOpen() = calls.findByOpenDateBeforeAndCloseDateAfter(Date(), Date())
@@ -19,6 +19,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     fun addCall(call: GrantCallDAO) {
+        call.panel = PanelDAO()
         calls.save(call)
     }
 
@@ -53,17 +54,16 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun addApplication(title: String, app: ApplicationDAO) {
+    fun addApplication(title: String, app: ApplicationDAO, studentId: Long) {
         val call = calls.findByTitle(title).orElseThrow {
             NotFoundException("Application with title $title not found")
         }
-        app.grantCall = call;
+        val student = students.findById(studentId).orElseThrow {
+            NotFoundException("Student with id $studentId not found")
+        }
+        app.grantCall = call
+        student.applications.add(app)
         apps.save(app)
-
-        call.applications.add(app)
-        calls.save(call)
-
-
     }
 
     /* Panel handling */
