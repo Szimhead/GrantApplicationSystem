@@ -20,6 +20,7 @@ class StudentService (val students: StudentRepository, val applications: Applica
     }
 
     fun addStudent(student: StudentDAO){
+        student.id =0
         students.save(student)
     }
 

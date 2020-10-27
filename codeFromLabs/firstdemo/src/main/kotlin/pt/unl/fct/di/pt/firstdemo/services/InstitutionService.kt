@@ -18,6 +18,7 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
 
     @Transactional
     fun addInstitution(institution: InstitutionDAO) {
+        institution.id = 0
         inst.save(institution)
     }
 
@@ -58,6 +59,7 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
 
     fun addReviewer(id:Long, reviewer: ReviewerDAO) {
         val institution = inst.findById(id).orElse(null)
+        reviewer.id = 0
         reviewer.institution = institution
         revs.save(reviewer)
     }

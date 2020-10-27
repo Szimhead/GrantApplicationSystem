@@ -15,6 +15,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
     }
 
     fun addReviewer(reviewer: ReviewerDAO) {
+        reviewer.id=0
         reviewers.save(reviewer)
     }
 
