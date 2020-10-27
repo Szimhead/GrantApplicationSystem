@@ -121,16 +121,16 @@ data class ReviewerDAO(
         var email: String,
         var address: String,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var panelsInCharge: MutableList<PanelDAO>,
+        var panelsInCharge: MutableSet<PanelDAO>,
         @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var panels: MutableList<PanelDAO>,
+        var panels: MutableSet<PanelDAO>,
         @ManyToOne
         var institution: InstitutionDAO,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var reviews: MutableList<ReviewDAO>
+        var reviews: MutableSet<ReviewDAO>
 ) {
-    constructor() : this(0, "name", "e-mail", "address", mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableListOf<PanelDAO>(), mutableListOf<PanelDAO>(),InstitutionDAO(), mutableListOf<ReviewDAO>())
+    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
 
     override fun toString(): String {
         val institutionId = institution.id
@@ -170,7 +170,7 @@ data class GrantCallDAO(
         var funding: Double,
         var openDate: Date,
         var closeDate: Date,
-        @OneToMany(mappedBy = "grantCall", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "grantCall", cascade = [CascadeType.ALL, CascadeType.PERSIST], fetch = FetchType.EAGER)
         var applications: MutableSet<ApplicationDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panel: PanelDAO?,
@@ -302,11 +302,11 @@ data class CVDAO(
         @GeneratedValue
         var id: Long,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        val CVItems: MutableList<CVItemDAO>,
+        val CVItems: MutableSet<CVItemDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var student: StudentDAO
 ) {
-    constructor() : this(0, mutableListOf<CVItemDAO>(), StudentDAO())
+    constructor() : this(0, mutableSetOf<CVItemDAO>(), StudentDAO())
 
     override fun toString(): String {
         val studentId = student.id
@@ -338,10 +338,10 @@ data class CVRequirementDAO(
         var dataType: String,
         var isMandatory: Boolean,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var CVItems: MutableList<CVItemDAO>
+        var CVItems: MutableSet<CVItemDAO>
 ) {
-    constructor() : this(0, "name", "data type", false,  mutableListOf<CVItemDAO>())
-    constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory, mutableListOf<CVItemDAO>())
+    constructor() : this(0, "name", "data type", false,  mutableSetOf<CVItemDAO>())
+    constructor(cvr: CVRequirementDTO) : this(0, cvr.name, cvr.datatype, cvr.isMandatory, mutableSetOf<CVItemDAO>())
     //no overrides needed
 }
 
@@ -354,15 +354,15 @@ data class DataItemDAO(
         var dataType: String,
         var isMandatory: Boolean,
         @ManyToMany(mappedBy = "dataItems", fetch = FetchType.EAGER)
-        var grantCalls: MutableList<GrantCallDAO>,
+        var grantCalls: MutableSet<GrantCallDAO>,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var answers: MutableList<AnswerDAO>
+        var answers: MutableSet<AnswerDAO>
 ) {
-    constructor() : this(0, "name", "data type", false, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
-    constructor(dItem: DataItemDTO) : this(0, dItem.name, dItem.datatype, dItem.isMandatory, mutableListOf<GrantCallDAO>(), mutableListOf<AnswerDAO>())
+    constructor() : this(0, "name", "data type", false, mutableSetOf<GrantCallDAO>(), mutableSetOf<AnswerDAO>())
+    constructor(dItem: DataItemDTO) : this(0, dItem.name, dItem.datatype, dItem.isMandatory, mutableSetOf<GrantCallDAO>(), mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
-        var calls = ""
+        var calls = "["
         var first = true
         for(call in grantCalls) {
             if(!first)
@@ -418,10 +418,10 @@ data class SponsorDAO(
         var name: String,
         var contact: String,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var grantCalls: MutableList<GrantCallDAO>
+        var grantCalls: MutableSet<GrantCallDAO>
 ) {
-    constructor() : this(0, "name", "contact", mutableListOf<GrantCallDAO>())
-    constructor(sponsor: OrganizationDTO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableListOf<GrantCallDAO>())
+    constructor() : this(0, "name", "contact", mutableSetOf<GrantCallDAO>())
+    constructor(sponsor: OrganizationDTO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableSetOf<GrantCallDAO>())
 }
 
 @Entity
@@ -432,16 +432,16 @@ data class PanelDAO(
         @ManyToOne
         var chair: ReviewerDAO?,
         @ManyToMany(mappedBy = "panels", fetch = FetchType.EAGER)
-        var reviewers: List<ReviewerDAO>,
+        var reviewers: MutableSet<ReviewerDAO>,
         @OneToOne(fetch = FetchType.EAGER)
         var grantCall: GrantCallDAO?
 ) {
-    constructor() : this(0, null, listOf<ReviewerDAO>(), null)
-    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), listOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
+    constructor() : this(0, null, mutableSetOf<ReviewerDAO>(), null)
+    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableSetOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
     // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
 
     override fun toString(): String {
-        var reviewers = ""
+        var reviewers = "["
         var first = true
         for(reviewer in this.reviewers) {
             if(!first)

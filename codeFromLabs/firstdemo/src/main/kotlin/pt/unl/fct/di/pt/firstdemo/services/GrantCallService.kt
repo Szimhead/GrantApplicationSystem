@@ -90,7 +90,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun getReviewers(id: Long): List<ReviewerDAO> {
+    fun getReviewers(id: Long): Set<ReviewerDAO> {
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Application with title $id not found")
         }
