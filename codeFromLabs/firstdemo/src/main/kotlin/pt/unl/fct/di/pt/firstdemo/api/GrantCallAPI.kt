@@ -183,10 +183,10 @@ interface GrantCallAPI {
         ApiResponse(code = 403, message = "Delete data item from grant call forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @DeleteMapping("/{id}/dataitems/{name}")
+    @DeleteMapping("/{id}/dataitems/{dataItemId}")
     fun deleteDataItem(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to delete the data item from", required = true)
-                       @PathVariable id: Long, @ApiParam(name = "name", type = "String", value = "The name of the data item being deleted", required = true)
-                       @PathVariable name: String)
+                       @PathVariable id: Long, @ApiParam(name = "dataItemId", type = "Long", value = "The id of the data item being deleted", required = true)
+                       @PathVariable dataItemId: Long)
 
     @ApiOperation(value = "Edit data item from grant call with a given id")
     @ApiResponses(value = [
@@ -195,9 +195,9 @@ interface GrantCallAPI {
         ApiResponse(code = 403, message = "Edit data item from grant call forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @PutMapping("/{id}/dataitems/{name}")
+    @PutMapping("/{id}/dataitems/{dataItemId}")
     fun editDataItem(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to edit the data item from", required = true)
-                     @PathVariable id: Long, @ApiParam(name = "name", type = "String", value = "The name of the data item being edited", required = true)
-                     @PathVariable name: String, @RequestBody dataItem: DataItemDTO)
+                     @PathVariable id: Long, @ApiParam(name = "dataItemId", type = "Long", value = "The id of the data item being edited", required = true)
+                     @PathVariable dataItemId: Long, @RequestBody dataItem: DataItemDTO)
 
 }

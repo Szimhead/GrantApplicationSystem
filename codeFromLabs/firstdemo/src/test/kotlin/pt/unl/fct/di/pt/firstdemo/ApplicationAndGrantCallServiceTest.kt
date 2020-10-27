@@ -38,9 +38,9 @@ class ApplicationAndGrantCallServiceTest() {
         var student1 = StudentDAO()
         var app1 = ApplicationDAO()
         var app2 = ApplicationDAO()
-        val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, emptySet())
-        var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, emptySet())
-        var grantCall3 = GrantCallDAO(0, "Third Grant Call", "Third description", 60.0, Date(), Date(), mutableSetOf(), null, emptySet())
+        val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
+        var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
+        var grantCall3 = GrantCallDAO(0, "Third Grant Call", "Third description", 60.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
         val institution1 = InstitutionDAO(0, "first institution", "first_inst_contact", mutableSetOf(), mutableSetOf())
         var reviewer1 = ReviewerDAO(0, "reviewer1", "reviewer1@email.com", "reviewer1.address", mutableSetOf(), mutableSetOf(), institution1, mutableSetOf())
         var dataItem1 = DataItemDAO(0, "dataItem1", "Long", true, mutableSetOf(), mutableSetOf())
@@ -111,7 +111,7 @@ class ApplicationAndGrantCallServiceTest() {
     fun `edit Grant Call test`() {
         `add one application to Grant Call test`()
         assertEquals(grantCall1, calls.getOne(grantCall1.id))
-        val editedCall = GrantCallDAO(89, "edited title", "edited description", 100.0, Date(), Date(), mutableSetOf(), null, emptySet())
+        val editedCall = GrantCallDAO(89, "edited title", "edited description", 100.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
 
         calls.editCall(grantCall1.id, editedCall)
 
@@ -230,7 +230,66 @@ class ApplicationAndGrantCallServiceTest() {
 
     @Test
     fun `add DataItem to grant call test`() {
-        
+        `get empty dataItems from grant call test`()
+
+        calls.addDataItem(grantCall1.id, dataItem1)
+        grantCall1.dataItems.add(dataItem1)
+        dataItem1.grantCalls.add(grantCall1)
+
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that grant calls are correct
+        assertEquals(setOf(dataItem1), calls.getAllDataItems(grantCall1.id)) // verifiy getalldataitems
+        assertEquals(dataItem1, calls.getOneDataItem(grantCall1.id, dataItem1.id)) // verify getonedataItem
+        assertEquals(dataItem1.grantCalls, calls.getOneDataItem(grantCall1.id, dataItem1.id).grantCalls) // verify that grant call was added to dataitem
+    }
+
+    @Test
+    fun `add second dataItem to grant call test`() {
+        `add DataItem to grant call test`()
+
+        calls.addDataItem(grantCall1.id, dataItem2)
+        grantCall1.dataItems.add(dataItem2)
+        dataItem2.grantCalls.add(grantCall1)
+
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that grant calls are correct
+        assertEquals(setOf(dataItem1, dataItem2), calls.getAllDataItems(grantCall1.id)) // verify getalldataitems
+        assertEquals(dataItem2, calls.getOneDataItem(grantCall1.id, dataItem2.id)) // verify getonedataItem
+        assertEquals(dataItem2.grantCalls, calls.getOneDataItem(grantCall1.id, dataItem2.id).grantCalls) // verify that grant call was added to dataitem
+    }
+
+    @Test
+    fun `delete second DataItem from grant call test`() {
+        `add second dataItem to grant call test`()
+
+        assertEquals(dataItem2, calls.getOneDataItem(grantCall1.id, dataItem2.id))
+
+        calls.deleteDataItem(grantCall1.id, dataItem2.id)
+
+        grantCall1.dataItems.remove(dataItem2)
+        dataItem2.grantCalls.remove(grantCall1)
+
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that grant calls are correct
+        assertEquals(setOf(dataItem1), calls.getAllDataItems(grantCall1.id)) // verify that data item was removed
+    }
+
+    @Test
+    fun `edit data item test`() {
+        `delete second DataItem from grant call test`()
+
+        assertEquals(dataItem1, calls.getOneDataItem(grantCall1.id, dataItem1.id))
+        grantCall1.dataItems.remove(dataItem1)
+        val editedDataItem =  DataItemDAO(0, "edited data item", "edited type", false, mutableSetOf(), mutableSetOf())
+        calls.editDataItem(grantCall1.id, dataItem1.id, editedDataItem)
+
+        dataItem1.name = editedDataItem.name
+        dataItem1.dataType = editedDataItem.dataType
+        dataItem1.isMandatory = editedDataItem.isMandatory
+
+        grantCall1.dataItems.add(dataItem1)
+
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that grant calls are correct
+        assertEquals(setOf(dataItem1), calls.getAllDataItems(grantCall1.id)) // verify that data item is correctly edited
+        assertEquals(dataItem1, calls.getOneDataItem(grantCall1.id, dataItem1.id)) // verify getonedataItem
+        assertEquals(dataItem1.grantCalls, calls.getOneDataItem(grantCall1.id, dataItem1.id).grantCalls) // verify that relation was kept
     }
 
 

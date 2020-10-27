@@ -175,13 +175,13 @@ data class GrantCallDAO(
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panel: PanelDAO?,
         @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var dataItems: Set<DataItemDAO>
+        var dataItems: MutableSet<DataItemDAO>
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, setOf<DataItemDAO>())
-    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, setOf<DataItemDAO>())
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>())
+    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>())
 
     override fun toString(): String {
-        return "ApplicationDAO=(id: $id, title: $title, description: $description, funding: $funding, openDate: $openDate, closeDate: $closeDate, " +
+        return "GrantCallDAO=(id: $id, title: $title, description: $description, funding: $funding, openDate: $openDate, closeDate: $closeDate, " +
                 "applications: $applications, panel: $panel, dataItems: $dataItems)"
     }
 
@@ -373,7 +373,7 @@ data class DataItemDAO(
         }
         calls += "]"
 
-        return "CVItemDAO=(id: $id, name: $name, dataType: $dataType, isMandatory: $isMandatory, calls: $calls, answers: $answers)"
+        return "DataItemDAO=(id: $id, name: $name, dataType: $dataType, isMandatory: $isMandatory, calls: $calls, answers: $answers)"
     }
 
     override fun hashCode(): Int {

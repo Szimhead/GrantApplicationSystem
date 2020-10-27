@@ -36,8 +36,8 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun addDataItem(id: Long, dataItem: DataItemDTO) = calls.addDataItem(id, DataItemDAO(dataItem))
 
-    override fun deleteDataItem(id: Long, name: String) = calls.deleteDataItem(id, name)
+    override fun deleteDataItem(id: Long, dataItemId: Long) = calls.deleteDataItem(id, dataItemId)
 
-    override fun editDataItem(id: Long, name: String, dataItem: DataItemDTO) = calls.editDataItem(id, name, DataItemDAO(dataItem))
+    override fun editDataItem(id: Long, dataItemId: Long, dataItem: DataItemDTO) = calls.editDataItem(id, dataItemId, DataItemDAO(dataItem))
 
 }

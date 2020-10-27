@@ -151,28 +151,30 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Grant Call with id $id not found")
         }
-        dataItem.grantCalls.add(call)
+        call.dataItems.add(dataItem)
         dataItems.save(dataItem)
     }
 
     @Transactional
-    fun deleteDataItem(id: Long, name: String) {
+    fun deleteDataItem(id: Long, dataItemId: Long) {
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Grant Call with id $id not found")
         }
-        val deletedDataItem = dataItems.findByNameAndGrantCalls(name, call).orElseThrow {
-            NotFoundException("Data item with $name not found")
+        val deletedDataItem = dataItems.findById(dataItemId).orElseThrow {
+            NotFoundException("Data item with id $dataItemId not found")
         }
+
+        call.dataItems.remove(deletedDataItem)
         dataItems.delete(deletedDataItem)
     }
 
     @Transactional
-    fun editDataItem(id: Long, name: String, dataItem: DataItemDAO) {
+    fun editDataItem(id: Long, dataItemId: Long, dataItem: DataItemDAO) {
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Grant Call with id $id not found")
         }
-        val editedDataItem = dataItems.findByNameAndGrantCalls(name, call).orElseThrow {
-            NotFoundException("Data item with $name not found")
+        val editedDataItem = dataItems.findById(dataItemId).orElseThrow {
+            NotFoundException("Data item with id $dataItemId not found")
         }
         editedDataItem.name = dataItem.name
         editedDataItem.dataType = dataItem.dataType
