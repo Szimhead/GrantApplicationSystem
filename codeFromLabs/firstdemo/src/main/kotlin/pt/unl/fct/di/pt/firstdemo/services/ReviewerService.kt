@@ -5,6 +5,7 @@ import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.model.PanelRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
+import javax.transaction.Transactional
 
 @Service
 class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepository, val reviews: ReviewRepository) {
@@ -13,6 +14,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
     fun getOne(id:Long): ReviewerDAO = reviewers.findById(id).orElseThrow{
         NotFoundException("Reviewer with $id not found")
     }
+
 
     fun addReviewer(reviewer: ReviewerDAO) {
         reviewer.id=0
@@ -26,6 +28,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         reviewers.delete(reviewer)
     }
 
+    @Transactional
     fun updateReviewer(reviewerNr: Long, reviewer: ReviewerDAO) {
         val editedReviewer = reviewers.findById(reviewerNr).orElseThrow{
             NotFoundException("Reviewer with $reviewerNr not found")
@@ -39,6 +42,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
     }
 
     /* panel handling */
+    @Transactional
     fun getPanels(reviewerNr: Long): Iterable<PanelDAO> {
         val reviewer = reviewers.findById(reviewerNr).orElseThrow{
             NotFoundException("Reviewer with $reviewerNr not found")
@@ -46,6 +50,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         return reviewer.panels
     }
 
+    @Transactional
     fun getOnePanel(reviewerNr: Long, panelId:Long) :PanelDAO{
         val reviewer = reviewers.findById(reviewerNr).orElseThrow{
             NotFoundException("Reviewer with $reviewerNr not found")
@@ -59,6 +64,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
     }
 
     /* reviews handling */
+    @Transactional
     fun getReviews(reviewerNr: Long): Iterable<ReviewDAO>  {
         val reviewer = reviewers.findById(reviewerNr).orElseThrow{
             NotFoundException("Reviewer with $reviewerNr not found")
@@ -66,6 +72,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         return reviewer.reviews
     }
 
+    @Transactional
     fun getOneReview(reviewerNr: Long, reviewId:Long) : ReviewDAO {
         val reviewer = reviewers.findById(reviewerNr).orElseThrow{
             NotFoundException("Reviewer with $reviewerNr not found")
@@ -76,8 +83,5 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         if(reviewer.reviews.contains(review))
             return review
         else throw NotFoundException("Panel with $reviewId not found")
-
-        //TODO: works in getOnePanel, displays errors in this one, idk y
-
     }
 }

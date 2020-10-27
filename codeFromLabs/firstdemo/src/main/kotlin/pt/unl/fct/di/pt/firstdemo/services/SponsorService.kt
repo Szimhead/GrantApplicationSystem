@@ -9,6 +9,7 @@ import pt.unl.fct.di.pt.firstdemo.model.PanelRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
 import pt.unl.fct.di.pt.firstdemo.model.SponsorRepository
 import java.util.*
+import javax.transaction.Transactional
 
 
 @Service
@@ -31,6 +32,7 @@ class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCal
         sponsors.delete(sponsor);
     }
 
+    @Transactional
     fun editSponsor(id:Long, sponsor: SponsorDAO) {
         val editedSponsor = sponsors.findById(id).orElseThrow{
             NotFoundException("Sponsor with $id not found")
@@ -43,6 +45,7 @@ class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCal
 
 
     /* grant call handling */
+    @Transactional
     fun getGrantCalls(id:Long) : Iterable<GrantCallDAO> {
         val sponsor = sponsors.findById(id).orElseThrow{
             NotFoundException("Sponsor with $id not found")
@@ -50,6 +53,7 @@ class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCal
         return sponsor.grantCalls
     }
 
+    @Transactional
     fun addGrantCall(id:Long, grantCall: GrantCallDAO) {
         val sponsor = sponsors.findById(id).orElseThrow{
             NotFoundException("Sponsor with $id not found")
