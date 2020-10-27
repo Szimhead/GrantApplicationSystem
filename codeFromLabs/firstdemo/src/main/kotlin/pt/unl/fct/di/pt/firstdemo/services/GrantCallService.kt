@@ -119,7 +119,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun deleteReviewerFromPanel(title: String, reviewerId:Long) {
+    fun deleteReviewerFromPanel(id: Long, reviewerId:Long) {
         val reviewer = reviewers.findById(reviewerId).orElseThrow {
             NotFoundException("Reviewer with $reviewerId not found")
         }
@@ -146,7 +146,9 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Application with title $id not found")
         }
-        return dataItems.findByNameAndGrantCalls(name, call)  // i added an id because i also needed to do what you did here, keep id!
+        return dataItems.findByNameAndGrantCalls(name, call).orElseThrow {
+            NotFoundException("Data Item with name $name not found")
+        }  // i added an id because i also needed to do what you did here, keep id!
     }
 
     @Transactional
