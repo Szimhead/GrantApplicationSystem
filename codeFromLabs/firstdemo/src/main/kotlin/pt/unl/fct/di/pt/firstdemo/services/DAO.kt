@@ -161,7 +161,7 @@ data class ReviewerDAO(
 }
 
 @Entity
-data class GrantCallDAO(
+data class GrantCallDAO (
         @Id
         @GeneratedValue
         var id: Long,
@@ -330,7 +330,7 @@ data class CVDAO(
 }
 
 @Entity
-data class CVRequirementDAO(
+data class CVRequirementDAO (
         @Id
         @GeneratedValue
         var id: Long,

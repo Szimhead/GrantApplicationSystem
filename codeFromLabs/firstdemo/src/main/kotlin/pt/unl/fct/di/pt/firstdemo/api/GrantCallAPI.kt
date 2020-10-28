@@ -136,9 +136,10 @@ interface GrantCallAPI {
         ApiResponse(code = 401, message = "Not authorized to add reviewer!"),
         ApiResponse(code = 403, message = "Add reviewer forbidden.")
     ])
-    @PostMapping("/{id}/panel/reviewers")
+    @PostMapping("/{id}/panel/reviewers/{reviewerId}")
     fun addReviewerToPanel(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to add a reviewer to", required = true)
-                           @PathVariable id: Long, @RequestBody reviewer: UserDTO)
+                           @PathVariable id: Long, @ApiParam(name = "reviewerId", type = "Long", value = "The id of the reviewer to add", required = true)
+                           @PathVariable reviewerId: Long)
 
     @ApiOperation(value = "Remove a reviewer from the panel assigned to a grant call with given id")
     @ApiResponses(value = [

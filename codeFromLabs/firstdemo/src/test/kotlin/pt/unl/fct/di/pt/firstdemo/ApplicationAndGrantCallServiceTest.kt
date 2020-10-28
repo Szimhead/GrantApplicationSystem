@@ -253,7 +253,7 @@ class ApplicationAndGrantCallServiceTest() {
 
         assertEquals(grantCall3, calls.getOne(grantCall3.id))
 
-        calls.addReviewerToPanel(grantCall3.id, reviewer1)
+        calls.addReviewerToPanel(grantCall3.id, reviewer1.id)
 
         val panel = calls.getPanelFromGrantCall(grantCall3.id)
         reviewer1.panels.add(panel)

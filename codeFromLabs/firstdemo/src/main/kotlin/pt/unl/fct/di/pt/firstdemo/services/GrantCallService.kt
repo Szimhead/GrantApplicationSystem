@@ -25,7 +25,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
         call.panel = panel
 
-        calls.save(call)
+       calls.save(call)
     }
 
     @Transactional
@@ -38,7 +38,6 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         editedCall.funding = call.funding
         editedCall.openDate = call.openDate
         editedCall.closeDate = call.closeDate
-        calls.save(editedCall)
     }
 
     @Transactional
@@ -66,8 +65,10 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         val student = students.findById(studentId).orElseThrow {
             NotFoundException("Student with id $studentId not found")
         }
-        app.grantCall = call
+
         student.applications.add(app)
+        call.applications.add(app)
+
         apps.save(app)
     }
 
@@ -79,7 +80,10 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         var app = apps.findById(appId).orElseThrow {
             NotFoundException("Application with id $appId not found")
         }
+        var student = app.student
         if(app.grantCall.id == call.id) {
+            student.applications.remove(app)
+            call.applications.remove(app)
             apps.deleteById(appId)
         }
     }
@@ -112,10 +116,14 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     }
 
     @Transactional
-    fun addReviewerToPanel(id: Long, reviewer: ReviewerDAO){
+    fun addReviewerToPanel(id: Long, reviewerId: Long){
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Grant Call with id $id not found")
         }
+        val reviewer = reviewers.findById(reviewerId).orElseThrow {
+            NotFoundException("Reviewer with id $id not found")
+        }
+
         val panel = call.panel
         if(panel == null) {
             throw NotFoundException("Application does not have a panel")

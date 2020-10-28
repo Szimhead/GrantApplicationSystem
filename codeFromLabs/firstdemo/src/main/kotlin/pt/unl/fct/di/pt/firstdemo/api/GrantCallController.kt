@@ -28,7 +28,7 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun getReviewers(id: Long) = calls.getReviewers(id).map { UserDTO(it) }
 
-    override fun addReviewerToPanel(id: Long, reviewer: UserDTO) = calls.addReviewerToPanel(id, ReviewerDAO(reviewer))
+    override fun addReviewerToPanel(id: Long, reviewerId: Long) = calls.addReviewerToPanel(id, reviewerId)
 
     override fun deleteReviewerFromPanel(id: Long, reviewerId:Long) = calls.deleteReviewerFromPanel(id, reviewerId)
 
