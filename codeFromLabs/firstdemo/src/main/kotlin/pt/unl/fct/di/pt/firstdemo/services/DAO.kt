@@ -21,7 +21,7 @@ data class ApplicationDAO (
         var answers: MutableSet<AnswerDAO>
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
         val grantCallId = grantCall.id
@@ -31,7 +31,7 @@ data class ApplicationDAO (
     }
 
     override fun hashCode(): Int {
-        return submissionDate.hashCode() //TODO: hashCodes
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -71,8 +71,8 @@ data class StudentDAO(
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var cv: CVDAO?
 ) {
-    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
-    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), CVDAO())
+    constructor(stud: UserDTO, inst: InstitutionDAO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), inst, null)
 
     override fun toString(): String {
         var apps = "["
@@ -92,7 +92,7 @@ data class StudentDAO(
     }
 
     override fun hashCode(): Int {
-        return email.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -130,7 +130,7 @@ data class ReviewerDAO(
         var reviews: MutableSet<ReviewDAO>
 ) {
     constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
+    constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
 
     override fun toString(): String {
         val institutionId = institution.id
@@ -140,7 +140,7 @@ data class ReviewerDAO(
     }
 
     override fun hashCode(): Int {
-        return email.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -180,13 +180,14 @@ data class GrantCallDAO (
     constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>())
     constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>())
 
+
     override fun toString(): String {
         return "GrantCallDAO=(id: $id, title: $title, description: $description, funding: $funding, openDate: $openDate, closeDate: $closeDate, " +
                 "applications: $applications, panel: $panel, dataItems: $dataItems)"
     }
 
     override fun hashCode(): Int {
-        return description.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -220,7 +221,7 @@ data class AnswerDAO(
         var application: ApplicationDAO
 ) {
     constructor() : this(0, "name", "value", "data type", DataItemDAO(), ApplicationDAO())
-    constructor(answer: AnswerDTO) : this(answer.id, answer.name, answer.value, answer.datatype, DataItemDAO(), ApplicationDAO())
+    constructor(answer: AnswerDTO, dItem: DataItemDAO, app: ApplicationDAO) : this(answer.id, answer.name, answer.value, answer.datatype, dItem, app)
 
     override fun toString(): String {
         val dataItemId = dataItem.id
@@ -230,7 +231,7 @@ data class AnswerDAO(
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -257,15 +258,16 @@ data class CVItemDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val name: String,
-        val value: String,
-        val dataType: String,
+        var name: String,
+        var value: String,
+        var dataType: String,
         @ManyToOne
         var CVRequirement: CVRequirementDAO,
         @ManyToOne
         var CV: CVDAO
 ) {
     constructor() : this(0, "name", "value", "data type", CVRequirementDAO(), CVDAO())
+    constructor(cvItem: CVItemDTO, cvReq: CVRequirementDAO, cv: CVDAO) : this(cvItem.id, cvItem.name, cvItem.value, cvItem.datatype, cvReq, cv)
 
     override fun toString(): String {
         val cvRequirementId = CVRequirement.id
@@ -275,7 +277,7 @@ data class CVItemDAO(
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -307,6 +309,7 @@ data class CVDAO(
         var student: StudentDAO
 ) {
     constructor() : this(0, mutableSetOf<CVItemDAO>(), StudentDAO())
+    constructor(stud: StudentDAO) : this(0, mutableSetOf(), stud)
 
     override fun toString(): String {
         val studentId = student.id
@@ -377,7 +380,7 @@ data class DataItemDAO(
     }
 
     override fun hashCode(): Int {
-        return name.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -434,11 +437,12 @@ data class PanelDAO(
         @ManyToMany(mappedBy = "panels", fetch = FetchType.EAGER)
         var reviewers: MutableSet<ReviewerDAO>,
         @OneToOne(fetch = FetchType.EAGER)
-        var grantCall: GrantCallDAO?
+        var grantCall: GrantCallDAO
 ) {
-    constructor() : this(0, null, mutableSetOf<ReviewerDAO>(), null)
-    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableSetOf<ReviewerDAO>(), GrantCallDAO()) //chair is taken from dto or created here?
-    // the second solution is problematic, as the reviewer probably already exists in the system, but needs to be associated with the right panel
+    constructor() : this(0, null, mutableSetOf<ReviewerDAO>(), GrantCallDAO())
+    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableSetOf<ReviewerDAO>(), GrantCallDAO())
+    constructor(gc: GrantCallDAO) : this(0,null, mutableSetOf(),gc)
+
 
     override fun toString(): String {
         var reviewers = "["
@@ -483,7 +487,7 @@ data class ReviewDAO(
         var reviewer: ReviewerDAO
 ) {
     constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
-    constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), ReviewerDAO())
+    constructor(review: ReviewDTO, app: ApplicationDAO, reviewer: ReviewerDAO) : this(review.id, review.isAccepted, review.comment, app, reviewer)
 
     override fun toString(): String {
         val applicationId = application.id
@@ -493,7 +497,7 @@ data class ReviewDAO(
     }
 
     override fun hashCode(): Int {
-        return comment.hashCode()
+        return id.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {

@@ -9,16 +9,11 @@ import pt.unl.fct.di.pt.firstdemo.model.StudentRepository
 import javax.transaction.Transactional
 
 @Service
-class StudentService (val students: StudentRepository, val applications: ApplicationRepository, cvItems: CVItemRepository, cvs: CVRepository){
+class StudentService (val students: StudentRepository, val applications: ApplicationRepository, val cvItems: CVItemRepository, val cvs: CVRepository){
     fun getAll() : Iterable<StudentDAO> = students.findAll()
 
     fun getOne(id:Long): StudentDAO = students.findById(id).orElseThrow{
         NotFoundException("Student with $id not found")
-    }
-
-    fun addStudent(student: StudentDAO){
-        student.id =0
-        students.save(student)
     }
 
     fun deleteStudent(studentNr:Long) {
@@ -29,10 +24,7 @@ class StudentService (val students: StudentRepository, val applications: Applica
     }
 
     @Transactional
-    fun editStudent(studentNr: Long, student: StudentDAO){
-        val editedStudent = students.findById(studentNr).orElseThrow{
-            NotFoundException("Reviewer with $studentNr not found")
-        };
+    fun editStudent(editedStudent: StudentDAO, student: StudentDAO){
         editedStudent.address=student.address
         editedStudent.email =student.email
         editedStudent.institution=student.institution
@@ -43,73 +35,56 @@ class StudentService (val students: StudentRepository, val applications: Applica
 
     //application handling
     @Transactional
-    fun getApplications(studentNr: Long): Iterable<ApplicationDAO> {
+    fun getApplications(studentNr: Long): MutableSet<ApplicationDAO> {
         val student = students.findById(studentNr).orElseThrow{
             NotFoundException("Student with $studentNr not found")
         }
         return student.applications
     }
 
-    fun getOneApplication(studentNr: Long, id:Long):ApplicationDAO{
-        val student = students.findById(studentNr).orElseThrow{
-            NotFoundException("Student with $studentNr not found")
-        }
-        val application = applications.findById(id).orElseThrow{
-            NotFoundException("Application with $id not found")
-        }
-        if(student.applications.contains(application))
-            return application
-        else throw NotFoundException("Application with $id not found")
-    }
 
     //CV handling
-    fun getCV(studentNr:Long): CVDAO {
-        val student = students.findById(studentNr).orElseThrow{
-            NotFoundException("Student with $studentNr not found")
-        }
-        return student.cv ?: throw NotFoundException("CV not found")
+    fun getCV(student: StudentDAO): CVDAO {
+        val cv = student.cv
+
+        if(cv == null)
+            throw NotFoundException("Application does not have a panel")
+        else return cv
     }
 
     //cvItem handling
-    @Transactional
-    fun addCVItem(studentNr: Long, cvItem: CVItemDAO) {
-        val student = students.findById(studentNr).orElseThrow{
-            NotFoundException("Student with $studentNr not found")
+    fun getCVItem(cv: CVDAO, id: Long): CVItemDAO {
+        val cvItem = cvItems.findById(id).orElseThrow{
+            NotFoundException("CVItem with $id not found")
         }
+        if (cv.CVItems.contains(cvItem)) return cvItem
+        else throw NotFoundException("CVItem with $id doesn't exist in this CV")
+    }
+
+    @Transactional
+    fun addCVItem(student: StudentDAO, cvItem: CVItemDAO) {
         cvItem.id = 0
         student.cv?.CVItems?.add(cvItem)
         students.save(student)
         cvItem.CV = student.cv!!
         cvItems.save(cvItem)
-        cvs.save(student.cv) //but whyyyyyyy
+        cvs.save(student.cv!!) //but whyyyyyyy
     }
 
-    fun editCVItem(studentNr: Long, cvItemId: Long, cvItem: CVItemDAO) {
-        val student = students.findById(studentNr).orElseThrow{
-            NotFoundException("Student with $studentNr not found")
-        }
-        val cvItemEdited = cvItems.findById(cvItemId).orElseThrow{
-            NotFoundException("CVItem with $cvItemId not found")
-        }
+    fun editCVItem(student: StudentDAO, cvItemEdited: CVItemDAO, newCvItem: CVItemDAO) {
         if(student.cv?.CVItems?.contains(cvItemEdited)!!) { // safe calls
-            cvItemEdited.name = cvItem.name
-            cvItemEdited.value = cvItem.value
-            cvItemEdited.dataType = cvItem.dataType
-            cvItems.save(cvItem)
-            cvs.save(student.cv)
+            cvItemEdited.name = newCvItem.name
+            cvItemEdited.value = newCvItem.value
+            cvItemEdited.dataType = newCvItem.dataType
+            cvItems.save(newCvItem)
+            cvs.save(student.cv!!)
             students.save(student)
         }else throw NotFoundException("CVItem with $cvItemId not found for the student $studentNr")
     }
 
-    fun deleteCVItem(studentNr: Long, cvItemId: Long) {
-        val student = students.findById(studentNr).orElseThrow{
-            NotFoundException("Student with $studentNr not found")
-        }
-        val cvItemDeleted = cvItems.findById(cvItemId).orElseThrow{
-            NotFoundException("CVItem with $cvItemId not found")
-        }
-        if(student.cv?.CVItems?.contains(cvItemDeleted)!!) {
-            cvItems.delete(cvItemDeleted)
+    fun deleteCVItem(student: StudentDAO, cvItem: CVItemDAO) {
+        if(student.cv?.CVItems?.contains(cvItem)!!) {
+            cvItems.delete(cvItem)
         }else
             throw NotFoundException("CVItem with $cvItemId not found for the student $studentNr")
     }

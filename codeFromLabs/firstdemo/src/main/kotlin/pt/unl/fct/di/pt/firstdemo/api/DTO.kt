@@ -29,19 +29,22 @@ data class ReviewDTO(val id:Long, val isAccepted: Boolean, val comment: String, 
     constructor(review: ReviewDAO) : this(review.id, review.isAccepted, review.comment, review.reviewer.id)
 }
 
-data class DataItemDTO(val name: String, val datatype: String, val isMandatory: Boolean) {
-    constructor(dItem: DataItemDAO) : this(dItem.name, dItem.dataType, dItem.isMandatory)
+data class DataItemDTO(val id: Long, val name: String, val datatype: String, val isMandatory: Boolean) {
+    constructor(dItem: DataItemDAO) : this(dItem.id, dItem.name, dItem.dataType, dItem.isMandatory)
 }
 
-data class CVRequirementDTO(val name: String, val datatype: String, val isMandatory: Boolean) {
-    constructor(req: CVRequirementDAO) : this(req.name, req.dataType, req.isMandatory)
+data class CVRequirementDTO(val id: Long, val name: String, val datatype: String, val isMandatory: Boolean) {
+    constructor(req: CVRequirementDAO) : this(req.id, req.name, req.dataType, req.isMandatory)
 }
 
 data class AnswerDTO(val id: Long, val name: String, val value: String, val datatype: String) {
-    constructor() : this(0, "", "", "")
     constructor(answer: AnswerDAO) : this(answer.id, answer.name, answer.value, answer.dataType)
 }
 
-data class CVItemDTO(val name: String, val value: String, val datatype: String)
+data class CVItemDTO(val id: Long, val name: String, val value: String, val datatype: String) {
+    constructor(cvItem: CVItemDAO) : this(cvItem.id, cvItem.name, cvItem.value, cvItem.dataType)
+}
 
-data class CVDTO(val items: List<CVItemDTO>)
+data class CVDTO(val id: Long, val items: MutableSet<CVItemDTO>) {
+    constructor(cv: CVDAO) : this(cv.id, cv.CVItems.map{CVItemDTO(it)}.toMutableSet())
+}

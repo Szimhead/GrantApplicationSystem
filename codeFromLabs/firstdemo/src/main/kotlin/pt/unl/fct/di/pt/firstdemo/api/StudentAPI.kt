@@ -29,14 +29,6 @@ interface StudentAPI {
     fun getOne(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student being retrieved", required = true)
                @PathVariable studentNr:Long): UserDTO
 
-    @ApiOperation(value = "Add Student with studentNr")
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully added student."),
-        ApiResponse(code = 401, message = "Not authorized to add student!"),
-        ApiResponse(code = 403, message = "Add student forbidden.")
-    ])
-    @PostMapping("/{studentNr}")
-    fun addStudent(@RequestBody student:UserDTO)
 
     @ApiOperation(value = "Delete Student with studentNr")
     @ApiResponses(value = [
@@ -71,7 +63,7 @@ interface StudentAPI {
     ])
     @GetMapping("/{studentNr}/applications")
     fun getApplications(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to get all applications from", required = true)
-                        @PathVariable studentNr: Long): List<ApplicationDTO>
+                        @PathVariable studentNr: Long): MutableSet<ApplicationDTO>
 
     @ApiOperation(value = "Get application by id in student with a given studentNr", response = ApplicationDTO::class)
     @ApiResponses(value = [
@@ -97,6 +89,18 @@ interface StudentAPI {
     fun getCV(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to get the CV from", required = true)
               @PathVariable studentNr:Long): CVDTO
 
+    @ApiOperation(value = "Get CVItem with given id", response = CVDTO::class)
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully retrieved CVItem from CV."),
+        ApiResponse(code = 401, message = "Not authorized to get CVItem from CV!"),
+        ApiResponse(code = 403, message = "Get CVItem from CV forbidden."),
+        ApiResponse(code = 404, message = "Not found.")
+    ])
+    @GetMapping("/{studentNr}/cv/{id}")
+    fun getCVItem(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to get the CV from", required = true)
+                  @PathVariable studentNr:Long, @ApiParam(name = "id", type = "Long", value = "id of the CVItem", required = true)
+                    @PathVariable id:Long) : CVItemDTO
+
     @ApiOperation(value = "Add CVItem with given name to CV of student with a given studentNr")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully added CVItem to CV from student."),
@@ -104,10 +108,10 @@ interface StudentAPI {
         ApiResponse(code = 403, message = "Add CVItem to CV from student forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @PostMapping("/{studentNr}/cv/{name}")
-    fun addCVItem(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to add the CVItem to", required = true)
-                  @PathVariable studentNr:Long, @ApiParam(name = "name", type = "String", value = "The name of the CVItem being added", required = true)
-                  @PathVariable name: String)
+    @PostMapping("/{studentNr}/cv/{id}")
+    fun addCVItem(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to delete the CVItem from", required = true)
+                  @PathVariable studentNr:Long,
+                  @PathVariable id: Long)
 
     @ApiOperation(value = "Edit CVItem with given name from CV of student with a given studentNr")
     @ApiResponses(value = [
@@ -116,10 +120,10 @@ interface StudentAPI {
         ApiResponse(code = 403, message = "Edit CVItem to CV from student forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @PutMapping("/{studentNr}/cv/{name}")
-    fun editCVItem(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to edit the CVItem from", required = true)
-                   @PathVariable studentNr:Long, @ApiParam(name = "name", type = "String", value = "The name of the CVItem being edited", required = true)
-                   @PathVariable name: String)
+    @PutMapping("/{studentNr}/cv/{id}")
+    fun editCVItem(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to delete the CVItem from", required = true)
+                   @PathVariable studentNr:Long,
+                   @PathVariable id: Long, @RequestBody cvItem: CVItemDTO)
 
     @ApiOperation(value = "Delete CVItem with given name from CV of student with a given studentNr")
     @ApiResponses(value = [
@@ -128,9 +132,9 @@ interface StudentAPI {
         ApiResponse(code = 403, message = "Delete CVItem to CV from student forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @DeleteMapping("/{studentNr}/cv/{name}")
+    @DeleteMapping("/{studentNr}/cv/{id}")
     fun deleteCVItem(@ApiParam(name = "studentNr", type = "Long", value = "The studentNr of the student to delete the CVItem from", required = true)
-                     @PathVariable studentNr:Long, @ApiParam(name = "name", type = "String", value = "The name of the CVItem being deleted", required = true)
-                     @PathVariable name: String)
+                     @PathVariable studentNr:Long,
+                     @PathVariable id: Long)
 
 }
