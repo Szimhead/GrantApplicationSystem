@@ -37,8 +37,8 @@ data class CVRequirementDTO(val id: Long, val name: String, val datatype: String
     constructor(req: CVRequirementDAO) : this(req.id, req.name, req.dataType, req.isMandatory)
 }
 
-data class AnswerDTO(val id: Long, val name: String, val value: String, val datatype: String) {
-    constructor(answer: AnswerDAO) : this(answer.id, answer.name, answer.value, answer.dataType)
+data class AnswerDTO(val id: Long, val name: String, val value: String, val datatype: String, val dataItemId: Long) {
+    constructor(answer: AnswerDAO) : this(answer.id, answer.name, answer.value, answer.dataType, answer.dataItem.id)
 }
 
 data class CVItemDTO(val id: Long, val name: String, val value: String, val datatype: String) {

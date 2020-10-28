@@ -22,6 +22,7 @@ data class ApplicationDAO (
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
     constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
         val grantCallId = grantCall.id
@@ -221,6 +222,7 @@ data class AnswerDAO(
         var application: ApplicationDAO
 ) {
     constructor() : this(0, "name", "value", "data type", DataItemDAO(), ApplicationDAO())
+    constructor(answer: AnswerDTO) : this(answer.id, answer.name, answer.value, answer.datatype, DataItemDAO(), ApplicationDAO())
     constructor(answer: AnswerDTO, dItem: DataItemDAO, app: ApplicationDAO) : this(answer.id, answer.name, answer.value, answer.datatype, dItem, app)
 
     override fun toString(): String {
@@ -479,14 +481,15 @@ data class ReviewDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        val isAccepted: Boolean,
-        val comment: String,
+        var isAccepted: Boolean,
+        var comment: String,
         @ManyToOne
         var application: ApplicationDAO,
         @ManyToOne
         var reviewer: ReviewerDAO
 ) {
     constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
+    constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), ReviewerDAO())
     constructor(review: ReviewDTO, app: ApplicationDAO, reviewer: ReviewerDAO) : this(review.id, review.isAccepted, review.comment, app, reviewer)
 
     override fun toString(): String {

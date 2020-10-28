@@ -22,99 +22,84 @@ class ApplicationService(val applications: ApplicationRepository, val reviews: R
     fun deleteApplication(id: Long) = applications.deleteById(id)
 
     @Transactional
-    fun editApplication(id:Long, app:ApplicationDAO) {
-        val editedApplication = applications.findById(id).orElseThrow {
-            NotFoundException("Application with $id not found")
-        }
-        editedApplication.submissionDate = app.submissionDate
-        editedApplication.status = app.status
-        editedApplication.grantCall = app.grantCall
-        applications.save(editedApplication)
+    fun editApplication(editedApp: ApplicationDAO, newApp:ApplicationDAO) {
+        editedApp.submissionDate = newApp.submissionDate
+        editedApp.status = newApp.status
+        editedApp.grantCall = newApp.grantCall
     }
 
     /* Review handling */
-    fun getAllReviewsFromApplication(id: Long): Iterable<ReviewDAO> {
-        val app = applications.findById(id).orElseThrow {
-            NotFoundException("Application with $id not found")
-        }
+    fun getAllReviewsFromApplication(app: ApplicationDAO): Iterable<ReviewDAO> {
         return app.reviews
     }
 
     @Transactional
-    fun addReview(id: Long, reviewerId: Long, review:ReviewDAO) {
-        val app = applications.findById(id).orElseThrow {
-            NotFoundException("Application with $id not found")
-        }
-        val reviewer = reviewers.findById(reviewerId).orElseThrow {
-            NotFoundException("Reviewer with $reviewerId not found")
-        }
-        review.id = 0
-        review.application = app
-        review.reviewer = reviewer
-
-        reviews.save(review)
-    }
-
-    @Transactional
-    fun deleteReview(id:Long, reviewId: Long) {
+    fun getOneReview(app: ApplicationDAO, reviewId: Long) : ReviewDAO {
         val review = reviews.findById(reviewId).orElseThrow {
             NotFoundException("Review with $reviewId not found")
         }
 
-        reviews.delete(review)
+        if(review.application == app)
+            return review
+        else
+            throw NotFoundException("Review with $reviewId not found")
     }
 
     @Transactional
-    fun editReview(id:Long, review:ReviewDTO) {
-        val editedReview = reviews.findById(review.id).orElseThrow {
-            NotFoundException("Review with id not found")
-        }
+    fun addReview(app: ApplicationDAO, review:ReviewDAO) {
+        app.reviews.add(review)
+        reviews.save(review)
+    }
 
-        editedReview.isAccepted
-        editedReview.comment
-        reviews.save(editedReview)
+    @Transactional
+    fun deleteReview(app: ApplicationDAO, review:ReviewDAO) {
+        if(review.application == app)
+            reviews.delete(review)
+    }
+
+    @Transactional
+    fun editReview(app: ApplicationDAO, editedReview: ReviewDAO, newReview:ReviewDAO) {
+        if(editedReview.application == app) {
+            editedReview.isAccepted = newReview.isAccepted
+            editedReview.comment = newReview.comment
+        }
     }
 
     /* Answers handling */
-    fun getAllAnswers(id:Long) : Iterable<AnswerDAO> {
-        val app = applications.findById(id).orElseThrow {
-            NotFoundException("Application with $id not found")
-        }
+    fun getAllAnswers(app: ApplicationDAO) : Iterable<AnswerDAO> {
         return app.answers
     }
 
-   fun getOneAnswer(id:Long, answerId:Long): AnswerDAO = answers.findById(answerId).orElseThrow {
-       NotFoundException("Answer with $answerId not found")
+   fun getOneAnswer(app: ApplicationDAO, answerId:Long): AnswerDAO {
+       val answer = answers.findById(answerId).orElseThrow {
+           NotFoundException("Answer with $answerId not found")
+       }
+
+       if(answer.application == app)
+           return answer
+       else
+           throw NotFoundException("Answer with $answerId not found")
    }
 
    @Transactional
-   fun addAnswer(id:Long, answer:AnswerDAO) {
-        val app = applications.findById(id).orElseThrow {
-            NotFoundException("Application with $id not found")
-        }
-        answer.id = 0
-        answer.application = app
+   fun addAnswer(app: ApplicationDAO, answer:AnswerDAO) {
+        app.answers.add(answer)
         answers.save(answer)
     }
 
     @Transactional
-    fun editAnswer(id:Long, answer:AnswerDAO) {
-        val editedAnswer = answers.findById(answer.id).orElseThrow {
-            NotFoundException("Answer with id not found")
+    fun editAnswer(app: ApplicationDAO, editedAnswer: AnswerDAO, newAnswer:AnswerDAO) {
+        if(editedAnswer.application == app) {
+            editedAnswer.name = newAnswer.name
+            editedAnswer.value = newAnswer.value
+            editedAnswer.dataType = newAnswer.dataType
         }
-
-        editedAnswer.name = answer.name
-        editedAnswer.value = answer. value
-        editedAnswer.dataType = answer. dataType
     }
 
     @Transactional
-    fun deleteAnswer(id:Long, answerId:Long) {
-        val answer = answers.findById(answerId).orElseThrow {
-            NotFoundException("Answer with $answerId not found")
-        }
-
-        answers.delete(answer)
+    fun deleteAnswer(app: ApplicationDAO, answer:AnswerDAO) {
+        if(answer.application == app)
+            answers.delete(answer)
     }
 
 }
