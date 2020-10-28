@@ -1,6 +1,7 @@
 package pt.unl.fct.di.pt.firstdemo
 
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,6 +39,7 @@ class ApplicationAndGrantCallServiceTest() {
         var student1 = StudentDAO()
         var app1 = ApplicationDAO()
         var app2 = ApplicationDAO()
+        var app3 = ApplicationDAO()
         val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
         var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
         var grantCall3 = GrantCallDAO(0, "Third Grant Call", "Third description", 60.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
@@ -174,6 +176,42 @@ class ApplicationAndGrantCallServiceTest() {
     }
 
     @Test
+    fun `add third application to Grant Call test`() {
+        `add second application to Grant Call test`()
+
+        app3 = ApplicationDAO(0, Date(), 1, grantCall1, mutableSetOf(), student1, mutableSetOf())
+        calls.addApplication(grantCall1.id, app3, student1.id)
+
+        grantCall1.applications.add(app3)
+        student1.applications.add(app3)
+
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet())     // verify that calls stay the same
+        assertEquals(setOf(student1), students.getAll().toSet())    // verify that students stay the same
+        assertEquals(setOf(app1, app2, app3), applications.getAll().toSet())    // verify that app3 is created and only one
+        assertEquals(app3, applications.getOne(app3.id))            // verify that we can access app by id
+        assertEquals(setOf(app1, app2, app3), calls.getOne(grantCall1.id).applications.toSet()) // verfiy that application is added to grant call
+        assertEquals(setOf(app1, app2, app3), students.getOne(student1.id).applications.toSet())   // verify that application is added to student
+        assertEquals(grantCall1, applications.getOne(app3.id).grantCall)               // verify that grant call is added to application
+        assertEquals(student1, applications.getOne(app3.id).student)                   // verify that student is added to application
+    }
+
+    @Test
+    fun `remove application test`() {
+        `add third application to Grant Call test`()
+
+        calls.deleteApplication(grantCall1.id, app3.id)
+
+        grantCall1.applications.remove(app3)
+        student1.applications.remove(app3)
+
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet())     // verify that calls stay the same
+        assertEquals(setOf(student1), students.getAll().toSet())    // verify that students stay the same
+        assertEquals(setOf(app1, app2), applications.getAll().toSet())    // verify that app3 is deleted
+        assertEquals(setOf(app1, app2), calls.getOne(grantCall1.id).applications.toSet()) // verfiy that application is deleted from grant call
+        assertEquals(setOf(app1, app2), students.getOne(student1.id).applications.toSet())   // verify that application is deleted from student
+    }
+
+    @Test
     fun `getCallApplications with two applications test`() {
         `add second application to Grant Call test`()
 
@@ -184,8 +222,6 @@ class ApplicationAndGrantCallServiceTest() {
     fun `basic get(empty)PanelFromGrantCall test`() {
         `getCallApplications with two applications test`()
 
-        assertEquals(grantCall3, calls.getOne(grantCall3.id))
-
         val panel = calls.getPanelFromGrantCall(grantCall3.id)
 
         // verify that panel is in fact empty and that it corresponds to the right grant call
@@ -195,10 +231,25 @@ class ApplicationAndGrantCallServiceTest() {
     }
 
     @Test
-    fun `add reviewer to panel test`() {
+    fun `basic get(empty)AllReviewers test`() {
         `basic get(empty)PanelFromGrantCall test`()
-        //TODO: change creation of reviewer
-      /*
+
+        assertEquals(emptyList<ReviewerDAO>(), reviewers.getAll())
+    }
+
+    @Test
+    fun `add reviewer test`() {
+        `basic get(empty)AllReviewers test`()
+
+        reviewers.addReviewer(reviewer1)
+
+        assertEquals(setOf(reviewer1), reviewers.getAll().toSet())
+        assertEquals(reviewer1, reviewers.getOne(reviewer1.id))
+    }
+
+    @Test
+    fun `add reviewer to panel test`() {
+        `add reviewer test`()
 
         assertEquals(grantCall3, calls.getOne(grantCall3.id))
 
@@ -206,20 +257,32 @@ class ApplicationAndGrantCallServiceTest() {
 
         val panel = calls.getPanelFromGrantCall(grantCall3.id)
         reviewer1.panels.add(panel)
+        grantCall3.panel = panel;
 
         assertEquals(setOf(reviewer1), reviewers.getAll().toSet()) // verify that reviewer was added
         assertEquals(reviewer1, reviewers.getOne(reviewer1.id))  // verify get reviewer by id
         assertEquals(setOf(reviewer1), calls.getReviewers(grantCall3.id)) // verify that reviewer was added to right panel
-        assertEquals(setOf(calls.getPanelFromGrantCall(grantCall3.id)), reviewers.getOne(reviewer1.id).panels)*/
+        assertEquals(setOf(calls.getPanelFromGrantCall(grantCall3.id)), reviewers.getOne(reviewer1.id).panels)
 
     }
 
     @Test
     fun `delete reviewer from panel test`() {
         `add reviewer to panel test`()
-        //TODO: not yet implemented
-    }
 
+        assertEquals(grantCall3, calls.getOne(grantCall3.id))
+
+        calls.deleteReviewerFromPanel(grantCall3.id, reviewer1.id)
+
+        reviewer1.panels = mutableSetOf()
+        grantCall3.panel?.reviewers = mutableSetOf()
+
+
+        assertEquals(setOf(reviewer1), reviewers.getAll().toSet()) // verify that reviewer still exists
+        assertEquals(reviewer1, reviewers.getOne(reviewer1.id))  // verify get reviewer by id
+        assertEquals(emptySet<ReviewerDAO>(), calls.getReviewers(grantCall3.id)) // verify that reviewer was deleted
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that no other changes have been made
+    }
 
     @Test
     fun `get empty dataItems from grant call test`() {

@@ -31,19 +31,6 @@ interface ApplicationAPI {
     fun getOne( @ApiParam(name = "id", type = "Long", value = "The id of the application", required = true)
                 @PathVariable id:Long): ApplicationDTO
 
-
-    @ApiOperation(value = "Delete Application by id")
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully delete application."),
-        ApiResponse(code = 401, message = "Not authorized to delete application!"),
-        ApiResponse(code = 403, message = "Delete application forbidden."),
-        ApiResponse(code = 404, message = "Application not found.")
-    ])
-    @DeleteMapping("/{id}")
-    fun deleteApplication( @ApiParam(name = "id", type = "Long", value = "The id of the application", required = true)
-                           @PathVariable id: Long)
-
-
     @ApiOperation(value = "Edit Application by id")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully edit application."),

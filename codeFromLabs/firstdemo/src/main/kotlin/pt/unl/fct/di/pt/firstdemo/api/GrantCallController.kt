@@ -6,7 +6,7 @@ import pt.unl.fct.di.pt.firstdemo.services.*
 @RestController
 class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
-    override fun getAll() = calls.getAll().map { GrantCallDTO(it) }
+    override fun getAll(): Set<GrantCallDTO> = calls.getAll().map { GrantCallDTO(it) }.toSet()
 
     override fun getAllOpen() = calls.getAllOpen().map { GrantCallDTO(it) }
 
@@ -18,9 +18,11 @@ class GrantCallController(val calls:GrantCallService): GrantCallAPI {
 
     override fun deleteCall(id: Long) = calls.deleteCall(id)
 
-    override fun getAllApplicationsFromGrantCall(id: Long) = calls.getCallApplications(id).map { ApplicationDTO(it) }
+    override fun getAllApplicationsFromGrantCall(id: Long): Set<ApplicationDTO> = calls.getCallApplications(id).map { ApplicationDTO(it) }.toSet()
 
     override fun addApplication(id: Long, app: ApplicationDTO) = calls.addApplication(id, ApplicationDAO(app), app.studentId)
+
+    override fun deleteApplication(id: Long, appId: Long) = calls.deleteApplication(id, appId)
 
     override fun getPanelFromGrantCall(id: Long) = PanelDTO(calls.getPanelFromGrantCall(id))
 

@@ -61,7 +61,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
     @Transactional
     fun addApplication(id: Long, app: ApplicationDAO, studentId: Long) {
         val call = calls.findById(id).orElseThrow {
-            NotFoundException("Application with title $id not found")
+            NotFoundException("Grant Call with id $id not found")
         }
         val student = students.findById(studentId).orElseThrow {
             NotFoundException("Student with id $studentId not found")
@@ -69,6 +69,19 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         app.grantCall = call
         student.applications.add(app)
         apps.save(app)
+    }
+
+    @Transactional
+    fun deleteApplication(id: Long, appId: Long) {
+        val call = calls.findById(id).orElseThrow {
+            NotFoundException("Grant Call with id $id not found")
+        }
+        var app = apps.findById(appId).orElseThrow {
+            NotFoundException("Application with id $appId not found")
+        }
+        if(app.grantCall.id == call.id) {
+            apps.deleteById(appId)
+        }
     }
 
     /* Panel handling */
@@ -109,6 +122,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         }
         else {
             reviewer.panels.add(panel)
+            panel.reviewers.add(reviewer)
             reviewers.save(reviewer)
         }
     }
@@ -121,10 +135,15 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         val call = calls.findById(id).orElseThrow {
             NotFoundException("Grant Call with id $id not found")
         }
-        if (reviewer != null) {
-            reviewer.panels.remove(call.panel)
-            reviewers.save(reviewer)
+        val panel = call.panel
+        if(panel == null) {
+            throw NotFoundException("Application does not have a panel")
         }
+
+        panel.reviewers.remove(reviewer)
+        reviewer.panels.remove(panel)
+
+        reviewers.save(reviewer)
     }
 
     /* Data item handling */

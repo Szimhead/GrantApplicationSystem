@@ -18,8 +18,6 @@ class ApplicationController(val applications: ApplicationService): ApplicationAP
 
     override fun getOne(id:Long) = ApplicationDTO(applications.getOne(id))
 
-    override fun deleteApplication(id: Long) = applications.deleteApplication(id)
-
     override fun editApplication(id:Long, app: ApplicationDTO) = applications.editApplication(id, ApplicationDAO(app))
 
     override fun getAllReviewsFromApplication(id:Long) = applications.getAllReviewsFromApplication(id).map { ReviewDTO(it) }

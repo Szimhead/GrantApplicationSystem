@@ -170,7 +170,7 @@ data class GrantCallDAO(
         var funding: Double,
         var openDate: Date,
         var closeDate: Date,
-        @OneToMany(mappedBy = "grantCall", cascade = [CascadeType.ALL, CascadeType.PERSIST], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "grantCall", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var applications: MutableSet<ApplicationDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panel: PanelDAO?,
@@ -453,7 +453,7 @@ data class PanelDAO(
         reviewers += "]"
 
 
-        return "CVItemDAO=(id: $id, reviewers: $reviewers)"
+        return "PanelDAO=(id: $id, reviewers: $reviewers)"
     }
 
     override fun hashCode(): Int {

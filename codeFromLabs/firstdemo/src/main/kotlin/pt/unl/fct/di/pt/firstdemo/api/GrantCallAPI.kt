@@ -16,7 +16,7 @@ interface GrantCallAPI {
         ApiResponse(code = 403, message = "Get all Grant Calls forbidden.")
     ])
     @GetMapping("")
-    fun getAll():List<GrantCallDTO>
+    fun getAll():Set<GrantCallDTO>
 
     @ApiOperation(value = "Get list of all open Grant Calls." +
             " Grant calls are open if now() is between their start and end times", response = Iterable::class)
@@ -81,7 +81,7 @@ interface GrantCallAPI {
     ])
     @GetMapping("/{id}/applications")
     fun getAllApplicationsFromGrantCall(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to get the applications from", required = true)
-                                        @PathVariable id: Long): List<ApplicationDTO>
+                                        @PathVariable id: Long): Set<ApplicationDTO>
 
     @ApiOperation(value = "Add an application to a grant call with a given id")
     @ApiResponses(value = [
@@ -94,6 +94,17 @@ interface GrantCallAPI {
     fun addApplication(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to add the application to", required = true)
                        @PathVariable id: Long, @RequestBody app: ApplicationDTO)
 
+    @ApiOperation(value = "Delete Application by id")
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully delete application."),
+        ApiResponse(code = 401, message = "Not authorized to delete application!"),
+        ApiResponse(code = 403, message = "Delete application forbidden."),
+        ApiResponse(code = 404, message = "Application not found.")
+    ])
+    @DeleteMapping("/{id}/applications/{appId}")
+    fun deleteApplication( @ApiParam(name = "id", type = "Long", value = "The id of the grant call", required = true)
+                           @PathVariable id: Long, @ApiParam(name = "appId", type = "Long", value = "The id of the application to delete", required = true)
+                           @PathVariable appId: Long)
     /* Panel handling */
 
     @ApiOperation(value = "Get panel assigned to a grant call with given id", response = PanelDTO::class)
