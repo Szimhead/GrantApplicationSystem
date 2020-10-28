@@ -17,9 +17,6 @@ class StudentService (val students: StudentRepository, val applications: Applica
     }
 
     fun deleteStudent(studentNr:Long) {
-        val student = students.findById(studentNr).orElseThrow{
-            NotFoundException("Reviewer with $studentNr not found")
-        }
         students.delete(student)
     }
 

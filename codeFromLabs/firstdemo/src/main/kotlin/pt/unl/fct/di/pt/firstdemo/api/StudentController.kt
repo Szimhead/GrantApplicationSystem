@@ -11,22 +11,22 @@ class StudentController(val students: StudentService, val gc: GrantCallService):
 
     override fun getAll() = students.getAll().map { UserDTO(it) }
 
-    override fun getOne(studentNr:Long) = UserDTO(students.getOne(studentNr))
+    override fun getOne(id:Long) = UserDTO(students.getOne(id))
 
-    override fun deleteStudent(studentNr: Long) = students.deleteStudent(studentNr)
+    override fun deleteStudent(id: Long) = students.deleteStudent(id)
 
-    override fun editStudent(studentNr:Long, student: UserDTO) = students.editStudent(students.getOne(studentNr), StudentDAO(student, students.getOne(studentNr).institution))
+    override fun editStudent(id:Long, student: UserDTO) = students.editStudent(students.getOne(id), StudentDAO(student, students.getOne(id).institution))
 
-    override fun getApplications(studentNr: Long) = students.getApplications(studentNr).map { ApplicationDTO(it) }.toMutableSet()
+    override fun getApplications(id: Long) = students.getApplications(id).map { ApplicationDTO(it) }.toMutableSet()
 
-    override fun getCV(studentNr:Long) = CVDTO(students.getCV(students.getOne(studentNr)))
+    override fun getCV(id:Long) = CVDTO(students.getCV(students.getOne(id)))
 
-    override fun getCVItem(studentNr:Long, id: Long) = CVItemDTO(students.getCVItem(students.getCV(students.getOne(studentNr)), id))
+    override fun getCVItem(id:Long, cvId: Long) = CVItemDTO(students.getCVItem(students.getCV(students.getOne(id)), id))
 
-    override fun addCVItem(studentNr: Long, id: Long) = students.addCVItem(students.getOne(studentNr), students.getCVItem(students.getCV(students.getOne(studentNr)), id))
+    override fun addCVItem(id: Long, cvId: Long) = students.addCVItem(students.getOne(id), students.getCVItem(students.getCV(students.getOne(id)), id))
 
-    override fun editCVItem(studentNr: Long, id: Long, cvItem: CVItemDTO) = students.editCVItem(students.getOne(studentNr), students.getCVItem(students.getCV(students.getOne(studentNr)), id), CVItemDAO(cvItem, c))
+    override fun editCVItem(id: Long, cvId: Long, cvItem: CVItemDTO) = students.editCVItem(students.getOne(id), students.getCVItem(students.getCV(students.getOne(id)), id), CVItemDAO(cvItem, c))
 
-    override fun deleteCVItem(studentNr: Long, id: Long) = students.deleteCVItem(students.getOne(studentNr), students.getCVItem(students.getCV(students.getOne(studentNr)), id))
+    override fun deleteCVItem(id: Long, cvId: Long) = students.deleteCVItem(students.getOne(id), students.getCVItem(students.getCV(students.getOne(id)), id))
 
 }

@@ -7,26 +7,32 @@ import pt.unl.fct.di.pt.firstdemo.services.ReviewerDAO
 import pt.unl.fct.di.pt.firstdemo.services.StudentDAO
 
 @RestController
-class InstitutionController(val institutions: InstitutionService): InstitutionAPI {
+class InstitutionController(val inst: InstitutionService): InstitutionAPI {
 
-    override fun getAll() = institutions.getAll().map { OrganizationDTO(it) }
+    override fun getAll() = inst.getAll().map { OrganizationDTO(it) }
 
-    override fun getOne(id:Long) = OrganizationDTO(institutions.getOne(id))
+    override fun getOne(id:Long) = OrganizationDTO(inst.getOne(id))
 
-    override fun addInstitution(institution: OrganizationDTO) = institutions.addInstitution(InstitutionDAO(institution))
+    override fun addInstitution(institution: OrganizationDTO) = inst.addInstitution(InstitutionDAO(institution))
 
-    override fun deleteInstitution(id:Long) = institutions.deleteInstitution(id)
+    override fun deleteInstitution(id:Long) = inst.deleteInstitution(inst.getOne(id))
 
-    override fun editInstitution(id:Long, institution: OrganizationDTO) = institutions.editInstitution(id, InstitutionDAO(institution))
+    override fun editInstitution(id:Long, institution: OrganizationDTO) = inst.editInstitution(inst.getOne(id), InstitutionDAO(institution))
 
     /* student handling */
-    override fun getStudents(id:Long) = institutions.getStudents(id).map { UserDTO(it) }
+    override fun getStudents(id:Long) = inst.getStudentsFromInstitution(inst.getOne(id)).map { UserDTO(it) }
 
-    override fun addStudent(id: Long, student: UserDTO) = institutions.addStudent(id, StudentDAO(student))
+    override fun addStudent(id: Long, student: UserDTO) {
+        val institution = inst.getOne(id)
+        inst.addStudentToInstitution(institution, StudentDAO(student, institution))
+    }
 
     /* reviewer handling */
-    override fun getReviewers(id:Long) = institutions.getReviewers(id).map { UserDTO(it) }
+    override fun getReviewers(id:Long) = inst.getReviewersFromInstitution(inst.getOne(id)).map { UserDTO(it) }
 
-    override fun addReviewer(id: Long, reviewer: UserDTO) = institutions.addReviewer(id, ReviewerDAO(reviewer))
+    override fun addReviewer(id: Long, reviewer: UserDTO) {
+        val institution = inst.getOne(id)
+        inst.addReviewer(institution, ReviewerDAO(reviewer, institution))
+    }
 
 }

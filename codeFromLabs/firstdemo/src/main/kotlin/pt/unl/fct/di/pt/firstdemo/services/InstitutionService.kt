@@ -12,54 +12,44 @@ import pt.unl.fct.di.pt.firstdemo.model.StudentRepository
 @Service
 class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepository, val revs: ReviewerRepository) {
 
-    fun getAll() = inst.findAll()
+    fun getAll() : Iterable<InstitutionDAO> = inst.findAll()
 
-    fun getOne(id:Long) = inst.findById(id).orElse(null)
+    fun getOne(id:Long) : InstitutionDAO = inst.findById(id).orElseThrow {
+        NotFoundException("Institution with id $id not found")
+    }
 
     @Transactional
     fun addInstitution(institution: InstitutionDAO) {
-        institution.id = 0
         inst.save(institution)
     }
 
-    fun deleteInstitution(id:Long) {
-        val deletedInst = inst.findById(id).orElse(null)
-        inst.delete(deletedInst)
+    fun deleteInstitution(institution: InstitutionDAO) {
+        inst.delete(institution)
     }
 
-    fun editInstitution(id:Long, institution: InstitutionDAO) {
-        val editedInst = inst.findById(id).orElse(null)
-        editedInst.name = institution.name
-        editedInst.contact = institution.contact
+    fun editInstitution(editedInst: InstitutionDAO, newInst: InstitutionDAO) {
+        editedInst.name = newInst.name
+        editedInst.contact = newInst.contact
         inst.save(editedInst)
     }
 
     /* student handling */
-    fun getStudents(id:Long): MutableSet<StudentDAO> {
-        val institution = inst.findById(id).orElse(null)
+    fun getStudentsFromInstitution(institution: InstitutionDAO): MutableSet<StudentDAO> {
         return institution.students
     }
 
     @Transactional
-    fun addStudent(id:Long, student: StudentDAO) {
-        val institution = inst.findById(id).orElseThrow {
-            NotFoundException("Institution with id $id not found")
-        }
-        student.institution = institution;
+    fun addStudentToInstitution(institution: InstitutionDAO, student: StudentDAO) {
         institution.students.add(student)
         studs.save(student)
     }
 
-
     /* reviewer handling */
-    fun getReviewers(id:Long): MutableSet<ReviewerDAO> {
-        val institution = inst.findById(id).orElse(null)
+    fun getReviewersFromInstitution(institution: InstitutionDAO): MutableSet<ReviewerDAO> {
         return institution.reviewers
     }
 
-    fun addReviewer(id:Long, reviewer: ReviewerDAO) {
-        val institution = inst.findById(id).orElse(null)
-        reviewer.id = 0
+    fun addReviewer(institution: InstitutionDAO, reviewer: ReviewerDAO) {
         reviewer.institution = institution
         revs.save(reviewer)
     }
