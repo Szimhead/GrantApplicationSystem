@@ -516,3 +516,17 @@ data class ReviewDAO(
         return a && b && c && d && e
     }
 }
+
+@Entity
+    data class UserDAO(
+            @Id
+            val username: String = "",
+            var password: String = "",
+            var role: String)
+    {
+        constructor(user:UserPasswordDTO) : this(user.username, user.password, user.role)
+        constructor() : this("","","") {
+
+        }
+
+}
