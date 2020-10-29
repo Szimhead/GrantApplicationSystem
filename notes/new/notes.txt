@@ -1,0 +1,26 @@
+- finished tutorial functionalities: create argument, vote arguments, create attacks, vote attacks, drag arguments, adjust view, fit to screen, pin button, unpin all button.
+
+- full arrow in filter select
+
+- changed filter behaviour
+
+- new check argument box
+
+
+
+TODO:
+
+- filter arguments
+- semântica descrição
+- abrir e fechar tutorial estraga events
+- 
+
+
+- voltar a meter o filter como estava - done
+- botao para o tutorial na interface
+- argumento a aparecer quando adicionado
+- pin icon a branco
+- a seguir ao tip do "drag", criar um caixinha a explicar que os argumentos se rearranjam/flutuam.
+- make foreignobject widht bigger according to stroke-width of arrow_end
+- only update on releaseAllIcons if there was at least one argument pinned - done
+- when voting on relations, it doesnt show abbreviatednumber
