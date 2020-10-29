@@ -1,6 +1,7 @@
 package pt.unl.fct.di.pt.firstdemo.config
 
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -10,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig(val customUserDetails:CustomUserDetailsService) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http
                 .csrf().disable()
@@ -19,6 +20,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/signup").permitAll()
                 .antMatchers("/" ).permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic()
@@ -30,6 +33,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .password(BCryptPasswordEncoder().encode("password"))
                 .authorities(emptyList())
                 .and()
+                .passwordEncoder(BCryptPasswordEncoder())
+                .and()
+                .userDetailsService(customUserDetails)
                 .passwordEncoder(BCryptPasswordEncoder())
     }
 }
