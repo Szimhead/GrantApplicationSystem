@@ -41,8 +41,8 @@ data class AnswerDTO(val id: Long, val name: String, val value: String, val data
     constructor(answer: AnswerDAO) : this(answer.id, answer.name, answer.value, answer.dataType, answer.dataItem.id)
 }
 
-data class CVItemDTO(val id: Long, val name: String, val value: String, val datatype: String) {
-    constructor(cvItem: CVItemDAO) : this(cvItem.id, cvItem.name, cvItem.value, cvItem.dataType)
+data class CVItemDTO(val id: Long, val name: String, val value: String, val datatype: String, val cvReqId: Long) {
+    constructor(cvItem: CVItemDAO) : this(cvItem.id, cvItem.name, cvItem.value, cvItem.dataType, cvItem.CVRequirement.id)
 }
 
 data class CVDTO(val id: Long, val items: MutableSet<CVItemDTO>) {

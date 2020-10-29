@@ -72,7 +72,8 @@ data class StudentDAO(
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var cv: CVDAO?
 ) {
-    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), CVDAO())
+    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(),null)
     constructor(stud: UserDTO, inst: InstitutionDAO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), inst, null)
 
     override fun toString(): String {
@@ -278,6 +279,7 @@ data class CVItemDAO(
         var CV: CVDAO
 ) {
     constructor() : this(0, "name", "value", "data type", CVRequirementDAO(), CVDAO())
+    constructor(cvItem: CVItemDTO) : this(cvItem.id, cvItem.name, cvItem.value, cvItem.datatype, CVRequirementDAO(), CVDAO())
     constructor(cvItem: CVItemDTO, cvReq: CVRequirementDAO, cv: CVDAO) : this(cvItem.id, cvItem.name, cvItem.value, cvItem.datatype, cvReq, cv)
 
     override fun toString(): String {
@@ -505,7 +507,7 @@ data class ReviewDAO(
         val applicationId = application.id
         val reviewerId = reviewer.id
 
-        return "CVItemDAO=(id: $id, isAccepted: $isAccepted, comment: $comment, applicationId: $applicationId, reviewerId: $reviewerId)"
+        return "ReviewDAO=(id: $id, isAccepted: $isAccepted, comment: $comment, applicationId: $applicationId, reviewerId: $reviewerId)"
     }
 
     override fun hashCode(): Int {

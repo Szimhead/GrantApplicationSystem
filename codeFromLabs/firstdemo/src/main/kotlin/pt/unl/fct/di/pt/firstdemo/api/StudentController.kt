@@ -1,32 +1,38 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.CVItemDAO
-import pt.unl.fct.di.pt.firstdemo.services.GrantCallService
-import pt.unl.fct.di.pt.firstdemo.services.StudentDAO
-import pt.unl.fct.di.pt.firstdemo.services.StudentService
+import pt.unl.fct.di.pt.firstdemo.services.*
 
 @RestController
-class StudentController(val students: StudentService, val gc: GrantCallService): StudentAPI {
+class StudentController(val studs: StudentService, val gc: GrantCallService, val cvReqs: CVRequirementService): StudentAPI {
 
-    override fun getAll() = students.getAll().map { UserDTO(it) }
+    override fun getAll() = studs.getAll().map { UserDTO(it) }
 
-    override fun getOne(id:Long) = UserDTO(students.getOne(id))
+    override fun getOne(id:Long) = UserDTO(studs.getOne(id))
 
-    override fun deleteStudent(id: Long) = students.deleteStudent(id)
+    override fun deleteStudent(id: Long) = studs.deleteStudent(studs.getOne(id))
 
-    override fun editStudent(id:Long, student: UserDTO) = students.editStudent(students.getOne(id), StudentDAO(student, students.getOne(id).institution))
+    override fun editStudent(id:Long, student: UserDTO) = studs.editStudent(studs.getOne(id), StudentDAO(student))
 
-    override fun getApplications(id: Long) = students.getApplications(id).map { ApplicationDTO(it) }.toMutableSet()
+    override fun getApplications(id: Long) = studs.getApplicationsFromStudent(studs.getOne(id)).map { ApplicationDTO(it) }.toMutableSet()
 
-    override fun getCV(id:Long) = CVDTO(students.getCV(students.getOne(id)))
+    override fun getCV(id:Long) = CVDTO(studs.getStudentCV(studs.getOne(id)))
 
-    override fun getCVItem(id:Long, cvId: Long) = CVItemDTO(students.getCVItem(students.getCV(students.getOne(id)), id))
+    override fun getCVItem(id:Long, cvId: Long) = CVItemDTO(studs.getCVItemFromStudentCV(studs.getStudentCV(studs.getOne(id)), cvId))
 
-    override fun addCVItem(id: Long, cvId: Long) = students.addCVItem(students.getOne(id), students.getCVItem(students.getCV(students.getOne(id)), id))
+    override fun addCVItem(id: Long, cvItem: CVItemDTO) {
+        val cv = studs.getStudentCV(studs.getOne(id))
+        studs.addCVItem(cv, CVItemDAO(cvItem, cvReqs.getOne(cvItem.cvReqId), cv))
+    }
 
-    override fun editCVItem(id: Long, cvId: Long, cvItem: CVItemDTO) = students.editCVItem(students.getOne(id), students.getCVItem(students.getCV(students.getOne(id)), id), CVItemDAO(cvItem, c))
+    override fun editCVItem(id: Long, cvItem: CVItemDTO) {
+        val cv = studs.getStudentCV(studs.getOne(id))
+        studs.editCVItem(studs.getCVItemFromStudentCV(cv, cvItem.id), CVItemDAO(cvItem))
+    }
 
-    override fun deleteCVItem(id: Long, cvId: Long) = students.deleteCVItem(students.getOne(id), students.getCVItem(students.getCV(students.getOne(id)), id))
+    override fun deleteCVItem(id: Long, cvId: Long) {
+        val cv = studs.getStudentCV(studs.getOne(id))
+        studs.deleteCVItem(cv, studs.getCVItemFromStudentCV(cv, cvId))
+    }
 
 }

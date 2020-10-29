@@ -10,24 +10,21 @@ class CVRequirementService(val cvReq: CVRequirementRepository) {
 
     fun getAll() = cvReq.findAll()
 
-    fun getOne(name: String) = cvReq.findByName(name)
+    fun getOne(id: Long) = cvReq.findById(id)
 
     fun addRequirement(requirement: CVRequirementDAO) {
         cvReq.save(requirement)
     }
 
     @Transactional
-    fun deleteRequirement(name: String) {
-        val requirement = cvReq.findByName(name)
+    fun deleteRequirement(requirement: CVRequirementDAO) {
         cvReq.delete(requirement)
     }
 
     @Transactional
-    fun editRequirement(name: String, requirement: CVRequirementDAO) {
-        val editedReq = cvReq.findByName(name)
-        editedReq.name = requirement.name
-        editedReq.dataType = requirement.dataType
-        editedReq.isMandatory = requirement.isMandatory
-        cvReq.save(editedReq)
+    fun editRequirement(editedReq: CVRequirementDAO, newReq: CVRequirementDAO) {
+        editedReq.name = newReq.name
+        editedReq.dataType = newReq.dataType
+        editedReq.isMandatory = newReq.isMandatory
     }
 }
