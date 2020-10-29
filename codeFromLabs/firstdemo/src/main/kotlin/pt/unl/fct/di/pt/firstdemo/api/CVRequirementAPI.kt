@@ -18,18 +18,18 @@ interface CVRequirementAPI {
     @GetMapping("")
     fun getAll(): List<CVRequirementDTO>
 
-    @ApiOperation(value = "Get CVRequirement by name", response = CVRequirementDTO::class)
+    @ApiOperation(value = "Get CVRequirement by id", response = CVRequirementDTO::class)
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully retrieved CVRequirement."),
         ApiResponse(code = 401, message = "Not authorized to get CVRequirement!"),
         ApiResponse(code = 403, message = "Get CVRequirement forbidden."),
         ApiResponse(code = 404, message = "CVRequirement not found.")
     ])
-    @GetMapping("/{name}")
-    fun getOne(@ApiParam(name = "name", type = "String", value = "The name of the CVRequirement to get", required = true)
-               @PathVariable name: String): CVRequirementDTO
+    @GetMapping("/{id}")
+    fun getOne(@ApiParam(name = "id", type = "String", value = "The id of the CVRequirement to get", required = true)
+               @PathVariable id: Long): CVRequirementDTO
 
-    @ApiOperation(value = "Add CVRequirement by name")
+    @ApiOperation(value = "Add CVRequirement by id")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully added CVRequirement."),
         ApiResponse(code = 401, message = "Not authorized to add CVRequirement!"),
@@ -38,25 +38,25 @@ interface CVRequirementAPI {
     @PostMapping("")
     fun addRequirement(@RequestBody requirement: CVRequirementDTO)
 
-    @ApiOperation(value = "Delete CVRequirement by name")
+    @ApiOperation(value = "Delete CVRequirement by id")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully deleted CVRequirement."),
         ApiResponse(code = 401, message = "Not authorized to delete CVRequirement!"),
         ApiResponse(code = 403, message = "Delete CVRequirement forbidden."),
         ApiResponse(code = 404, message = "CVRequirement not found.")
     ])
-    @DeleteMapping("/{name}")
-    fun deleteRequirement(@ApiParam(name = "name", type = "String", value = "The name of the CVRequirement to delete", required = true)
-                          @PathVariable name: String)
+    @DeleteMapping("/{id}")
+    fun deleteRequirement(@ApiParam(name = "id", type = "String", value = "The id of the CVRequirement to delete", required = true)
+                          @PathVariable id: Long)
 
-    @ApiOperation(value = "Edit CVRequirement by name")
+    @ApiOperation(value = "Edit CVRequirement by id")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully edited CVRequirement."),
         ApiResponse(code = 401, message = "Not authorized to edit CVRequirement!"),
         ApiResponse(code = 403, message = "Edit CVRequirement forbidden."),
         ApiResponse(code = 404, message = "CVRequirement not found.")
     ])
-    @PutMapping("{name}")
-    fun editRequirement(@ApiParam(name = "name", type = "String", value = "The name of the CVRequirement to edit", required = true)
-                        @PathVariable name: String, @RequestBody requirement: CVRequirementDTO)
+    @PutMapping("{id}")
+    fun editRequirement(@ApiParam(name = "id", type = "String", value = "The id of the CVRequirement to edit", required = true)
+                        @PathVariable id: Long, @RequestBody requirement: CVRequirementDTO)
 }

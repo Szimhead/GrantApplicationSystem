@@ -40,9 +40,13 @@ class GrantCallControllerTest {
     companion object {
         val mapper = ObjectMapper().registerModule(KotlinModule())
 
-        val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
-        var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
-        var grantCall3 = GrantCallDAO(0, "Third Grant Call", "Third description", 60.0, Date(), Date(), mutableSetOf(), null, mutableSetOf())
+        val sponsor = SponsorDAO(0, "sponsor1", "sponsor1 contact", mutableSetOf())
+
+        val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsor)
+        var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsor)
+        var grantCall3 = GrantCallDAO(0, "Third Grant Call", "Third description", 60.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsor)
+
+
 
         val callsDAO = setOf(grantCall1, grantCall2, grantCall3)
         val callsDTO = callsDAO.map { GrantCallDTO(it) }.toSet()
@@ -147,9 +151,8 @@ class GrantCallControllerTest {
          val id = 1;
          val grantCallJSON = mapper.writeValueAsString(grantCall)
 
-         Mockito.`when`(calls.editCall(nonNullAny(Long::class.java), nonNullAny(GrantCallDAO::class.java)))
+         Mockito.`when`(calls.editCall(nonNullAny(GrantCallDAO::class.java), nonNullAny(GrantCallDAO::class.java)))
                  .then {
-                     assertEquals(it.getArgument(0), id)
                      assertEquals(it.getArgument(1), grantCallDAO)
                  }
 
@@ -166,7 +169,7 @@ class GrantCallControllerTest {
         val id = 1;
         val grantCallJSON = mapper.writeValueAsString(grantCall)
 
-        Mockito.`when`(calls.editCall(nonNullAny(Long::class.java), nonNullAny(GrantCallDAO::class.java)))
+        Mockito.`when`(calls.editCall(nonNullAny(GrantCallDAO::class.java), nonNullAny(GrantCallDAO::class.java)))
                 .thenThrow( NotFoundException("Grant Call with id $id not found"))
 
         mvc.perform(put("$callsURL/$id")
@@ -179,7 +182,7 @@ class GrantCallControllerTest {
     fun `delete grant call test`() {
         val id = 1;
 
-        Mockito.`when`(calls.deleteCall(nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.deleteCall(nonNullAny(GrantCallDAO::class.java))).then {
             assertEquals(it.getArgument(0), id)
         }
 
@@ -191,7 +194,7 @@ class GrantCallControllerTest {
     fun `get all applications from grant call test`() { //TODO: do not found version
         val id = 1
 
-        Mockito.`when`(calls.getCallApplications(nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.getCallApplications(nonNullAny(GrantCallDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             return@then appsDAO;
         }
@@ -207,14 +210,14 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `add application to grant call test`() {
+    fun `add application to grant call test`() { //TODO
         val id = 1
         val applicationDAO = ApplicationDAO(0, Date(), 0, GrantCallDAO(), mutableSetOf(), StudentDAO(), mutableSetOf())
         val applicationDTO = ApplicationDTO(applicationDAO)
         applicationDTO.studentId = student1.id
         val applicationJSON = mapper.writeValueAsString(applicationDTO)
 
-        Mockito.`when`(calls.addApplication(nonNullAny(Long::class.java), nonNullAny(ApplicationDAO::class.java), nonNullAny(Long::class.java)))
+        Mockito.`when`(calls.addApplication(nonNullAny(ApplicationDAO::class.java)))
                 .then {
                     assertEquals(id, it.getArgument(0))
                     assertEquals(applicationDAO, it.getArgument(1))
@@ -228,11 +231,11 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `delete application from grant call test`() {
+    fun `delete application from grant call test`() { //TODO
         val id = 1
         val appId = 2
 
-        Mockito.`when`(calls.deleteApplication(nonNullAny(Long::class.java), nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.deleteApplication(nonNullAny(GrantCallDAO::class.java), nonNullAny(ApplicationDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             assertEquals(appId, it.getArgument(1))
         }
@@ -242,10 +245,10 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `get panel from grant call test (empty panel)`() {
+    fun `get panel from grant call test (empty panel)`() { //TODO
         val id = grantCall1.id
 
-        Mockito.`when`(calls.getPanelFromGrantCall(nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.getPanelFromGrantCall(nonNullAny(GrantCallDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
 
             return@then panelDAO;
@@ -262,7 +265,7 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `get all reviewers grant call panel test`() {
+    fun `get all reviewers grant call panel test`() { //TODO
         val id = grantCall1.id
 
         var panelDAO = PanelDAO(0, null, mutableSetOf(), grantCall1)
@@ -273,7 +276,7 @@ class GrantCallControllerTest {
         var reviewerDTO = UserDTO(reviewerDAO)
         var reviewerSetDTO = setOf(reviewerDTO)
 
-        Mockito.`when`(calls.getReviewers(nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.getReviewers(nonNullAny(PanelDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
 
             return@then reviewerSetDAO
@@ -290,11 +293,11 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `add reviewer to panel from grant call test`() {
+    fun `add reviewer to panel from grant call test`() { //TODO
         val id = 1
         val reviewerId = 2
 
-        Mockito.`when`(calls.addReviewerToPanel(nonNullAny(Long::class.java), nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.addReviewerToPanel(nonNullAny(PanelDAO::class.java), nonNullAny(ReviewerDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             assertEquals(reviewerId, it.getArgument(1))
         }
@@ -305,11 +308,11 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `delete reviewer from grant call panel test`() {
+    fun `delete reviewer from grant call panel test`() {//TODO
         val id = 1
         val reviewerId = 2
 
-        Mockito.`when`(calls.deleteReviewerFromPanel(nonNullAny(Long::class.java), nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.deleteReviewerFromPanel(nonNullAny(PanelDAO::class.java), nonNullAny(ReviewerDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             assertEquals(reviewerId, it.getArgument(1))
         }
@@ -319,10 +322,10 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `get all data items from grant call test (empty)`() {
+    fun `get all data items from grant call test (empty)`() {//TODO
         val id = 1;
 
-        Mockito.`when`(calls.getAllDataItems(nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.getAllDataItems(nonNullAny(GrantCallDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
 
             return@then emptyList<DataItemDAO>()
@@ -333,10 +336,10 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `get all data items from grant call test`() {
+    fun `get all data items from grant call test`() { //TODO
         val id = 1
 
-        Mockito.`when`(calls.getAllDataItems(nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.getAllDataItems(nonNullAny(GrantCallDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             return@then dataItemsDAO;
         }
@@ -352,11 +355,11 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `get one data item from grant call test`() {
+    fun `get one data item from grant call test`() { //TODO
         val id = 1
         val dataItemId = dataItem1.id
 
-        Mockito.`when`(calls.getOneDataItem(nonNullAny(Long::class.java), nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.getOneDataItem(nonNullAny(GrantCallDAO::class.java), nonNullAny(Long::class.java))).then {
             assertEquals(id, it.getArgument(0))
             assertEquals(dataItemId, it.getArgument(1))
 
@@ -374,14 +377,14 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `add data item to grant call test`() {
+    fun `add data item to grant call test`() { //TODO
         val id = 1
         val dataItemDAO = DataItemDAO(0, "data item1", "type data1", true, mutableSetOf(), mutableSetOf())
         val dataItemDTO = DataItemDTO(dataItemDAO)
 
         val dataItemJSON = mapper.writeValueAsString(dataItemDTO)
 
-        Mockito.`when`(calls.addDataItem(nonNullAny(Long::class.java), nonNullAny(DataItemDAO::class.java)))
+        Mockito.`when`(calls.addDataItem(nonNullAny(GrantCallDAO::class.java), nonNullAny(DataItemDAO::class.java)))
                 .then {
                     assertEquals(id, it.getArgument(0))
                     assertEquals(dataItemDAO, it.getArgument(1))
@@ -394,11 +397,11 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `delete data item from grant call test`() {
+    fun `delete data item from grant call test`() { //TODO
         val id = 1
         val dataItemId = 2
 
-        Mockito.`when`(calls.deleteDataItem(nonNullAny(Long::class.java), nonNullAny(Long::class.java))).then {
+        Mockito.`when`(calls.deleteDataItem(nonNullAny(GrantCallDAO::class.java), nonNullAny(DataItemDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             assertEquals(dataItemId, it.getArgument(1))
         }
@@ -408,14 +411,14 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `edit data item from grant call test`() {
+    fun `edit data item from grant call test`() { //TODO
         val id = 1;
         val dataItemId = 2
-        val editedDataItem = DataItemDTO("edited data item", "edited data type", false)
+        val editedDataItem = DataItemDTO(0, "edited data item", "edited data type", false)
 
         val editedDataItemJSON = mapper.writeValueAsString(editedDataItem)
 
-        Mockito.`when`(calls.editDataItem(nonNullAny(Long::class.java), nonNullAny(Long::class.java), nonNullAny(DataItemDAO::class.java))).then {
+        Mockito.`when`(calls.editDataItem(nonNullAny(GrantCallDAO::class.java), nonNullAny(DataItemDAO::class.java), nonNullAny(DataItemDAO::class.java))).then {
             assertEquals(id, it.getArgument(0))
             assertEquals(dataItemId, it.getArgument(1))
             assertEquals(DataItemDAO(editedDataItem), it.getArgument(2))

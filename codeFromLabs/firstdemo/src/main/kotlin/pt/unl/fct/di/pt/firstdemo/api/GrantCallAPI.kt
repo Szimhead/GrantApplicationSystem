@@ -39,14 +39,14 @@ interface GrantCallAPI {
     fun getOne(@ApiParam(name = "id", type = "Long", value = "The id of the grant call", required = true)
             @PathVariable id: Long):GrantCallDTO
 
-    @ApiOperation(value = "Add new grant call")
+   /* @ApiOperation(value = "Add new grant call")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully added Grant Call."),
         ApiResponse(code = 401, message = "Not authorized to add Grant Call!"),
         ApiResponse(code = 403, message = "Add Grant Call forbidden.")
     ])
     @PostMapping("")
-    fun addCall(@RequestBody call: GrantCallDTO)
+    fun addCall(@RequestBody call: GrantCallDTO) */
 
     @ApiOperation(value = "Edit Grant Call with given id", response = Iterable::class)
     @ApiResponses(value = [

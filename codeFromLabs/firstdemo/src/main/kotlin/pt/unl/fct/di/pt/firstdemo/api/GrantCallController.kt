@@ -12,7 +12,7 @@ class GrantCallController(val calls:GrantCallService, val studs: StudentService,
 
     override fun getOne(id: Long) = GrantCallDTO(calls.getOne(id))
 
-    override fun addCall(call: GrantCallDTO) = calls.addCall(GrantCallDAO(call))
+    //override fun addCall(call: GrantCallDTO) = calls.addCall(GrantCallDAO(call))
 
     override fun editCall(id: Long, call: GrantCallDTO) = calls.editCall(calls.getOne(id), GrantCallDAO(call))
 
