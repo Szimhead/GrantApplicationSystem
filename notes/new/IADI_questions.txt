@@ -1,0 +1,7 @@
+- what kind of attributes should be in DAOs that are not in DTOs
+
+- can we add more CV_Requirements after some students have already submited a CV? Their CV will be outdated.
+
+- how to compare dates? because they have milliseconds in database but with Date() in DAOs they don't have milliseconds so equals returns false and the tests dont' pass. Right equals methods on DAOs are overriden so dates are not compared...
+
+- notfoundexceptions are handled automatically if we tag the exception right?

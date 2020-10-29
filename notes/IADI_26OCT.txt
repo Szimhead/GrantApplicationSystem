@@ -1,0 +1,33 @@
+- you just need to reference (mapped by) manytomany relations on one side:
+Note, that since a many-to-many relationship doesn't have an owner side in the database, we could configure the join table in the Course class and reference it from the Student class.
+https://www.baeldung.com/jpa-many-to-many
+
+https://stackoverflow.com/questions/13027214/what-is-the-meaning-of-the-cascadetype-all-for-a-manytoone-jpa-association#:~:text=The%20meaning%20of%20CascadeType.,to%20removing%20the%20related%20User%20.
+
+
+
+- changed to sets because comparisons weren't working well with lists, also saw some guy on stackoverflow saying to use sets unless explicitily needed
+
+
+
+
+
+************************************************************************************
+
+- how to compare dates? because they have milliseconds in database...
+
+- change comments in grantcall api and (?)applicationAPI
+
+- check reviewers part in grantcall service
+
+- missing addPanelChair to grant call panel
+
+- doesn't make sense to only create a reviewer when adding it to a panel! gotta change that -> same for data items
+
+- querying data items by id?
+
+- onde ter os adds applications no service? em applications ou em grant call?
+
+- add panel chair?
+
+- add reviewer to panel from grant call shouldn't create a new reviewer

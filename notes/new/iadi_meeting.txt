@@ -1,0 +1,36 @@
+- create userDAO?
+
+- change dao constructors so they don't create a random grantcall for example
+
+- check non useful functions
+
+- update documentation
+
+- addChair
+
+- on add student function, do the same as add grant call, as in, create a cv 
+
+- move addApplication to applicationService and same for all methods that apply
+
+- add exception that handles "inconsistent database", for instance, deleting a review by id in an application but the review gotten isn't in the application
+
+- check deletes (some test weren't working)
+
+- add institution rea
+
+
+IMPORTANT:
+
+- on get answers, get reviews, get applications, etc, we use id, so we don't really need the parent id. I did a safety check to, for example, check if when deleting an application, its grant call is the same as the grant call provided to the api. Don't really know if this is necessary tho :/ if it's not the same it should throw an "inconsistent exception or smth" -> i think this might actually be necessary, since only certain users have access to certain grantcall, applications, etc...
+
+- deleted all id = 0, need to clarify what to do regarding this. in the code the professor had, if id is not 0 he aborts the operation I think?
+
+- there are two addReviewers, gotta figure out which one to keep it, we've done this decision before for another entity lel. Ended up removing addReviewer from reviewerAPI because reviewer is added to an institution and we need that institution to create it
+
+- changed studentNr and reviewerNr to just id right?
+
+- almost feel like deleting cvrequirement relation to cvitem, and keep it uni-directional, from cvItem to cvrequirement
+
+- added cvrequirementId to cvItemDTO
+
+- there's a getOneApplication in studentAPI, think about it
