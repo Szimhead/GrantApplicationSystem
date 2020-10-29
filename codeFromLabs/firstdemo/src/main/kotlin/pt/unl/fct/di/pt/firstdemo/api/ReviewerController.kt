@@ -5,25 +5,23 @@ import pt.unl.fct.di.pt.firstdemo.services.ReviewerDAO
 import pt.unl.fct.di.pt.firstdemo.services.ReviewerService
 
 @RestController
-class ReviewerController(val reviewers: ReviewerService): ReviewerAPI {
+class ReviewerController(val revs: ReviewerService): ReviewerAPI {
 
-    override fun getAll() = reviewers.getAll().map { UserDTO(it) }
+    override fun getAll() = revs.getAll().map { UserDTO(it) }
 
-    override fun getOne(reviewerNr:Long) = UserDTO(reviewers.getOne(reviewerNr))
+    override fun getOne(id:Long) = UserDTO(revs.getOne(id))
 
-    override fun addReviewer(reviewer: UserDTO) = reviewers.addReviewer(ReviewerDAO(reviewer))
+    override fun deleteReviewer(id: Long) = revs.deleteReviewer(revs.getOne(id))
 
-    override fun deleteReviewer(reviewerNr: Long) = reviewers.deleteReviewer(reviewerNr)
-
-    override fun editReviewer(reviewerNr: Long, reviewer: UserDTO) = reviewers.updateReviewer(reviewerNr, ReviewerDAO(reviewer))
+    override fun editReviewer(id: Long, reviewer: UserDTO) = revs.editReviewer(revs.getOne(id), ReviewerDAO(reviewer))
 
     /* panel handling */
-    override fun getPanels(reviewerNr: Long) = reviewers.getPanels(reviewerNr).map { PanelDTO(it) }
+    override fun getPanels(id: Long) = revs.getPanelsFromReviewer(revs.getOne(id)).map { PanelDTO(it) }
 
-    override fun getOnePanel(reviewerNr: Long, panelId:Long) = PanelDTO(reviewers.getOnePanel(reviewerNr, panelId))
+    override fun getOnePanel(id: Long, panelId:Long) = PanelDTO(revs.getOnePanel(revs.getOne(id), panelId))
 
     /* reviews handling */
-    override fun getReviews(reviewerNr: Long) = reviewers.getReviews(reviewerNr).map { ReviewDTO(it) }
+    override fun getReviews(id: Long) = revs.getReviewsFromReviewer(revs.getOne(id)).map { ReviewDTO(it) }
 
-    override fun getOneReview(reviewerNr: Long, reviewId:Long) = ReviewDTO(reviewers.getOneReview(reviewerNr, reviewId))
+    override fun getOneReview(id: Long, reviewId:Long) = ReviewDTO(revs.getOneReview(revs.getOne(id), reviewId))
 }

@@ -131,6 +131,7 @@ data class ReviewerDAO(
         var reviews: MutableSet<ReviewDAO>
 ) {
     constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
+    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address,  mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
     constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
 
     override fun toString(): String {
