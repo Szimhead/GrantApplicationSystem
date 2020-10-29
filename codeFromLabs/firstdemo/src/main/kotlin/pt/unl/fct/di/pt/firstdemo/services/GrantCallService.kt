@@ -7,7 +7,7 @@ import pt.unl.fct.di.pt.firstdemo.model.*
 import java.util.*
 
 @Service
-class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepository, val panels: PanelRepository, val reviewers: ReviewerRepository,val dataItems: DataItemRepository, val students: StudentRepository) {
+class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepository, val apps: ApplicationRepository, val panels: PanelRepository, val reviewers: ReviewerRepository,val dataItems: DataItemRepository, val students: StudentRepository) {
     fun getAll(): Iterable<GrantCallDAO> = calls.findAll()
 
     fun getAllOpen() = calls.findByOpenDateBeforeAndCloseDateAfter(Date(), Date())
@@ -21,6 +21,9 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         var panel = PanelDAO(call)
         call.panel = panel
 
+        call.sponsor.grantCalls.add(call)
+
+        sponsors.save(call.sponsor)
         calls.save(call)
     }
 
@@ -31,6 +34,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         editedCall.funding = newCall.funding
         editedCall.openDate = newCall.openDate
         editedCall.closeDate = newCall.closeDate
+        calls.save(editedCall)
     }
 
     @Transactional
@@ -46,8 +50,8 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
 
     @Transactional
     fun addApplication(app: ApplicationDAO) {
-        app.student.applications.add(app)
-        app.grantCall.applications.add(app)
+        //app.student.applications.add(app)
+        //app.grantCall.applications.add(app)
 
         apps.save(app)
     }
@@ -68,7 +72,7 @@ class GrantCallService(val calls: GrantCallRepository, val apps: ApplicationRepo
         val panel = call.panel
 
         if(panel == null)
-            throw NotFoundException("Application does not have a panel")
+            throw NotFoundException("Grant call does not have a panel")
         else return panel
     }
 

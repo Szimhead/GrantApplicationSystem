@@ -42,7 +42,8 @@ class SponsorService (val sponsors: SponsorRepository, val grantCalls: GrantCall
 
     @Transactional
     fun addGrantCall(sponsor: SponsorDAO, grantCall: GrantCallDAO) {
-        sponsor.grantCalls.add(grantCall)
+        var panel = PanelDAO(grantCall)
+        grantCall.panel = panel
         grantCalls.save(grantCall)
     }
 }

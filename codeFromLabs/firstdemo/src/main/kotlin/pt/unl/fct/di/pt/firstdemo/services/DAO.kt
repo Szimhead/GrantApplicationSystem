@@ -11,13 +11,13 @@ data class ApplicationDAO (
         var id: Long,
         var submissionDate: Date,
         var status: Int,
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         var grantCall: GrantCallDAO,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "application", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var reviews: MutableSet<ReviewDAO>,
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         var student: StudentDAO,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "application", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var answers: MutableSet<AnswerDAO>
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
@@ -65,7 +65,7 @@ data class StudentDAO(
         var name: String,
         var email: String,
         var address: String,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var applications: MutableSet<ApplicationDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
         var institution: InstitutionDAO,
@@ -122,13 +122,13 @@ data class ReviewerDAO(
         var name: String,
         var email: String,
         var address: String,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "chair", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panelsInCharge: MutableSet<PanelDAO>,
         @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panels: MutableSet<PanelDAO>,
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         var institution: InstitutionDAO,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "reviewer", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var reviews: MutableSet<ReviewDAO>
 ) {
     constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
@@ -316,7 +316,7 @@ data class CVDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "CV", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         val CVItems: MutableSet<CVItemDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var student: StudentDAO
@@ -353,7 +353,7 @@ data class CVRequirementDAO (
         var name: String,
         var dataType: String,
         var isMandatory: Boolean,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "CVRequirement", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var CVItems: MutableSet<CVItemDAO>
 ) {
     constructor() : this(0, "name", "data type", false,  mutableSetOf<CVItemDAO>())
@@ -371,7 +371,7 @@ data class DataItemDAO(
         var isMandatory: Boolean,
         @ManyToMany(mappedBy = "dataItems", fetch = FetchType.EAGER)
         var grantCalls: MutableSet<GrantCallDAO>,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "dataItem", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var answers: MutableSet<AnswerDAO>
 ) {
     constructor() : this(0, "name", "data type", false, mutableSetOf<GrantCallDAO>(), mutableSetOf<AnswerDAO>())
@@ -433,7 +433,7 @@ data class SponsorDAO(
         var id: Long,
         var name: String,
         var contact: String,
-        @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "sponsor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var grantCalls: MutableSet<GrantCallDAO>
 ) {
     constructor() : this(0, "name", "contact", mutableSetOf<GrantCallDAO>())
