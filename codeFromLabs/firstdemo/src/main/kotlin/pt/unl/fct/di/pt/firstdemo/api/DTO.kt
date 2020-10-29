@@ -48,3 +48,5 @@ data class CVItemDTO(val id: Long, val name: String, val value: String, val data
 data class CVDTO(val id: Long, val items: MutableSet<CVItemDTO>) {
     constructor(cv: CVDAO) : this(cv.id, cv.CVItems.map{CVItemDTO(it)}.toMutableSet())
 }
+
+data class UserPasswordDTO(val username:String, val password:String, val role: String)
