@@ -177,15 +177,20 @@ data class GrantCallDAO (
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panel: PanelDAO?,
         @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var dataItems: MutableSet<DataItemDAO>
+        var dataItems: MutableSet<DataItemDAO>,
+        @ManyToOne(fetch = FetchType.EAGER)
+        var sponsor: SponsorDAO
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>())
-    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>())
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), SponsorDAO())
+    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), SponsorDAO())
+    constructor(gc: GrantCallDTO, sponsor: SponsorDAO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), sponsor)
 
 
     override fun toString(): String {
+        val sponsorId = sponsor.id
+
         return "GrantCallDAO=(id: $id, title: $title, description: $description, funding: $funding, openDate: $openDate, closeDate: $closeDate, " +
-                "applications: $applications, panel: $panel, dataItems: $dataItems)"
+                "applications: $applications, panel: $panel, dataItems: $dataItems, sponsorId: $sponsorId)"
     }
 
     override fun hashCode(): Int {
@@ -204,6 +209,9 @@ data class GrantCallDAO (
         val g = this.dataItems == other.dataItems
         val h = true//this.openDate == other.openDate
         val i = true//this.closeDate == other.closeDate
+        val j = this.sponsor.id == other.sponsor.id &&
+                this.sponsor.name == other.sponsor.name &&
+                this.sponsor.contact == other.sponsor.contact
 
         return a && b && c && d && e && f && g && h && i
     }

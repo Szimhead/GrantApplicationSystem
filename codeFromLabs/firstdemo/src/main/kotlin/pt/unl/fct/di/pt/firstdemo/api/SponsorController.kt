@@ -14,14 +14,15 @@ class SponsorController(val sponsors: SponsorService): SponsorAPI {
 
     override fun addSponsor(sponsor: OrganizationDTO) = sponsors.addSponsor(SponsorDAO(sponsor))
 
-    override fun deleteSponsor(id:Long) = sponsors.deleteSponsor(id)
+    override fun deleteSponsor(id:Long) = sponsors.deleteSponsor(sponsors.getOne(id))
 
-    override fun editSponsor(id:Long,  sponsor: OrganizationDTO) = sponsors.editSponsor(id, SponsorDAO(sponsor))
-
+    override fun editSponsor(id:Long, sponsor: OrganizationDTO) = sponsors.editSponsor(sponsors.getOne(id), SponsorDAO(sponsor))
 
     /* grant call handling */
-    override fun getGrantCalls(id:Long) = sponsors.getGrantCalls(id).map { GrantCallDTO(it) }
+    override fun getGrantCalls(id:Long) = sponsors.getGrantCallsFromSponsor(sponsors.getOne(id)).map { GrantCallDTO(it) }
 
-    override fun addGrantCall(id: Long, grantCall: GrantCallDTO) = sponsors.addGrantCall(id, GrantCallDAO(grantCall))
-
+    override fun addGrantCall(id: Long, grantCall: GrantCallDTO) {
+        val sponsor = sponsors.getOne(id)
+        sponsors.addGrantCall(sponsor, GrantCallDAO(grantCall, sponsor))
+    }
 }

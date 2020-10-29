@@ -13,7 +13,7 @@ import javax.transaction.Transactional
 
 
 @Service
-class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCallRepository){
+class SponsorService (val sponsors: SponsorRepository, val grantCalls: GrantCallRepository){
     fun getAll() : Iterable<SponsorDAO> = sponsors.findAll()
 
     fun getOne(id:Long) : SponsorDAO = sponsors.findById(id).orElseThrow{
@@ -21,44 +21,28 @@ class SponsorService ( val sponsors: SponsorRepository, val grandCalls: GrantCal
     }
 
     fun addSponsor(sponsor: SponsorDAO)  {
-        sponsor.id=0
         sponsors.save(sponsor)
     }
 
-    fun deleteSponsor(id:Long) {
-        val sponsor = sponsors.findById(id).orElseThrow{
-            NotFoundException("Sponsor with $id not found")
-        }
+    fun deleteSponsor(sponsor: SponsorDAO) {
         sponsors.delete(sponsor);
     }
 
     @Transactional
-    fun editSponsor(id:Long, sponsor: SponsorDAO) {
-        val editedSponsor = sponsors.findById(id).orElseThrow{
-            NotFoundException("Sponsor with $id not found")
-        };
-        editedSponsor.contact=sponsor.contact
-        editedSponsor.name =sponsor.name
-
-        sponsors.save(editedSponsor)
+    fun editSponsor(editedSponsor: SponsorDAO, newSponsor: SponsorDAO) {
+        editedSponsor.contact = newSponsor.contact
+        editedSponsor.name = newSponsor.name
     }
-
 
     /* grant call handling */
     @Transactional
-    fun getGrantCalls(id:Long) : Iterable<GrantCallDAO> {
-        val sponsor = sponsors.findById(id).orElseThrow{
-            NotFoundException("Sponsor with $id not found")
-        }
+    fun getGrantCallsFromSponsor(sponsor: SponsorDAO) : Iterable<GrantCallDAO> {
         return sponsor.grantCalls
     }
 
     @Transactional
-    fun addGrantCall(id:Long, grantCall: GrantCallDAO) {
-        val sponsor = sponsors.findById(id).orElseThrow{
-            NotFoundException("Sponsor with $id not found")
-        }
-        grantCall.id=0
+    fun addGrantCall(sponsor: SponsorDAO, grantCall: GrantCallDAO) {
         sponsor.grantCalls.add(grantCall)
+        grantCalls.save(grantCall)
     }
 }
