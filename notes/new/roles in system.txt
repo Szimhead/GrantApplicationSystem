@@ -1,0 +1,7 @@
+roles in our system:
+- student
+- reviewer
+- panel chair
+- sponsor
+- admin(?)
+
