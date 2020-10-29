@@ -18,11 +18,13 @@ data class ApplicationDAO (
         @ManyToOne
         var student: StudentDAO,
         @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var answers: MutableSet<AnswerDAO>
+        var answers: MutableSet<AnswerDAO>,
+        @ManyToOne
+        var panel: PanelDAO
 ) {
-    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
+    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>(), PanelDAO())
+    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO, panel: PanelDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>(), panel)
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>(), PanelDAO())
 
     override fun toString(): String {
         val grantCallId = grantCall.id
@@ -450,11 +452,13 @@ data class PanelDAO(
         @ManyToMany(mappedBy = "panels", fetch = FetchType.EAGER)
         var reviewers: MutableSet<ReviewerDAO>,
         @OneToOne(fetch = FetchType.EAGER)
-        var grantCall: GrantCallDAO
+        var grantCall: GrantCallDAO,
+        @OneToMany //TODO EAGER or whatever? ---------------------------------------------------------
+        var applications: MutableSet<ApplicationDAO>
 ) {
-    constructor() : this(0, null, mutableSetOf<ReviewerDAO>(), GrantCallDAO())
-    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableSetOf<ReviewerDAO>(), GrantCallDAO())
-    constructor(gc: GrantCallDAO) : this(0,null, mutableSetOf(),gc)
+    constructor() : this(0, null, mutableSetOf<ReviewerDAO>(), GrantCallDAO(), mutableSetOf<ApplicationDAO>())
+    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableSetOf<ReviewerDAO>(), GrantCallDAO(), mutableSetOf<ApplicationDAO>())
+    constructor(gc: GrantCallDAO) : this(0,null, mutableSetOf(),gc, mutableSetOf<ApplicationDAO>())
 
 
     override fun toString(): String {
