@@ -21,7 +21,7 @@ class SecurityService(val applications: ApplicationRepository) {
         //and has a role Student
     }
 
-    fun canDeleteApplication(student: StudentDAO, applicationId: Long){
+    fun canDeleteApplication(student: StudentDAO, applicationId: Long): Boolean {
         return canEditApplication(student,applicationId)
         //and has a role Student
     }
@@ -36,7 +36,7 @@ class SecurityService(val applications: ApplicationRepository) {
     fun canGetApplication(reviewer: ReviewerDAO, applicationId: Long): Boolean {
         val application = applications.findById(applicationId)
 
-        return application !=null &&  reviewer.panels.contains(application.panel)
+        return reviewer.panels.contains(application.panel)
         //and has a role Student
     }
     //---------------
@@ -47,12 +47,12 @@ class SecurityService(val applications: ApplicationRepository) {
     }
 
     fun canGetGrantApplications(sponsor: SponsorDAO, call: GrantCallDAO): Boolean {
-        return call.sponsor.equals(sponsor)
+        return call.sponsor == sponsor
         //has a role sponsor
     }
 
-    fun canGetGrantApplications(reviewer: ReviewerDAO, call: GrantCallDAO): Boolean? {
-        return call.panel !=null && call.panel!!.reviewers !=null && call.panel?.reviewers?.contains(reviewer)!!
+    fun canGetGrantApplications(reviewer: ReviewerDAO, call: GrantCallDAO): Boolean {
+        return call.panel !=null && call.panel?.reviewers?.contains(reviewer)!!
         //has a role reviewer
     }
 
