@@ -1,7 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
 import javassist.NotFoundException
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
 
@@ -28,15 +27,17 @@ class SecurityService(val applications: ApplicationRepository) {
 
     //TODO------------
     //---------------- two methods or one with UserDAO, but it's more complicated - to be decided
-    fun canGetApplication( student: StudentDAO, applicationId: Long){
+    fun canGetApplication( student: StudentDAO, applicationId: Long): Boolean {
         return canEditApplication(student,applicationId)
         //and has a role Student
     }
 
     fun canGetApplication(reviewer: ReviewerDAO, applicationId: Long): Boolean {
-        val application = applications.findById(applicationId)
+        val application = applications.findById(applicationId).orElseThrow {
+            NotFoundException("chuj")
+        }
 
-        return reviewer.panels.contains(application.panel)
+        return reviewer.panels.contains(application.grantCall.panel) // ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! NAILED IT
         //and has a role Student
     }
     //---------------
@@ -55,7 +56,4 @@ class SecurityService(val applications: ApplicationRepository) {
         return call.panel !=null && call.panel?.reviewers?.contains(reviewer)!!
         //has a role reviewer
     }
-
-
-
 }
