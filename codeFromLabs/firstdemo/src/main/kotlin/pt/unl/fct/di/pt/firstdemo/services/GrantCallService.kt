@@ -77,8 +77,14 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     }
 
     @Transactional
-    fun addPanelChair(panel: PanelDAO, reviewer: ReviewerDAO){
+    fun setPanelChair(panel: PanelDAO, reviewer: ReviewerDAO){
         panel.chair = reviewer
+        panels.save(panel)
+    }
+
+    @Transactional
+    fun deletePanelChair(panel: PanelDAO){
+        panel.chair = null
         panels.save(panel)
     }
 

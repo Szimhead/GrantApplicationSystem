@@ -138,8 +138,30 @@ interface GrantCallAPI {
     ])
     @PostMapping("/{id}/panel/reviewers/{reviewerId}")
     fun addPanelChair(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to add a reviewer to", required = true)
-                           @PathVariable id: Long, @ApiParam(name = "reviewerId", type = "Long", value = "The id of the reviewer to add", required = true)
+                           @PathVariable id: Long, @ApiParam(name = "reviewerId", type = "Long", value = "The id of the reviewer to be set as panel chair", required = true)
                            @PathVariable reviewerId: Long)
+
+    @ApiOperation(value = "Edit panel chair in the panel assigned to a grant call with given id")
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully added reviewer."),
+        ApiResponse(code = 401, message = "Not authorized to add reviewer!"),
+        ApiResponse(code = 403, message = "Add reviewer forbidden.")
+    ])
+    @PutMapping("/{id}/panel/reviewers/{reviewerId}")
+    fun editPanelChair(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to add a reviewer to", required = true)
+                      @PathVariable id: Long, @ApiParam(name = "reviewerId", type = "Long", value = "The id of the new panel chair", required = true)
+                      @PathVariable reviewerId: Long)
+
+    @ApiOperation(value = "Remove panel chair from the panel assigned to a grant call with given id")
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Successfully removed reviewer."),
+        ApiResponse(code = 401, message = "Not authorized to remove reviewer!"),
+        ApiResponse(code = 403, message = "Remove reviewer forbidden."),
+        ApiResponse(code = 404, message = "Not found.")
+    ])
+    @DeleteMapping("/{id}/panel/")
+    fun deletePanelChair(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to delete a reviewer from", required = true)
+                                @PathVariable id: Long)
 
     @ApiOperation(value = "Add reviewer to the panel assigned to a grant call with given id")
     @ApiResponses(value = [

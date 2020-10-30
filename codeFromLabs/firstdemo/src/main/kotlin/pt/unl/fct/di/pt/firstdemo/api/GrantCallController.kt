@@ -33,8 +33,22 @@ class GrantCallController(
 
     override fun addPanelChair(id: Long, reviewerId: Long) {
         val reviewer = revs.getOne(reviewerId)
-        calls.addPanelChair(calls.getPanelFromGrantCall(calls.getOne(id)), reviewer)
+        calls.setPanelChair(calls.getPanelFromGrantCall(calls.getOne(id)), reviewer)
         users.changeRole(users.findUser(reviewer.email), "CHAIR")
+    }
+
+    override fun editPanelChair(id: Long, reviewerId: Long) {
+        val oldChair = calls.getPanelFromGrantCall(calls.getOne(id)).chair
+        val newChair = revs.getOne(reviewerId)
+        calls.setPanelChair(calls.getPanelFromGrantCall(calls.getOne(id)), newChair)
+        users.changeRole(users.findUser(newChair.email), "CHAIR")
+        if (oldChair!=null) users.changeRole(users.findUser(oldChair.email), "REVIEWER")
+    }
+
+    override fun deletePanelChair(id: Long) {
+        val reviewer = calls.getPanelFromGrantCall(calls.getOne(id)).chair
+        calls.deletePanelChair(calls.getPanelFromGrantCall(calls.getOne(id)))
+        if (reviewer!=null) users.changeRole(users.findUser(reviewer.email), "REVIEWER")
     }
 
     override fun getReviewers(id: Long) = calls.getReviewers(calls.getPanelFromGrantCall(calls.getOne(id))).map { UserDTO(it) }
