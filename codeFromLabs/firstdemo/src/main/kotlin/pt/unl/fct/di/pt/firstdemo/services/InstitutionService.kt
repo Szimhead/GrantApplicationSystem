@@ -35,31 +35,31 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
     }
 
     /* student handling */
-    fun getStudentsFromInstitution(institution: InstitutionDAO): MutableSet<StudentDAO> {
+    fun getStudentsFromInstitution(institution: InstitutionDAO): MutableSet<UserDAO.StudentDAO> {
         return institution.students
     }
 
     @Transactional
-    fun addStudentToInstitution(institution: InstitutionDAO, student: StudentDAO) {
+    fun addStudentToInstitution(institution: InstitutionDAO, student: UserDAO.StudentDAO) {
         //institution.students.add(student)
         studs.save(student)
     }
 
-    fun getStudentUser(student: StudentDAO) : UserDAO{
+    fun getStudentUser(student: UserDAO.StudentDAO) : UserDAO{
         return UserDAO(student.email,"password","STUDENT")
     }
 
     /* reviewer handling */
-    fun getReviewersFromInstitution(institution: InstitutionDAO): MutableSet<ReviewerDAO> {
+    fun getReviewersFromInstitution(institution: InstitutionDAO): MutableSet<UserDAO.ReviewerDAO> {
         return institution.reviewers
     }
 
-    fun addReviewer(institution: InstitutionDAO, reviewer: ReviewerDAO) {
+    fun addReviewer(institution: InstitutionDAO, reviewer: UserDAO.ReviewerDAO) {
         //reviewer.institution = institution
         revs.save(reviewer)
     }
 
-    fun getReviewerUser(reviewer: ReviewerDAO) : UserDAO{
+    fun getReviewerUser(reviewer: UserDAO.ReviewerDAO) : UserDAO{
         return UserDAO(reviewer.email,"password","REVIEWER")
     }
 }

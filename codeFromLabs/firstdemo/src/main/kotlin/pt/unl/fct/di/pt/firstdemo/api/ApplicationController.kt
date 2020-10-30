@@ -34,7 +34,7 @@ class ApplicationController(val apps: ApplicationService, val reviewers: Reviewe
         apps.editReview(app, apps.getOneReview(app, review.id), ReviewDAO(review))
     }
 
-    @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canAddReview(principal,#review.id) and (hasRole({'REVIEWER'}) or hasRole({'CHAIR'})))")
+    @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canAddReview(principal,#id) and (hasRole({'REVIEWER'}) or hasRole({'CHAIR'})))")
     override fun addReview(id:Long, review:ReviewDTO) {
         val app = apps.getOne(id)
         apps.addReview(app, ReviewDAO(review, app, reviewers.getOne(review.reviewerId)))

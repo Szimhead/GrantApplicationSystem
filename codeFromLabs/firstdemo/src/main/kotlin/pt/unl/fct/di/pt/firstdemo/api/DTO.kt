@@ -4,13 +4,13 @@ import pt.unl.fct.di.pt.firstdemo.services.*
 import java.util.Date
 
 data class UserDTO(val id: Long, val name: String, val email: String, val address: String) {
-    constructor(rev: ReviewerDAO) : this(rev.id, rev.name, rev.email, rev.address)
-    constructor(stud: StudentDAO) : this(stud.id, stud.name, stud.email, stud.address)
+    constructor(rev: UserDAO.ReviewerDAO) : this(rev.id, rev.name, rev.email, rev.address)
+    constructor(stud: UserDAO.StudentDAO) : this(stud.id, stud.name, stud.email, stud.address)
 }
 
 data class OrganizationDTO(val id: Long, val name: String, val contact: String) {
     constructor(inst: InstitutionDAO) : this(inst.id, inst.name, inst.contact)
-    constructor(spon: SponsorDAO) : this(spon.id, spon.name, spon.contact)
+    constructor(spon: UserDAO.SponsorDAO) : this(spon.id, spon.name, spon.contact)
 }
 
 data class GrantCallDTO(val id: Long, val title: String, val description: String, val funding: Double, val openDate: Date, val closeDate: Date) {

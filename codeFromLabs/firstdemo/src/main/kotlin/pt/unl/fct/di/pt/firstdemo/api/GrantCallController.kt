@@ -29,7 +29,7 @@ class GrantCallController(
     @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canDeleteGrantCall(principal,#id) and hasRole({'SPONSOR'}))")
     override fun deleteCall(id: Long) = calls.deleteCall(calls.getOne(id))
 
-    @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canGetGrantApplications(principal,#id) and hasRole({'SPONSOR'}))")
+    @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canGetGrantApplicationscanGetGrantApplications(principal,#id) and hasRole({'SPONSOR'}))")
     override fun getAllApplicationsFromGrantCall(id: Long): Set<ApplicationDTO> = calls.getCallApplications(calls.getOne(id)).map { ApplicationDTO(it) }.toSet()
 
     @PreAuthorize("hasRole({'ADMIN'}) or hasRole({'STUDENT'})")

@@ -10,23 +10,23 @@ import javax.transaction.Transactional
 
 @Service
 class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepository, val reviews: ReviewRepository, val users: UserRepository) {
-    fun getAll(): Iterable<ReviewerDAO> = reviewers.findAll()
+    fun getAll(): Iterable<UserDAO.ReviewerDAO> = reviewers.findAll()
 
-    fun getOne(id:Long): ReviewerDAO = reviewers.findById(id).orElseThrow{
+    fun getOne(id:Long): UserDAO.ReviewerDAO = reviewers.findById(id).orElseThrow{
         NotFoundException("Reviewer with $id not found")
     }
     
-    fun addReviewer(reviewer: ReviewerDAO) {
+    fun addReviewer(reviewer: UserDAO.ReviewerDAO) {
         reviewers.save(reviewer)
     }
 
-    fun deleteReviewer(reviewer: ReviewerDAO, user: UserDAO) {
+    fun deleteReviewer(reviewer: UserDAO.ReviewerDAO, user: UserDAO) {
         users.delete(user)
         reviewers.delete(reviewer)
     }
 
     @Transactional
-    fun editReviewer(editedRev: ReviewerDAO, newRev: ReviewerDAO) {
+    fun editReviewer(editedRev: UserDAO.ReviewerDAO, newRev: UserDAO.ReviewerDAO) {
         editedRev.address = newRev.address
         editedRev.institution = newRev.institution
         editedRev.name = newRev.name
@@ -35,12 +35,12 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
 
     /* panel handling */
     @Transactional
-    fun getPanelsFromReviewer(reviewer: ReviewerDAO): Iterable<PanelDAO> {
+    fun getPanelsFromReviewer(reviewer: UserDAO.ReviewerDAO): Iterable<PanelDAO> {
         return reviewer.panels
     }
 
     @Transactional
-    fun getOnePanel(reviewer: ReviewerDAO, panelId:Long) :PanelDAO{
+    fun getOnePanel(reviewer: UserDAO.ReviewerDAO, panelId:Long) :PanelDAO{
         val panel = panels.findById(panelId).orElseThrow{
             NotFoundException("Panel with $panelId not found")
         }
@@ -53,12 +53,12 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
 
     /* reviews handling */
     @Transactional
-    fun getReviewsFromReviewer(reviewer: ReviewerDAO): Iterable<ReviewDAO>  {
+    fun getReviewsFromReviewer(reviewer: UserDAO.ReviewerDAO): Iterable<ReviewDAO>  {
         return reviewer.reviews
     }
 
     @Transactional
-    fun getOneReview(reviewer: ReviewerDAO, reviewId:Long) : ReviewDAO {
+    fun getOneReview(reviewer: UserDAO.ReviewerDAO, reviewId:Long) : ReviewDAO {
         val review = reviews.findById(reviewId).orElseThrow{
             NotFoundException("Panel with $reviewId not found")
         }

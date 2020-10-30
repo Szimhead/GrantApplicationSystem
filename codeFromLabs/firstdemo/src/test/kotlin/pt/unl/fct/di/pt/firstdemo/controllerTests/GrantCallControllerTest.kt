@@ -23,6 +23,9 @@ import pt.unl.fct.di.pt.firstdemo.api.*
 import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.services.*
 import java.util.*
+import pt.unl.fct.di.pt.firstdemo.services.UserDAO.StudentDAO
+import pt.unl.fct.di.pt.firstdemo.services.UserDAO.SponsorDAO
+import pt.unl.fct.di.pt.firstdemo.services.UserDAO.ReviewerDAO
 import javax.xml.crypto.Data
 
 

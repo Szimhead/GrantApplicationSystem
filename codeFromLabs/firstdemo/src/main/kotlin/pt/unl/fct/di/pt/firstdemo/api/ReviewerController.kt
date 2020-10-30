@@ -1,8 +1,9 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.ReviewerDAO
+import pt.unl.fct.di.pt.firstdemo.services.UserDAO.ReviewerDAO
 import pt.unl.fct.di.pt.firstdemo.services.ReviewerService
+import pt.unl.fct.di.pt.firstdemo.services.UserDAO
 import pt.unl.fct.di.pt.firstdemo.services.UserService
 
 @RestController
@@ -17,7 +18,7 @@ class ReviewerController(val revs: ReviewerService, val users: UserService): Rev
         revs.deleteReviewer(reviewer, users.findUser(reviewer.email))
     }
 
-    override fun editReviewer(id: Long, reviewer: UserDTO) = revs.editReviewer(revs.getOne(id), ReviewerDAO(reviewer))
+    override fun editReviewer(id: Long, reviewer: UserDTO) = revs.editReviewer(revs.getOne(id), UserDAO.ReviewerDAO(reviewer))
 
     /* panel handling */
     override fun getPanels(id: Long) = revs.getPanelsFromReviewer(revs.getOne(id)).map { PanelDTO(it) }

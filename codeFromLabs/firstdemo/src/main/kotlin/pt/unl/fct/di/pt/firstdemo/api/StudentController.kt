@@ -15,7 +15,7 @@ class StudentController(val studs: StudentService, val gc: GrantCallService, val
         studs.deleteStudent(student, users.findUser(student.email))
     }
 
-    override fun editStudent(id:Long, student: UserDTO) = studs.editStudent(studs.getOne(id), StudentDAO(student))
+    override fun editStudent(id:Long, student: UserDTO) = studs.editStudent(studs.getOne(id), UserDAO.StudentDAO(student))
 
     override fun getApplications(id: Long) = studs.getApplicationsFromStudent(studs.getOne(id)).map { ApplicationDTO(it) }.toMutableSet()
 

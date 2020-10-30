@@ -21,8 +21,8 @@ class InstitutionController(val inst: InstitutionService, val users: UserService
 
     override fun addStudent(id: Long, student: UserDTO) {
         val institution = inst.getOne(id)
-        inst.addStudentToInstitution(institution, StudentDAO(student, institution))
-        users.addUser(inst.getStudentUser(StudentDAO(student, institution)))
+        inst.addStudentToInstitution(institution, UserDAO.StudentDAO(student, institution))
+        users.addUser(inst.getStudentUser(UserDAO.StudentDAO(student, institution)))
     }
 
     /* reviewer handling */
@@ -30,8 +30,8 @@ class InstitutionController(val inst: InstitutionService, val users: UserService
 
     override fun addReviewer(id: Long, reviewer: UserDTO) {
         val institution = inst.getOne(id)
-        inst.addReviewer(institution, ReviewerDAO(reviewer, institution))
-        users.addUser(inst.getReviewerUser(ReviewerDAO(reviewer, institution)))
+        inst.addReviewer(institution, UserDAO.ReviewerDAO(reviewer, institution))
+        users.addUser(inst.getReviewerUser(UserDAO.ReviewerDAO(reviewer, institution)))
     }
 
 }
