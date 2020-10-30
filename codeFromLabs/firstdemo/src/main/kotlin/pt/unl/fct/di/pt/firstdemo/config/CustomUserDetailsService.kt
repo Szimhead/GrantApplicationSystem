@@ -1,5 +1,5 @@
 package pt.unl.fct.di.pt.firstdemo.config
-/*
+
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -48,4 +48,4 @@ class CustomUserDetails (
             }
             throw UsernameNotFoundException(username)
         }
-}*/
+}

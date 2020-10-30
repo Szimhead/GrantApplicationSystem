@@ -1,6 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.config
 
-/*
+
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -40,4 +40,4 @@ class WebSecurityConfig(val customUserDetails:CustomUserDetailsService) : WebSec
                 .userDetailsService(customUserDetails)
                 .passwordEncoder(BCryptPasswordEncoder())
     }
-} */
+}
