@@ -18,7 +18,7 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
 
     @Transactional
     fun addCall(call: GrantCallDAO) {
-        var panel = PanelDAO(call)
+        val panel = PanelDAO(call)
         call.panel = panel
 
         call.sponsor.grantCalls.add(call)
@@ -120,14 +120,6 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     fun deleteDataItem(call: GrantCallDAO, dataItem: DataItemDAO) {
         call.dataItems.remove(dataItem)
         calls.save(call)
-    }
-
-    @Transactional
-    fun editDataItem(call: GrantCallDAO, editedDataItem: DataItemDAO, newDataItem: DataItemDAO) {
-        editedDataItem.name = newDataItem.name
-        editedDataItem.dataType = newDataItem.dataType
-        editedDataItem.isMandatory = newDataItem.isMandatory
-        dataItems.save(editedDataItem)
     }
 
 

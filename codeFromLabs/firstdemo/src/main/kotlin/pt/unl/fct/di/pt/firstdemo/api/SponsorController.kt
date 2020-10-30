@@ -21,8 +21,4 @@ class SponsorController(val sponsors: SponsorService): SponsorAPI {
     /* grant call handling */
     override fun getGrantCalls(id:Long) = sponsors.getGrantCallsFromSponsor(sponsors.getOne(id)).map { GrantCallDTO(it) }
 
-    override fun addGrantCall(id: Long, grantCall: GrantCallDTO) {
-        val sponsor = sponsors.getOne(id)
-        sponsors.addGrantCall(sponsor, GrantCallDAO(grantCall, sponsor))
-    }
 }

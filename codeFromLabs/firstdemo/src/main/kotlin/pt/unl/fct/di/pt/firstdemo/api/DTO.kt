@@ -13,8 +13,8 @@ data class OrganizationDTO(val id: Long, val name: String, val contact: String) 
     constructor(spon: SponsorDAO) : this(spon.id, spon.name, spon.contact)
 }
 
-data class GrantCallDTO(val id: Long, val title: String, val description: String, val funding: Double, val openDate: Date, val closeDate: Date) {
-    constructor(gc: GrantCallDAO) : this(gc.id, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate)
+data class GrantCallDTO(val id: Long, val title: String, val description: String, val funding: Double, val openDate: Date, val closeDate: Date, val sponsorId: Long) {
+    constructor(gc: GrantCallDAO) : this(gc.id, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, gc.sponsor.id)
 }
 
 data class ApplicationDTO(val id: Long, val submissionDate: Date, val status:Int, var studentId:Long) {

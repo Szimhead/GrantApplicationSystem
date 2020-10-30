@@ -74,16 +74,4 @@ interface SponsorAPI {
     fun getGrantCalls(@ApiParam(name = "id", type = "Long", value = "The id of the sponsor to get all grant calls from", required = true)
                       @PathVariable id:Long): List<GrantCallDTO>
 
-    @ApiOperation(value = "Add a grant call with title to the sponsor with the given id")
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully added grant call to sponsor."),
-        ApiResponse(code = 401, message = "Not authorized to add grant call to sponsor!"),
-        ApiResponse(code = 403, message = "Add grant call to sponsor forbidden."),
-        ApiResponse(code = 404, message = "Not found.")
-    ])
-    @PostMapping("/{id}/grantcalls/{title}")
-    fun addGrantCall(@ApiParam(name = "id", type = "Long", value = "The id of the sponsor to add the grant call to", required = true)
-                     @PathVariable id:Long,
-                     @RequestBody grantCall: GrantCallDTO)
-
 }

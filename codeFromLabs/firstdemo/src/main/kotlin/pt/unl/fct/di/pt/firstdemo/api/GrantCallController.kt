@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*
 import pt.unl.fct.di.pt.firstdemo.services.*
 
 @RestController
-class GrantCallController(val calls:GrantCallService, val studs: StudentService, val revs: ReviewerService, val apps: ApplicationService): GrantCallAPI {
+class GrantCallController(val calls:GrantCallService, val studs: StudentService, val revs: ReviewerService, val apps: ApplicationService, val spons: SponsorService): GrantCallAPI {
 
     override fun getAll(): Set<GrantCallDTO> = calls.getAll().map { GrantCallDTO(it) }.toSet()
 
@@ -12,7 +12,7 @@ class GrantCallController(val calls:GrantCallService, val studs: StudentService,
 
     override fun getOne(id: Long) = GrantCallDTO(calls.getOne(id))
 
-    //override fun addCall(call: GrantCallDTO) = calls.addCall(GrantCallDAO(call))
+    override fun addCall(call: GrantCallDTO) = calls.addCall(GrantCallDAO(call, spons.getOne(call.sponsorId)))
 
     override fun editCall(id: Long, call: GrantCallDTO) = calls.editCall(calls.getOne(id), GrantCallDAO(call))
 
