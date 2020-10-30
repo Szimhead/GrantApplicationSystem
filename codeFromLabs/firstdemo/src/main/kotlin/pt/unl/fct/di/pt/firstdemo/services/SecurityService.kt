@@ -6,7 +6,7 @@ import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
 import pt.unl.fct.di.pt.firstdemo.model.GrantCallRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 
-@Component
+@Component("SecurityService")
 class SecurityService(val applications: ApplicationRepository, val reviews: ReviewRepository, val calls: GrantCallRepository) {
 
     //Application Security
@@ -15,8 +15,7 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
     }
 
     fun canEditApplication( student: StudentDAO, applicationId: Long): Boolean {
-        val application = applications.findById(applicationId).orElse(ApplicationDAO())
-        //TODO - this should not throw any exception, but otherwise function contains() can't be called
+        val application = applications.findById(applicationId).orElse(null)
         return application!=null && student.applications.contains(application)
         //and has a role Student
     }
@@ -31,12 +30,12 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
     fun canGetApplication( student: StudentDAO, applicationId: Long): Boolean {
         return canEditApplication(student,applicationId)
         //and has a role Student
-    }
+    }//student, reviewer, chair, sponsor
 
     fun canGetApplication(reviewer: ReviewerDAO, applicationId: Long): Boolean {
-        val application = applications.findById(applicationId).orElse(ApplicationDAO())
+        val application = applications.findById(applicationId).orElse(null)
 
-        return reviewer.panels.contains(application.grantCall.panel) // ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! NAILED IT
+        return application != null && reviewer.panels.contains(application.grantCall.panel)
         //and has a role Student
     }
     //---------------
@@ -84,6 +83,11 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
         }
         return student.applications.contains(review.application)
         //and has role Reviewer
+    }
+
+    fun canGetReviewsFromApplication(reviewer: ReviewerDAO, applicationId: Long):Boolean{
+        val application = applications.findById(applicationId).orElse(null)
+        return application != null && reviewer == application.grantCall.panel?.chair
     }
 
     //GrantCall Security
