@@ -1,7 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.model.DataItemRepository
 import pt.unl.fct.di.pt.firstdemo.services.*
 
 @RestController
@@ -15,7 +14,7 @@ class ApplicationController(val apps: ApplicationService, val reviewers: Reviewe
 
     override fun getAllReviewsFromApplication(id:Long) = apps.getAllReviewsFromApplication(apps.getOne(id)).map { ReviewDTO(it) }
 
-    override fun getOneReview(id:Long, review_id:Long) = ReviewDTO(apps.getOneReview(apps.getOne(id), review_id))
+    override fun getOneReview(id:Long, reviewId:Long) = ReviewDTO(apps.getOneReview(apps.getOne(id), reviewId))
 
     override fun deleteReview(id:Long, reviewId: Long)  {
         val app = apps.getOne(id)

@@ -12,4 +12,8 @@ class DataItemService(val dataItems: DataItemRepository) {
         NotFoundException("Data Item with id $id not found")
     }
 
+    fun addDataItem(dataItem: DataItemDAO) {
+        dataItems.save(dataItem)
+    }
+
 }

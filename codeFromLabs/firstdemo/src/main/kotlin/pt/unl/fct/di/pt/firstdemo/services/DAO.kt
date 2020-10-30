@@ -21,7 +21,7 @@ data class ApplicationDAO (
         var answers: MutableSet<AnswerDAO>
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO, panel: PanelDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
     constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
@@ -214,7 +214,7 @@ data class GrantCallDAO (
                 this.sponsor.name == other.sponsor.name &&
                 this.sponsor.contact == other.sponsor.contact
 
-        return a && b && c && d && e && f && g && h && i
+        return a && b && c && d && e && f && g && h && i && j
     }
 }
 

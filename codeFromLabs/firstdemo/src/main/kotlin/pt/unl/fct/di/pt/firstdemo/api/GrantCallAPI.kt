@@ -200,16 +200,4 @@ interface GrantCallAPI {
                        @PathVariable id: Long, @ApiParam(name = "dataItemId", type = "Long", value = "The id of the data item being deleted", required = true)
                        @PathVariable dataItemId: Long)
 
-    @ApiOperation(value = "Edit data item from grant call with a given id")
-    @ApiResponses(value = [
-        ApiResponse(code = 200, message = "Successfully edited data item from grant call."),
-        ApiResponse(code = 401, message = "Not authorized to edit data item from grant call!"),
-        ApiResponse(code = 403, message = "Edit data item from grant call forbidden."),
-        ApiResponse(code = 404, message = "Not found.")
-    ])
-    @PutMapping("/{id}/dataitems/{dataItemId}")
-    fun editDataItem(@ApiParam(name = "id", type = "Long", value = "The id of the grant call to edit the data item from", required = true)
-                     @PathVariable id: Long, @ApiParam(name = "dataItemId", type = "Long", value = "The id of the data item being edited", required = true)
-                     @PathVariable dataItemId: Long, @RequestBody dataItem: DataItemDTO)
-
 }

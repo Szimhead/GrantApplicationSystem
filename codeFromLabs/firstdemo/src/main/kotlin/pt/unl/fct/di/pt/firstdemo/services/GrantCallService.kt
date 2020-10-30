@@ -84,16 +84,14 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     @Transactional
     fun addReviewerToPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
         reviewer.panels.add(panel)
-        panel.reviewers.add(reviewer)
+        //panel.reviewers.add(reviewer)
         reviewers.save(reviewer)
     }
 
     @Transactional
     fun deleteReviewerFromPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
         panel.reviewers.remove(reviewer)
-        reviewer.panels.remove(panel)
-
-        reviewers.save(reviewer)
+        panels.save(panel)
     }
 
     /* Data item handling */
@@ -112,13 +110,13 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     @Transactional
     fun addDataItem(call: GrantCallDAO, dataItem: DataItemDAO) {
         call.dataItems.add(dataItem)
-        dataItems.save(dataItem)
+        calls.save(call)
     }
 
     @Transactional
     fun deleteDataItem(call: GrantCallDAO, dataItem: DataItemDAO) {
         call.dataItems.remove(dataItem)
-        dataItems.delete(dataItem)
+        calls.save(call)
     }
 
     @Transactional

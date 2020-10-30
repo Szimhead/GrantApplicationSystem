@@ -10,6 +10,7 @@ import pt.unl.fct.di.pt.firstdemo.services.SponsorService
 import pt.unl.fct.di.pt.firstdemo.services.StudentService
 import pt.unl.fct.di.pt.firstdemo.services.UserService
 
+/*
 class CustomUserDetails (
     private val aUsername:String,
     private val aPassword:String,
@@ -47,4 +48,4 @@ class CustomUserDetails (
             }
             throw UsernameNotFoundException(username)
         }
-}
+}*/
