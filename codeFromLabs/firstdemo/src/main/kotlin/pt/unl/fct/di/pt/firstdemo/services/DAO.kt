@@ -115,7 +115,7 @@ data class StudentDAO(
 }
 
 @Entity
-data class ReviewerDAO(
+data class ReviewerDAO (
         @Id
         @GeneratedValue
         var id: Long,
