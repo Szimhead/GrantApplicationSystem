@@ -3,10 +3,11 @@ package pt.unl.fct.di.pt.firstdemo.services
 import javassist.NotFoundException
 import org.springframework.stereotype.Component
 import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
+import pt.unl.fct.di.pt.firstdemo.model.GrantCallRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 
 @Component
-class SecurityService(val applications: ApplicationRepository, val reviews: ReviewRepository) {
+class SecurityService(val applications: ApplicationRepository, val reviews: ReviewRepository, val calls: GrantCallRepository) {
 
     //Application Security
     fun canAddApplication(user: UserDAO){
@@ -96,24 +97,28 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
         // has role Sponsor
     }
 
-    fun canEditGrantCall() {
+    fun canEditGrantCall(sponsor: SponsorDAO, callId: Long): Boolean {
+        val call = calls.findById(callId).orElseThrow {
+            NotFoundException("chuj")
+        }
+        return sponsor.grantCalls.contains(call)
         // has role Sponsor
     }
 
-    fun canDeleteGrantCall(){
-
+    fun canDeleteGrantCall(sponsor: SponsorDAO, callId: Long): Boolean {
+        return canEditGrantCall(sponsor,callId)
     }
 
-    fun canGetGrantCallSp(){
-
+    fun canGetGrantCallSp(sponsor: SponsorDAO, callId: Long): Boolean {
+        return canEditGrantCall(sponsor,callId)
     }//sponsor
 
     fun canGetGrantCallSt(){
-
+        //has role Student
     }//student
 
     fun canGetGrantCallRv(){
-
+        //has role Reviewer
     }//reviewer
 
 }
