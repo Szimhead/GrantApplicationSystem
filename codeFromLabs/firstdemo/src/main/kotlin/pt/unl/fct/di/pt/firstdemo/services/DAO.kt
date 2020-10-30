@@ -16,13 +16,13 @@ data class ApplicationDAO (
         @OneToMany(mappedBy = "application", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var reviews: MutableSet<ReviewDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
-        var student: StudentDAO,
+        var student: UserDAO.StudentDAO,
         @OneToMany(mappedBy = "application", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var answers: MutableSet<AnswerDAO>
 ) {
-    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
+    constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), UserDAO.StudentDAO(), mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: UserDAO.StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), UserDAO.StudentDAO(), mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
         val grantCallId = grantCall.id
@@ -57,109 +57,139 @@ data class ApplicationDAO (
     }
 }
 
+
+
+
+
+
+
 @Entity
-data class StudentDAO(
+open class UserDAO(
         @Id
-        @GeneratedValue
-        var id: Long,
-        var name: String,
-        var email: String,
-        var address: String,
-        @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var applications: MutableSet<ApplicationDAO>,
-        @ManyToOne(fetch = FetchType.EAGER)
-        var institution: InstitutionDAO,
-        @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var cv: CVDAO?
-) {
-    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
-    constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(),null)
-    constructor(stud: UserDTO, inst: InstitutionDAO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), inst, null)
+        val username: String = "",
+        var password: String = "",
+        var role: String = "") {
+    constructor(user: UserPasswordDTO) : this(user.username, user.password, user.role)
 
-    override fun toString(): String {
-        var apps = "["
-        var first = true
-        for(app in applications) {
-            if(!first)
-                apps += ", "
-            apps += app.id
 
-            first = false
+    @Entity
+    data class StudentDAO(
+            @Id
+            @GeneratedValue
+            var id: Long,
+            var name: String,
+            var email: String,
+            var address: String,
+            @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+            var applications: MutableSet<ApplicationDAO>,
+            @ManyToOne(fetch = FetchType.EAGER)
+            var institution: InstitutionDAO,
+            @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+            var cv: CVDAO?
+    ) : UserDAO() {
+        constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+        constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+        constructor(stud: UserDTO, inst: InstitutionDAO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), inst, null)
+
+        override fun toString(): String {
+            var apps = "["
+            var first = true
+            for (app in applications) {
+                if (!first)
+                    apps += ", "
+                apps += app.id
+
+                first = false
+            }
+            apps += "]"
+
+            val institutionId = institution.id
+
+            return "UserDAO.StudentDAO=(id: $id, name: $name, email: $email, address: $address, applications: $apps, institution: $institutionId, cv: $cv)"
         }
-        apps += "]"
 
-        val institutionId = institution.id
+        override fun hashCode(): Int {
+            return id.hashCode()
+        }
 
-        return "StudentDAO=(id: $id, name: $name, email: $email, address: $address, applications: $apps, institution: $institutionId, cv: $cv)"
+        override fun equals(other: Any?): Boolean {
+            if (other == null || other !is StudentDAO) return false
+
+            val a = this.id == other.id
+            val b = this.name == other.name
+            val c = this.address == other.address
+            val d = this.applications == other.applications
+            val e = this.institution.id == other.institution.id &&
+                    this.institution.name == other.institution.name &&
+                    this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
+            val f = this.cv == other.cv
+            val g = this.email == other.email
+
+            return a && b && c && d && e && f && g
+        }
     }
 
-    override fun hashCode(): Int {
-        return id.hashCode()
+    @Entity
+    data class ReviewerDAO(
+            @Id
+            @GeneratedValue
+            var id: Long,
+            var name: String,
+            var email: String,
+            var address: String,
+            @OneToMany(mappedBy = "chair", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+            var panelsInCharge: MutableSet<PanelDAO>,
+            @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+            var panels: MutableSet<PanelDAO>,
+            @ManyToOne(fetch = FetchType.EAGER)
+            var institution: InstitutionDAO,
+            @OneToMany(mappedBy = "reviewer", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+            var reviews: MutableSet<ReviewDAO>
+    ) :UserDAO(){
+        constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), InstitutionDAO(), mutableSetOf<ReviewDAO>())
+        constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), InstitutionDAO(), mutableSetOf<ReviewDAO>())
+        constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
+
+        override fun toString(): String {
+            val institutionId = institution.id
+
+            return "UserDAO.ReviewerDAO=(id: $id, name: $name, email: $email, address: $address, panelsInCharge: $panelsInCharge, panels: $panels, institutionId: $institutionId, " +
+                    "reviews: $reviews)"
+        }
+
+        override fun hashCode(): Int {
+            return id.hashCode()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (other == null || other !is ReviewerDAO) return false
+
+            val a = this.id == other.id
+            val b = this.name == other.name
+            val c = this.address == other.address
+            val d = this.panelsInCharge == other.panelsInCharge
+            val e = this.institution.id == other.institution.id &&
+                    this.institution.name == other.institution.name &&
+                    this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
+            val f = this.reviews == other.reviews
+            val g = this.panels == other.panels
+
+            return a && b && c && d && e && f && g
+        }
     }
 
-    override fun equals(other: Any?): Boolean {
-        if(other == null || other !is StudentDAO) return false
-
-        val a = this.id == other.id
-        val b = this.name == other.name
-        val c = this.address == other.address
-        val d = this.applications == other.applications
-        val e = this.institution.id == other.institution.id &&
-                this.institution.name == other.institution.name &&
-                this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
-        val f = this.cv == other.cv
-        val g = this.email == other.email
-
-        return a && b && c && d && e && f && g
-    }
-}
-
-@Entity
-data class ReviewerDAO(
-        @Id
-        @GeneratedValue
-        var id: Long,
-        var name: String,
-        var email: String,
-        var address: String,
-        @OneToMany(mappedBy = "chair", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var panelsInCharge: MutableSet<PanelDAO>,
-        @ManyToMany(fetch = FetchType.EAGER)
-        var panels: MutableSet<PanelDAO>,
-        @ManyToOne(fetch = FetchType.EAGER)
-        var institution: InstitutionDAO,
-        @OneToMany(mappedBy = "reviewer", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var reviews: MutableSet<ReviewDAO>
-) {
-    constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
-    constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address,  mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(),InstitutionDAO(), mutableSetOf<ReviewDAO>())
-    constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
-
-    override fun toString(): String {
-        val institutionId = institution.id
-
-        return "ReviewerDAO=(id: $id, name: $name, email: $email, address: $address, panelsInCharge: $panelsInCharge, panels: $panels, institutionId: $institutionId, " +
-                "reviews: $reviews)"
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if(other == null || other !is ReviewerDAO) return false
-
-        val a = this.id == other.id
-        val b = this.name == other.name
-        val c = this.address == other.address
-        val d = this.panelsInCharge == other.panelsInCharge
-        val e = this.institution.id == other.institution.id &&
-                this.institution.name == other.institution.name &&
-                this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
-        val f = this.reviews == other.reviews
-        val g = this.panels == other.panels
-
-        return a && b && c && d && e && f && g
+    @Entity
+    data class SponsorDAO(
+            @Id
+            @GeneratedValue
+            var id: Long,
+            val name: String,
+            var contact: String,
+            @OneToMany(mappedBy = "sponsor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+            var grantCalls: MutableSet<GrantCallDAO>
+    ):UserDAO() {
+        constructor() : this(0, "name", "contact", mutableSetOf<GrantCallDAO>())
+        constructor(sponsor: OrganizationDTO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableSetOf<GrantCallDAO>())
     }
 }
 
@@ -180,11 +210,11 @@ data class GrantCallDAO (
         @ManyToMany(fetch = FetchType.EAGER)
         var dataItems: MutableSet<DataItemDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
-        var sponsor: SponsorDAO
+        var sponsor: UserDAO.SponsorDAO
 ) {
-    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), SponsorDAO())
-    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), SponsorDAO())
-    constructor(gc: GrantCallDTO, sponsor: SponsorDAO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), sponsor)
+    constructor() : this(0, "title", "description", 0.00, Date(), Date(), mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), UserDAO.SponsorDAO())
+    constructor(gc: GrantCallDTO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), UserDAO.SponsorDAO())
+    constructor(gc: GrantCallDTO, sponsor: UserDAO.SponsorDAO) : this(0, gc.title, gc.description, gc.funding, gc.openDate, gc.closeDate, mutableSetOf<ApplicationDAO>(), null, mutableSetOf<DataItemDAO>(), sponsor)
 
 
     override fun toString(): String {
@@ -319,10 +349,10 @@ data class CVDAO(
         @OneToMany(mappedBy = "CV", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         val CVItems: MutableSet<CVItemDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var student: StudentDAO
+        var student: UserDAO.StudentDAO
 ) {
-    constructor() : this(0, mutableSetOf<CVItemDAO>(), StudentDAO())
-    constructor(stud: StudentDAO) : this(0, mutableSetOf(), stud)
+    constructor() : this(0, mutableSetOf<CVItemDAO>(), UserDAO.StudentDAO())
+    constructor(stud: UserDAO.StudentDAO) : this(0, mutableSetOf(), stud)
 
     override fun toString(): String {
         val studentId = student.id
@@ -417,27 +447,13 @@ data class InstitutionDAO(
         var name: String,
         var contact: String,
         @OneToMany(mappedBy = "institution", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var students: MutableSet<StudentDAO>,
+        var students: MutableSet<UserDAO.StudentDAO>,
         @OneToMany(mappedBy = "institution", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var reviewers: MutableSet<ReviewerDAO>
+        var reviewers: MutableSet<UserDAO.ReviewerDAO>
 ) {
-    constructor() : this(0, "name", "contact", mutableSetOf<StudentDAO>(), mutableSetOf<ReviewerDAO>())
-    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableSetOf<StudentDAO>(), mutableSetOf<ReviewerDAO>())
+    constructor() : this(0, "name", "contact", mutableSetOf<UserDAO.StudentDAO>(), mutableSetOf<UserDAO.ReviewerDAO>())
+    constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableSetOf<UserDAO.StudentDAO>(), mutableSetOf<UserDAO.ReviewerDAO>())
     //no overrides needed
-}
-
-@Entity
-data class SponsorDAO(
-        @Id
-        @GeneratedValue
-        var id: Long,
-        var name: String,
-        var contact: String,
-        @OneToMany(mappedBy = "sponsor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-        var grantCalls: MutableSet<GrantCallDAO>
-) {
-    constructor() : this(0, "name", "contact", mutableSetOf<GrantCallDAO>())
-    constructor(sponsor: OrganizationDTO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableSetOf<GrantCallDAO>())
 }
 
 @Entity
@@ -446,14 +462,14 @@ data class PanelDAO(
         @GeneratedValue
         var id: Long,
         @ManyToOne
-        var chair: ReviewerDAO?,
+        var chair: UserDAO.ReviewerDAO?,
         @ManyToMany(mappedBy = "panels", fetch = FetchType.EAGER)
-        var reviewers: MutableSet<ReviewerDAO>,
+        var reviewers: MutableSet<UserDAO.ReviewerDAO>,
         @OneToOne(fetch = FetchType.EAGER)
         var grantCall: GrantCallDAO
 ) {
-    constructor() : this(0, null, mutableSetOf<ReviewerDAO>(), GrantCallDAO())
-    constructor(panel: PanelDTO) : this(panel.id, ReviewerDAO(), mutableSetOf<ReviewerDAO>(), GrantCallDAO())
+    constructor() : this(0, null, mutableSetOf<UserDAO.ReviewerDAO>(), GrantCallDAO())
+    constructor(panel: PanelDTO) : this(panel.id, UserDAO.ReviewerDAO(), mutableSetOf<UserDAO.ReviewerDAO>(), GrantCallDAO())
     constructor(gc: GrantCallDAO) : this(0,null, mutableSetOf(), gc)
 
 
@@ -497,11 +513,11 @@ data class ReviewDAO(
         @ManyToOne
         var application: ApplicationDAO,
         @ManyToOne
-        var reviewer: ReviewerDAO
+        var reviewer: UserDAO.ReviewerDAO
 ) {
-    constructor() : this(0, false, "comment", ApplicationDAO(), ReviewerDAO())
-    constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), ReviewerDAO())
-    constructor(review: ReviewDTO, app: ApplicationDAO, reviewer: ReviewerDAO) : this(review.id, review.isAccepted, review.comment, app, reviewer)
+    constructor() : this(0, false, "comment", ApplicationDAO(), UserDAO.ReviewerDAO())
+    constructor(review: ReviewDTO) : this(review.id, review.isAccepted, review.comment, ApplicationDAO(), UserDAO.ReviewerDAO())
+    constructor(review: ReviewDTO, app: ApplicationDAO, reviewer: UserDAO.ReviewerDAO) : this(review.id, review.isAccepted, review.comment, app, reviewer)
 
     override fun toString(): String {
         val applicationId = application.id
@@ -531,16 +547,3 @@ data class ReviewDAO(
     }
 }
 
-@Entity
-    data class UserDAO(
-            @Id
-            val username: String = "",
-            var password: String = "",
-            var role: String)
-    {
-        constructor(user:UserPasswordDTO) : this(user.username, user.password, user.role)
-        constructor() : this("","","") {
-
-        }
-
-}

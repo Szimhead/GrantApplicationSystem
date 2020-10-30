@@ -1,13 +1,10 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.InstitutionDAO
-import pt.unl.fct.di.pt.firstdemo.services.InstitutionService
-import pt.unl.fct.di.pt.firstdemo.services.ReviewerDAO
-import pt.unl.fct.di.pt.firstdemo.services.StudentDAO
+import pt.unl.fct.di.pt.firstdemo.services.*
 
 @RestController
-class InstitutionController(val inst: InstitutionService): InstitutionAPI {
+class InstitutionController(val inst: InstitutionService, val users: UserService): InstitutionAPI {
 
     override fun getAll() = inst.getAll().map { OrganizationDTO(it) }
 
@@ -24,7 +21,8 @@ class InstitutionController(val inst: InstitutionService): InstitutionAPI {
 
     override fun addStudent(id: Long, student: UserDTO) {
         val institution = inst.getOne(id)
-        inst.addStudentToInstitution(institution, StudentDAO(student, institution))
+        inst.addStudentToInstitution(institution, UserDAO.StudentDAO(student, institution))
+        users.addUser(inst.getStudentUser(UserDAO.StudentDAO(student, institution)))
     }
 
     /* reviewer handling */
@@ -32,7 +30,8 @@ class InstitutionController(val inst: InstitutionService): InstitutionAPI {
 
     override fun addReviewer(id: Long, reviewer: UserDTO) {
         val institution = inst.getOne(id)
-        inst.addReviewer(institution, ReviewerDAO(reviewer, institution))
+        inst.addReviewer(institution, UserDAO.ReviewerDAO(reviewer, institution))
+        users.addUser(inst.getReviewerUser(UserDAO.ReviewerDAO(reviewer, institution)))
     }
 
 }

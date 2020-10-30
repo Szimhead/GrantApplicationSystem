@@ -75,19 +75,31 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     }
 
     @Transactional
-    fun getReviewers(panel: PanelDAO): Set<ReviewerDAO> {
+    fun setPanelChair(panel: PanelDAO, reviewer: UserDAO.ReviewerDAO){
+        panel.chair = reviewer
+        panels.save(panel)
+    }
+
+    @Transactional
+    fun deletePanelChair(panel: PanelDAO){
+        panel.chair = null
+        panels.save(panel)
+    }
+
+    @Transactional
+    fun getReviewers(panel: PanelDAO): Set<UserDAO.ReviewerDAO> {
         return panel.reviewers
     }
 
     @Transactional
-    fun addReviewerToPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
+    fun addReviewerToPanel(panel: PanelDAO, reviewer: UserDAO.ReviewerDAO) {
         reviewer.panels.add(panel)
         //panel.reviewers.add(reviewer)
         reviewers.save(reviewer)
     }
 
     @Transactional
-    fun deleteReviewerFromPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
+    fun deleteReviewerFromPanel(panel: PanelDAO, reviewer: UserDAO.ReviewerDAO) {
        // panel.reviewers.remove(reviewer)
         reviewer.panels.remove(panel)
         reviewers.save(reviewer)
