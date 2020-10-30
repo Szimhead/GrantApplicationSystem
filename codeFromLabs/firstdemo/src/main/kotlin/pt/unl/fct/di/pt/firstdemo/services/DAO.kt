@@ -21,7 +21,7 @@ data class ApplicationDAO (
         var answers: MutableSet<AnswerDAO>
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO, panel: PanelDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
     constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
@@ -124,7 +124,7 @@ data class ReviewerDAO(
         var address: String,
         @OneToMany(mappedBy = "chair", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panelsInCharge: MutableSet<PanelDAO>,
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER)
         var panels: MutableSet<PanelDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
         var institution: InstitutionDAO,
@@ -177,7 +177,7 @@ data class GrantCallDAO (
         var applications: MutableSet<ApplicationDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panel: PanelDAO?,
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER)
         var dataItems: MutableSet<DataItemDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
         var sponsor: SponsorDAO
@@ -214,7 +214,7 @@ data class GrantCallDAO (
                 this.sponsor.name == other.sponsor.name &&
                 this.sponsor.contact == other.sponsor.contact
 
-        return a && b && c && d && e && f && g && h && i
+        return a && b && c && d && e && f && g && h && i && j
     }
 }
 

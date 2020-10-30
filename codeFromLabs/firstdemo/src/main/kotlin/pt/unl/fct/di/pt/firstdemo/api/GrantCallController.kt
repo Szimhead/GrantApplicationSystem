@@ -42,7 +42,4 @@ class GrantCallController(val calls:GrantCallService, val studs: StudentService,
         val call = calls.getOne(id)
         calls.deleteDataItem(call, calls.getOneDataItem(call, dataItemId))
     }
-
-    override fun editDataItem(id: Long, dataItemId: Long, dataItem: DataItemDTO) = calls.editDataItem(calls.getOne(id), calls.getOneDataItem(calls.getOne(id), dataItemId), DataItemDAO(dataItem))
-
 }

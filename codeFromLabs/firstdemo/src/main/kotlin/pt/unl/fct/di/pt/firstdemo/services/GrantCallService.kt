@@ -39,6 +39,8 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
 
     @Transactional
     fun deleteCall(call: GrantCallDAO) {
+        call.sponsor.grantCalls.remove(call)
+        sponsors.save(call.sponsor)
         calls.delete(call)
     }
 
@@ -58,12 +60,11 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
 
     @Transactional
     fun deleteApplication(call: GrantCallDAO, app: ApplicationDAO) {
-        var student = app.student
-        if(app.grantCall.id == call.id) {
-            student.applications.remove(app)
-            call.applications.remove(app)
-            apps.delete(app)
-        }
+        call.applications.remove(app)
+        app.student.applications.remove(app)
+        calls.save(call)
+        students.save(app.student)
+        apps.delete(app)
     }
 
     /* Panel handling */
@@ -84,7 +85,7 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     @Transactional
     fun addReviewerToPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
         reviewer.panels.add(panel)
-        panel.reviewers.add(reviewer)
+        //panel.reviewers.add(reviewer)
         reviewers.save(reviewer)
     }
 
@@ -92,7 +93,7 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     fun deleteReviewerFromPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
         panel.reviewers.remove(reviewer)
         reviewer.panels.remove(panel)
-
+        panels.save(panel)
         reviewers.save(reviewer)
     }
 
@@ -112,13 +113,13 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     @Transactional
     fun addDataItem(call: GrantCallDAO, dataItem: DataItemDAO) {
         call.dataItems.add(dataItem)
-        dataItems.save(dataItem)
+        calls.save(call)
     }
 
     @Transactional
     fun deleteDataItem(call: GrantCallDAO, dataItem: DataItemDAO) {
         call.dataItems.remove(dataItem)
-        dataItems.delete(dataItem)
+        calls.save(call)
     }
 
     @Transactional
