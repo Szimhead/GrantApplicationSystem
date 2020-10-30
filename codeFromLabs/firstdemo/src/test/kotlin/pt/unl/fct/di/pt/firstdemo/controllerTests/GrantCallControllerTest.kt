@@ -8,8 +8,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,12 +16,10 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import pt.unl.fct.di.pt.firstdemo.ApplicationAndGrantCallServiceTest
 import pt.unl.fct.di.pt.firstdemo.api.*
 import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.services.*
 import java.util.*
-import javax.xml.crypto.Data
 
 
 @RunWith(SpringRunner::class)
@@ -36,6 +32,9 @@ class GrantCallControllerTest {
 
     @MockBean
     lateinit var calls: GrantCallService
+
+    @MockBean
+    lateinit var studs: StudentService
 
     companion object {
         val mapper = ObjectMapper().registerModule(KotlinModule())
@@ -148,13 +147,22 @@ class GrantCallControllerTest {
      fun `edit grant call test`() {
          val grantCall = GrantCallDTO(0, "title_edit", "description_edit", 10.0, Date(), Date())
          val grantCallDAO = GrantCallDAO(grantCall)
-         val id = 1;
+         val id = 1L
          val grantCallJSON = mapper.writeValueAsString(grantCall)
+
+         val grantCallToEdit = GrantCallDAO()
+
+         Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
+             assertEquals(id, it.getArgument(0))
+             return@then grantCallToEdit
+         }
 
          Mockito.`when`(calls.editCall(nonNullAny(GrantCallDAO::class.java), nonNullAny(GrantCallDAO::class.java)))
                  .then {
-                     assertEquals(it.getArgument(1), grantCallDAO)
+                     assertEquals(grantCallToEdit, it.getArgument(0))
+                     assertEquals(grantCallDAO, it.getArgument(1))
                  }
+
 
          mvc.perform(put("$callsURL/$id")
                  .contentType(MediaType.APPLICATION_JSON)
@@ -169,6 +177,11 @@ class GrantCallControllerTest {
         val id = 1;
         val grantCallJSON = mapper.writeValueAsString(grantCall)
 
+        Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
+            assertEquals(id, it.getArgument(0))
+            throw NotFoundException("Grant Call with id $id not found")
+        }
+
         Mockito.`when`(calls.editCall(nonNullAny(GrantCallDAO::class.java), nonNullAny(GrantCallDAO::class.java)))
                 .thenThrow( NotFoundException("Grant Call with id $id not found"))
 
@@ -176,14 +189,21 @@ class GrantCallControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(grantCallJSON))
                 .andExpect(status().is4xxClientError)
-    }
+    } //TODO: might not need this not found version because everything uses getOne and that is already testes for the case where the thing doesn't exist
 
     @Test
     fun `delete grant call test`() {
         val id = 1L
 
+        val grantCallToDelete = GrantCallDAO()
+
+        Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
+            assertEquals(id, it.getArgument(0))
+            return@then grantCallToDelete
+        }
+
         Mockito.`when`(calls.deleteCall(nonNullAny(GrantCallDAO::class.java))).then {
-            assertEquals(it.getArgument(0), calls.getOne(id))
+            assertEquals(it.getArgument(0), grantCallToDelete)
         }
 
         mvc.perform(delete("$callsURL/$id"))
@@ -191,35 +211,53 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `get all applications from grant call test`() { //TODO: do not found version
-        val id = 1
+    fun `get all applications from grant call test`() {
+        val id = 1L
+        val grantCall = GrantCallDAO()
 
-        Mockito.`when`(calls.getCallApplications(nonNullAny(GrantCallDAO::class.java))).thenReturn(appsDAO)
+        Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
+            assertEquals(id, it.getArgument(0))
+            return@then grantCall
+        }
 
-        val result = mvc.perform(get("$callsURL/$id/applications"))
-                .andExpect(status().isOk)
-                .andReturn()
+        Mockito.`when`(calls.getCallApplications(nonNullAny(GrantCallDAO::class.java))).then {
+            assertEquals(it.getArgument(0), grantCall)
+            return@then appsDAO
+        }
 
-        val responseString = result.response.contentAsString
-        val responseSet = mapper.readValue<Set<ApplicationDTO>>(responseString)
+            val result = mvc.perform(get("$callsURL/$id/applications"))
+                    .andExpect(status().isOk)
+                    .andReturn()
 
-        assertEquals(responseSet, appsDTO)
+            val responseString = result.response.contentAsString
+            val responseSet = mapper.readValue<Set<ApplicationDTO>>(responseString)
+
+            assertEquals(appsDTO, responseSet)
     }
 
     @Test
-    fun `add application to grant call test`() { //TODO: what to mock here in service?
-        val id = 1
-        val applicationDAO = ApplicationDAO(0, Date(), 0, GrantCallDAO(), mutableSetOf(), StudentDAO(), mutableSetOf())
+    fun `add application to grant call test`() {
+        val id = 1L
+        val grantCall = GrantCallDAO()
+
+        val applicationDAO = ApplicationDAO(0, Date(), 0, grantCall, mutableSetOf(), student1, mutableSetOf())
         val applicationDTO = ApplicationDTO(applicationDAO)
-        applicationDTO.studentId = student1.id
         val applicationJSON = mapper.writeValueAsString(applicationDTO)
 
-       /* Mockito.`when`(calls.addApplication(nonNullAny(ApplicationDAO::class.java)))
+
+        Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
+            assertEquals(id, it.getArgument(0))
+            return@then grantCall
+        }
+
+        Mockito.`when`(studs.getOne(nonNullAny(Long::class.java))).then {
+            assertEquals(student1.id, it.getArgument(0))
+            return@then student1
+        }
+        Mockito.`when`(calls.addApplication(nonNullAny(ApplicationDAO::class.java)))
                 .then {
-                    assertEquals(id, it.getArgument(0))
-                    assertEquals(applicationDAO, it.getArgument(1))
-                    assertEquals(student1.id, it.getArgument(2))
-                } */
+                    assertEquals(applicationDAO, it.getArgument(0))
+                }
 
         mvc.perform(post("$callsURL/$id/applications")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -228,7 +266,7 @@ class GrantCallControllerTest {
     }
 
     @Test
-    fun `delete application from grant call test`() { //TODO: what to mock?
+    fun `delete application from grant call test`() { 
         val id = 1
         val appId = 2
 

@@ -1,4 +1,4 @@
-package pt.unl.fct.di.pt.firstdemo
+package pt.unl.fct.di.pt.firstdemo.serviceTests
 
 import junit.framework.Assert.assertEquals
 import org.junit.Test

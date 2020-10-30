@@ -1,5 +1,5 @@
 package pt.unl.fct.di.pt.firstdemo.config
-
+/*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -10,7 +10,7 @@ import pt.unl.fct.di.pt.firstdemo.services.SponsorService
 import pt.unl.fct.di.pt.firstdemo.services.StudentService
 import pt.unl.fct.di.pt.firstdemo.services.UserService
 
-/*
+
 class CustomUserDetails (
     private val aUsername:String,
     private val aPassword:String,
