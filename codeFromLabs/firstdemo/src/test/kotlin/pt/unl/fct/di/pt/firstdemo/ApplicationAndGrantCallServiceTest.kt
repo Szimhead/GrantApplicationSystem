@@ -140,6 +140,7 @@ class ApplicationAndGrantCallServiceTest() {
     @Test
     fun `edit Grant Call test`() {
         `add one application to Grant Call test`()
+
         assertEquals(grantCall1, calls.getOne(grantCall1.id))
         val editedCall = GrantCallDAO(89, "edited title", "edited description", 100.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), SponsorDAO())
 
@@ -176,11 +177,12 @@ class ApplicationAndGrantCallServiceTest() {
     @Test
     fun `delete second Grant call test`() {
         `add second Grant Call test`()
-        //`edit Grant Call test`()
 
         assertEquals(setOf(grantCall1, grantCall2), calls.getAll().toSet())
 
         calls.deleteCall(calls.getOne(grantCall2.id))
+
+        sponsor1.grantCalls.remove(grantCall2)
 
         assertEquals(setOf(grantCall1), calls.getAll().toSet())
         assertEquals(setOf(sponsor1), sponsors.getAll().toSet())
@@ -273,7 +275,7 @@ class ApplicationAndGrantCallServiceTest() {
 
     @Test
     fun `getCallApplications with two applications test`() {
-        `add second application to Grant Call test`()
+        `remove application test`()
 
         assertEquals(setOf(app1, app2), calls.getCallApplications(calls.getOne(grantCall1.id)))
     }
@@ -338,7 +340,7 @@ class ApplicationAndGrantCallServiceTest() {
         `add reviewer to panel test`()
 
         assertEquals(grantCall3, calls.getOne(grantCall3.id))
-/*
+
         calls.deleteReviewerFromPanel(calls.getPanelFromGrantCall(calls.getOne(grantCall3.id)), reviewers.getOne(reviewer1.id))
 
         reviewer1.panels = mutableSetOf()
@@ -348,7 +350,7 @@ class ApplicationAndGrantCallServiceTest() {
         assertEquals(setOf(reviewer1), reviewers.getAll().toSet()) // verify that reviewer still exists
         assertEquals(reviewer1, reviewers.getOne(reviewer1.id))  // verify get reviewer by id
         assertEquals(emptySet<ReviewerDAO>(), calls.getReviewers(calls.getPanelFromGrantCall(calls.getOne(grantCall3.id)))) // verify that reviewer was deleted
-        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that no other changes have been made*/
+        assertEquals(setOf(grantCall1, grantCall3), calls.getAll().toSet()) // verify that no other changes have been made
     }
 
     @Test

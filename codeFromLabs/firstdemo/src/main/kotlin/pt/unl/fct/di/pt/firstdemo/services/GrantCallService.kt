@@ -39,6 +39,8 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
 
     @Transactional
     fun deleteCall(call: GrantCallDAO) {
+        call.sponsor.grantCalls.remove(call)
+        sponsors.save(call.sponsor)
         calls.delete(call)
     }
 
@@ -58,12 +60,11 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
 
     @Transactional
     fun deleteApplication(call: GrantCallDAO, app: ApplicationDAO) {
-        var student = app.student
-        if(app.grantCall.id == call.id) {
-            student.applications.remove(app)
-            call.applications.remove(app)
-            apps.delete(app)
-        }
+        call.applications.remove(app)
+        app.student.applications.remove(app)
+        calls.save(call)
+        students.save(app.student)
+        apps.delete(app)
     }
 
     /* Panel handling */
@@ -91,7 +92,9 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
     @Transactional
     fun deleteReviewerFromPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
         panel.reviewers.remove(reviewer)
+        reviewer.panels.remove(panel)
         panels.save(panel)
+        reviewers.save(reviewer)
     }
 
     /* Data item handling */

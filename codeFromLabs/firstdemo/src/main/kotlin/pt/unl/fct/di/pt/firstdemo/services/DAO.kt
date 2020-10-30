@@ -124,7 +124,7 @@ data class ReviewerDAO(
         var address: String,
         @OneToMany(mappedBy = "chair", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panelsInCharge: MutableSet<PanelDAO>,
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER)
         var panels: MutableSet<PanelDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
         var institution: InstitutionDAO,
@@ -177,7 +177,7 @@ data class GrantCallDAO (
         var applications: MutableSet<ApplicationDAO>,
         @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var panel: PanelDAO?,
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER)
         var dataItems: MutableSet<DataItemDAO>,
         @ManyToOne(fetch = FetchType.EAGER)
         var sponsor: SponsorDAO
