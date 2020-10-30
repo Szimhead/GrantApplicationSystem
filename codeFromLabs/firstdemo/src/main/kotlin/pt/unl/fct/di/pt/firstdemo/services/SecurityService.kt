@@ -91,4 +91,30 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
         return student.applications.contains(review.application)
         //and has role Reviewer
     }
+
+    //GrantCall Security
+    fun canAddGrantCall() {
+        // has role Sponsor
+    }
+
+    fun canEditGrantCall() {
+        // has role Sponsor
+    }
+
+    fun canDeleteGrantCall(){
+
+    }
+
+    fun canGetGrantCallSp(){
+
+    }//sponsor
+
+    fun canGetGrantCallSt(){
+
+    }//student
+
+    fun canGetGrantCallRv(){
+
+    }//reviewer
+
 }
