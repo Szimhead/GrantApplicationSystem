@@ -15,9 +15,7 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
     }
 
     fun canEditApplication( student: StudentDAO, applicationId: Long): Boolean {
-        val application = applications.findById(applicationId).orElseThrow{
-            NotFoundException("chuj")
-        }
+        val application = applications.findById(applicationId).orElse(ApplicationDAO())
         //TODO - this should not throw any exception, but otherwise function contains() can't be called
         return application!=null && student.applications.contains(application)
         //and has a role Student
@@ -36,9 +34,7 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
     }
 
     fun canGetApplication(reviewer: ReviewerDAO, applicationId: Long): Boolean {
-        val application = applications.findById(applicationId).orElseThrow {
-            NotFoundException("chuj")
-        }
+        val application = applications.findById(applicationId).orElse(ApplicationDAO())
 
         return reviewer.panels.contains(application.grantCall.panel) // ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! NAILED IT
         //and has a role Student
@@ -67,9 +63,7 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
     }
 
     fun canEditReview(reviewer: ReviewerDAO, reviewId: Long): Boolean {
-        val review = reviews.findById(reviewId).orElseThrow {
-            NotFoundException("chuj")
-        }
+        val review = reviews.findById(reviewId).orElse(ReviewDAO())
         return reviewer == review.reviewer
         //and has role Reviewer
     }
@@ -98,9 +92,7 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
     }
 
     fun canEditGrantCall(sponsor: SponsorDAO, callId: Long): Boolean {
-        val call = calls.findById(callId).orElseThrow {
-            NotFoundException("chuj")
-        }
+        val call = calls.findById(callId).orElse(GrantCallDAO())
         return sponsor.grantCalls.contains(call)
         // has role Sponsor
     }
