@@ -1,12 +1,15 @@
 package pt.unl.fct.di.pt.firstdemo.services
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import javassist.NotFoundException
 import org.springframework.stereotype.Component
 import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
+import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 
 @Component
-class SecurityService(val applications: ApplicationRepository) {
+class SecurityService(val applications: ApplicationRepository, val reviews: ReviewRepository) {
 
+    //Application Security
     fun canAddApplication(user: UserDAO){
         //only Student role
     }
@@ -55,5 +58,37 @@ class SecurityService(val applications: ApplicationRepository) {
     fun canGetGrantApplications(reviewer: ReviewerDAO, call: GrantCallDAO): Boolean {
         return call.panel !=null && call.panel?.reviewers?.contains(reviewer)!!
         //has a role reviewer
+    }
+
+    //Review Security
+    fun canAddReview(reviewer: ReviewerDAO, application: ApplicationDAO): Boolean {
+        return reviewer.panels.contains(application.grantCall.panel)
+        //and has role Reviewer
+    }
+
+    fun canEditReview(reviewer: ReviewerDAO, reviewId: Long): Boolean {
+        val review = reviews.findById(reviewId).orElseThrow {
+            NotFoundException("chuj")
+        }
+        return reviewer == review.reviewer
+        //and has role Reviewer
+    }
+
+    fun canDeleteReview(reviewer: ReviewerDAO, reviewId: Long): Boolean {
+        return canEditReview(reviewer, reviewId)
+        //and has role Reviewer
+    }
+
+    fun canGetReview(reviewer: ReviewerDAO, reviewId: Long): Boolean {
+        return canEditReview(reviewer, reviewId)
+        //and has role Reviewer
+    }
+
+    fun canGetReview(student: StudentDAO, reviewId: Long): Boolean {
+        val review = reviews.findById(reviewId).orElseThrow {
+            NotFoundException("chuj")
+        }
+        return student.applications.contains(review.application)
+        //and has role Reviewer
     }
 }
