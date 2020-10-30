@@ -8,9 +8,10 @@ import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.model.InstitutionRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
 import pt.unl.fct.di.pt.firstdemo.model.StudentRepository
+import pt.unl.fct.di.pt.firstdemo.model.UserRepository
 
 @Service
-class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepository, val revs: ReviewerRepository) {
+class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepository, val revs: ReviewerRepository, val users: UserRepository) {
 
     fun getAll() : Iterable<InstitutionDAO> = inst.findAll()
 
@@ -44,13 +45,21 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
         studs.save(student)
     }
 
+    fun getStudentUser(student: StudentDAO) : UserDAO{
+        return UserDAO(student.email,"password","STUDENT")
+    }
+
     /* reviewer handling */
     fun getReviewersFromInstitution(institution: InstitutionDAO): MutableSet<ReviewerDAO> {
         return institution.reviewers
     }
 
     fun addReviewer(institution: InstitutionDAO, reviewer: ReviewerDAO) {
-        reviewer.institution = institution
+        //reviewer.institution = institution
         revs.save(reviewer)
+    }
+
+    fun getReviewerUser(reviewer: ReviewerDAO) : UserDAO{
+        return UserDAO(reviewer.email,"password","REVIEWER")
     }
 }

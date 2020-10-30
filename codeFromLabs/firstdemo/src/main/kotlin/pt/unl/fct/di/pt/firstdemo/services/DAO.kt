@@ -21,7 +21,7 @@ data class ApplicationDAO (
         var answers: MutableSet<AnswerDAO>
 ) {
     constructor() : this(0, Date(), 0, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
-    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO, panel: PanelDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
+    constructor(app: ApplicationDTO, gc: GrantCallDAO, stud: StudentDAO) : this(app.id, app.submissionDate, app.status, gc, mutableSetOf<ReviewDAO>(), stud, mutableSetOf<AnswerDAO>())
     constructor(app: ApplicationDTO) : this(app.id, app.submissionDate, app.status, GrantCallDAO(), mutableSetOf<ReviewDAO>(), StudentDAO(), mutableSetOf<AnswerDAO>())
 
     override fun toString(): String {
@@ -431,7 +431,7 @@ data class SponsorDAO(
         @Id
         @GeneratedValue
         var id: Long,
-        var name: String,
+        val name: String,
         var contact: String,
         @OneToMany(mappedBy = "sponsor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var grantCalls: MutableSet<GrantCallDAO>
@@ -536,11 +536,8 @@ data class ReviewDAO(
             @Id
             val username: String = "",
             var password: String = "",
-            var role: String)
+            var role: String = "")
     {
         constructor(user:UserPasswordDTO) : this(user.username, user.password, user.role)
-        constructor() : this("","","") {
 
-        }
-
-}
+    }

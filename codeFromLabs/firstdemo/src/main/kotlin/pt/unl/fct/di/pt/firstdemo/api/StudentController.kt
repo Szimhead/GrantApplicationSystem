@@ -4,13 +4,16 @@ import org.springframework.web.bind.annotation.*
 import pt.unl.fct.di.pt.firstdemo.services.*
 
 @RestController
-class StudentController(val studs: StudentService, val gc: GrantCallService, val cvReqs: CVRequirementService): StudentAPI {
+class StudentController(val studs: StudentService, val gc: GrantCallService, val cvReqs: CVRequirementService, val users: UserService): StudentAPI {
 
     override fun getAll() = studs.getAll().map { UserDTO(it) }
 
     override fun getOne(id:Long) = UserDTO(studs.getOne(id))
 
-    override fun deleteStudent(id: Long) = studs.deleteStudent(studs.getOne(id))
+    override fun deleteStudent(id: Long) {
+        val student = studs.getOne(id)
+        studs.deleteStudent(student, users.findUser(student.email))
+    }
 
     override fun editStudent(id:Long, student: UserDTO) = studs.editStudent(studs.getOne(id), StudentDAO(student))
 

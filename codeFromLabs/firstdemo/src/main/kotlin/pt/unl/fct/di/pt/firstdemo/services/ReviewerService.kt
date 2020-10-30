@@ -5,10 +5,11 @@ import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
 import pt.unl.fct.di.pt.firstdemo.model.PanelRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 import pt.unl.fct.di.pt.firstdemo.model.ReviewerRepository
+import pt.unl.fct.di.pt.firstdemo.model.UserRepository
 import javax.transaction.Transactional
 
 @Service
-class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepository, val reviews: ReviewRepository) {
+class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepository, val reviews: ReviewRepository, val users: UserRepository) {
     fun getAll(): Iterable<ReviewerDAO> = reviewers.findAll()
 
     fun getOne(id:Long): ReviewerDAO = reviewers.findById(id).orElseThrow{
@@ -19,16 +20,17 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         reviewers.save(reviewer)
     }
 
-    fun deleteReviewer(reviewer: ReviewerDAO) {
+    fun deleteReviewer(reviewer: ReviewerDAO, user: UserDAO) {
+        users.delete(user)
         reviewers.delete(reviewer)
     }
 
     @Transactional
     fun editReviewer(editedRev: ReviewerDAO, newRev: ReviewerDAO) {
         editedRev.address = newRev.address
-        editedRev.email = newRev.email
         editedRev.institution = newRev.institution
         editedRev.name = newRev.name
+        reviewers.save(editedRev)
     }
 
     /* panel handling */

@@ -2,30 +2,28 @@ package pt.unl.fct.di.pt.firstdemo.services
 
 import org.springframework.stereotype.Service
 import pt.unl.fct.di.pt.firstdemo.exceptions.NotFoundException
-import pt.unl.fct.di.pt.firstdemo.model.ApplicationRepository
-import pt.unl.fct.di.pt.firstdemo.model.CVItemRepository
-import pt.unl.fct.di.pt.firstdemo.model.CVRepository
-import pt.unl.fct.di.pt.firstdemo.model.StudentRepository
+import pt.unl.fct.di.pt.firstdemo.model.*
 import javax.transaction.Transactional
 
 @Service
-class StudentService (val students: StudentRepository, val applications: ApplicationRepository, val cvItems: CVItemRepository, val cvs: CVRepository){
+class StudentService (val students: StudentRepository, val applications: ApplicationRepository, val cvItems: CVItemRepository, val users: UserRepository){
     fun getAll() : Iterable<StudentDAO> = students.findAll()
 
     fun getOne(id:Long): StudentDAO = students.findById(id).orElseThrow{
         NotFoundException("Student with $id not found")
     }
 
-    fun deleteStudent(student: StudentDAO) {
+    fun deleteStudent(student: StudentDAO, user: UserDAO) {
+        users.delete(user)
         students.delete(student)
     }
 
     @Transactional
     fun editStudent(editedStudent: StudentDAO, student: StudentDAO){
         editedStudent.address = student.address
-        editedStudent.email = student.email
         editedStudent.institution = student.institution
         editedStudent.name = student.name
+        students.save(editedStudent)
     }
 
     //application handling

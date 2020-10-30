@@ -1,13 +1,11 @@
 package pt.unl.fct.di.pt.firstdemo.config
 
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
-import pt.unl.fct.di.pt.firstdemo.services.ReviewerService
-import pt.unl.fct.di.pt.firstdemo.services.SponsorService
-import pt.unl.fct.di.pt.firstdemo.services.StudentService
 import pt.unl.fct.di.pt.firstdemo.services.UserService
 
 class CustomUserDetails (
@@ -39,11 +37,9 @@ class CustomUserDetails (
         override fun loadUserByUsername(username: String?): UserDetails {
 
             username?.let {
-                var userDAO = users.findUser(it)
-                if( userDAO.isPresent ) {
-                    return CustomUserDetails(userDAO.get().username, userDAO.get().password, mutableListOf())
-                } else
-                    throw UsernameNotFoundException(username)
+                val userDAO = users.findUser(it)
+                val roles = commaSeparatedStringToAuthorityList(users.getRoles(userDAO))
+                return CustomUserDetails(userDAO.username, userDAO.password, roles)
             }
             throw UsernameNotFoundException(username)
         }
