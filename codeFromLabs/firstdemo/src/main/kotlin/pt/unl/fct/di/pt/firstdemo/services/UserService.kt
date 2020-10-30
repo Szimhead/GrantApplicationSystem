@@ -16,9 +16,9 @@ class UserService(var users: UserRepository) {
     }
 
     fun addUser(user: UserDAO) {
-        val aUser = users.findById(user.username)
+        val aUser = users.findById(user.username).orElse(null)
 
-        if ( aUser.isEmpty ) {
+        if ( aUser == null ) {
             user.password = BCryptPasswordEncoder().encode(user.password)
             Optional.of(users.save(user))
         }

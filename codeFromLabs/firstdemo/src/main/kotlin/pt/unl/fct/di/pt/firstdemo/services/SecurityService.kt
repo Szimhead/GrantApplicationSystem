@@ -9,11 +9,6 @@ import pt.unl.fct.di.pt.firstdemo.model.ReviewRepository
 @Component("SecurityService")
 class SecurityService(val applications: ApplicationRepository, val reviews: ReviewRepository, val calls: GrantCallRepository) {
 
-    //Application Security
-    fun canAddApplication(user: UserDAO){
-        //only Student role
-    }
-
     fun canEditApplication( student: StudentDAO, applicationId: Long): Boolean {
         val application = applications.findById(applicationId).orElse(null)
         return application!=null && student.applications.contains(application)
