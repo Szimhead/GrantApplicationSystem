@@ -32,6 +32,7 @@ class SponsorService (val sponsors: SponsorRepository, val grantCalls: GrantCall
     fun editSponsor(editedSponsor: SponsorDAO, newSponsor: SponsorDAO) {
         editedSponsor.contact = newSponsor.contact
         editedSponsor.name = newSponsor.name
+        sponsors.save(editedSponsor)
     }
 
     /* grant call handling */

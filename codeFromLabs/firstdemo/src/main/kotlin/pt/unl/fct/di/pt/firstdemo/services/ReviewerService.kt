@@ -29,6 +29,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
         editedRev.email = newRev.email
         editedRev.institution = newRev.institution
         editedRev.name = newRev.name
+        reviewers.save(editedRev)
     }
 
     /* panel handling */

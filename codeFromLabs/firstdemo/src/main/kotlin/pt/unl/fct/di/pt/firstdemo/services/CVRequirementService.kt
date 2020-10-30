@@ -11,7 +11,7 @@ class CVRequirementService(val cvReq: CVRequirementRepository) {
 
     fun getAll() = cvReq.findAll()
 
-    fun getOne(id: Long) = cvReq.findById(id).orElseThrow {
+    fun getOne(id: Long) : CVRequirementDAO = cvReq.findById(id).orElseThrow {
         NotFoundException("CV requirement with id $id not found")
     }
 
@@ -29,5 +29,6 @@ class CVRequirementService(val cvReq: CVRequirementRepository) {
         editedReq.name = newReq.name
         editedReq.dataType = newReq.dataType
         editedReq.isMandatory = newReq.isMandatory
+        cvReq.save(editedReq)
     }
 }

@@ -26,6 +26,7 @@ class StudentService (val students: StudentRepository, val applications: Applica
         editedStudent.email = student.email
         editedStudent.institution = student.institution
         editedStudent.name = student.name
+        students.save(editedStudent)
     }
 
     //application handling
@@ -68,6 +69,7 @@ class StudentService (val students: StudentRepository, val applications: Applica
         cvItemEdited.name = newCvItem.name
         cvItemEdited.value = newCvItem.value
         cvItemEdited.dataType = newCvItem.dataType
+        cvItems.save(cvItemEdited)
     }
 
     fun deleteCVItem(cv: CVDAO, cvItem: CVItemDAO) {

@@ -42,6 +42,9 @@ class GrantCallControllerTest {
     @MockBean
     lateinit var revs: ReviewerService
 
+    @MockBean
+    lateinit var sponsors: SponsorService
+
     companion object {
         val mapper = ObjectMapper().registerModule(KotlinModule())
 
@@ -113,7 +116,7 @@ class GrantCallControllerTest {
 
     @Test
     fun `get one grant call test`() {
-        val id = 1
+        val id = grantCall1.id
         Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
             assertEquals(id, it.getArgument(0))
             return@then grantCall1
@@ -143,10 +146,15 @@ class GrantCallControllerTest {
 
     @Test
     fun `add grant call test`() {
-        val grantCall = GrantCallDTO(0, "title_add", "description_add", 10.0, Date(), Date())
+        val sponsorId = 2L
+        val grantCall = GrantCallDTO(0, "title_add", "description_add", 10.0, Date(), Date(), sponsorId)
         val grantCallDAO = GrantCallDAO(grantCall)
 
         val grantCallJSON = mapper.writeValueAsString(grantCall)
+
+        Mockito.`when`(sponsors.getOne(nonNullAny(Long::class.java))).then {
+            assertEquals(sponsorId, it.getArgument(0))
+        }
 
         Mockito.`when`(calls.addCall(nonNullAny(GrantCallDAO::class.java)))
                 .then { assertEquals(it.getArgument(0), grantCallDAO) }
@@ -159,7 +167,8 @@ class GrantCallControllerTest {
 
      @Test
      fun `edit grant call test`() {
-         val grantCall = GrantCallDTO(0, "title_edit", "description_edit", 10.0, Date(), Date())
+         val sponsorId = 2L
+         val grantCall = GrantCallDTO(0, "title_edit", "description_edit", 10.0, Date(), Date(), sponsorId)
          val grantCallDAO = GrantCallDAO(grantCall)
          val id = 1L
          val grantCallJSON = mapper.writeValueAsString(grantCall)
@@ -184,26 +193,6 @@ class GrantCallControllerTest {
                  .andExpect(status().isOk)
      }
 
-    @Test
-    fun `edit grant call test(Not Found)`() {
-        val grantCall = GrantCallDTO(0, "title_edit", "description_edit", 10.0, Date(), Date())
-        val grantCallDAO = GrantCallDAO(grantCall)
-        val id = 1;
-        val grantCallJSON = mapper.writeValueAsString(grantCall)
-
-        Mockito.`when`(calls.getOne(nonNullAny(Long::class.java))).then {
-            assertEquals(id, it.getArgument(0))
-            throw NotFoundException("Grant Call with id $id not found")
-        }
-
-        Mockito.`when`(calls.editCall(nonNullAny(GrantCallDAO::class.java), nonNullAny(GrantCallDAO::class.java)))
-                .thenThrow( NotFoundException("Grant Call with id $id not found"))
-
-        mvc.perform(put("$callsURL/$id")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(grantCallJSON))
-                .andExpect(status().is4xxClientError)
-    } //TODO: might not need this not found version because everything uses getOne and that is already testes for the case where the thing doesn't exist
 
     @Test
     fun `delete grant call test`() {

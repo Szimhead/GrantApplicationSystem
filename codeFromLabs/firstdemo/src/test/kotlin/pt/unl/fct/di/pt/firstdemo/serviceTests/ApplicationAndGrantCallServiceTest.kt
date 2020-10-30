@@ -74,7 +74,7 @@ class ApplicationAndGrantCallServiceTest() {
 
         grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsors.getOne(sponsor1.id))
 
-        sponsors.addGrantCall(sponsors.getOne(sponsor1.id), grantCall1)
+        calls.addCall(grantCall1)
 
         sponsor1.grantCalls.add(grantCall1)
         grantCall1.sponsor = sponsor1
@@ -161,7 +161,7 @@ class ApplicationAndGrantCallServiceTest() {
 
         grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsors.getOne(sponsor1.id))
 
-        sponsors.addGrantCall(sponsors.getOne(sponsor1.id), grantCall2)
+        calls.addCall(grantCall2)
 
         sponsor1.grantCalls.add(grantCall2)
         grantCall2.sponsor = sponsor1
@@ -261,7 +261,7 @@ class ApplicationAndGrantCallServiceTest() {
     fun `remove application test`() {
         `add third application to Grant Call test`()
 
-        calls.deleteApplication(calls.getOne(grantCall1.id), applications.getOne(app3.id))
+        applications.deleteApplication(applications.getOne(app3.id))
 
         grantCall1.applications.remove(app3)
         student1.applications.remove(app3)

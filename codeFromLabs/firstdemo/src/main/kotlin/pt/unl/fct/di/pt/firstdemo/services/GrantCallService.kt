@@ -21,9 +21,6 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
         val panel = PanelDAO(call)
         call.panel = panel
 
-        call.sponsor.grantCalls.add(call)
-
-        sponsors.save(call.sponsor)
         calls.save(call)
     }
 
@@ -91,9 +88,8 @@ class GrantCallService(val sponsors: SponsorRepository, val calls: GrantCallRepo
 
     @Transactional
     fun deleteReviewerFromPanel(panel: PanelDAO, reviewer: ReviewerDAO) {
-        panel.reviewers.remove(reviewer)
+       // panel.reviewers.remove(reviewer)
         reviewer.panels.remove(panel)
-        panels.save(panel)
         reviewers.save(reviewer)
     }
 
