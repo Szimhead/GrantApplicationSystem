@@ -110,6 +110,38 @@ class SecurityService(val applications: ApplicationRepository, val reviews: Revi
 
     fun canGetGrantCallRv(){
         //has role Reviewer
-    }//reviewer
+    }
+
+    fun canAddPanelChair(sponsor: SponsorDAO, id: Long):Boolean{
+        val call = calls.findById(id).orElse(null)
+        return call!=null && sponsor.grantCalls.contains(call)
+    }
+
+    fun canEditPanelChair(sponsor: SponsorDAO, id: Long):Boolean{
+        return canAddPanelChair(sponsor,id)
+    }
+
+    fun canDeletePanelChair(sponsor: SponsorDAO, id: Long):Boolean{
+        return canAddPanelChair(sponsor,id)
+    }
+
+    fun canGetReviewersFromGrantCall(sponsor: SponsorDAO, id: Long):Boolean{
+        return canAddPanelChair(sponsor,id)
+    }
+
+    fun canGetReviewersFromGrantCall(chair: ReviewerDAO, id: Long):Boolean{
+        val call = calls.findById(id).orElse(null)
+        return call != null && call.panel?.chair == chair
+    }
+
+    fun canAddReviewersToGrantCall(chair: ReviewerDAO, id: Long):Boolean{
+        return canAddReviewersToGrantCall(chair,id)
+    }
+
+    fun canDeleteReviewersFromGrantCall(chair: ReviewerDAO, id: Long):Boolean{
+        return canAddReviewersToGrantCall(chair,id)
+    }
+
+    //reviewer
 
 }
