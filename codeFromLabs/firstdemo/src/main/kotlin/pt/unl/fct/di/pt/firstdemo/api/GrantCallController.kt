@@ -7,6 +7,7 @@ import pt.unl.fct.di.pt.firstdemo.services.*
 @RestController
 class GrantCallController(
         val calls:GrantCallService,
+        val spons: SponsorService,
         val studs: StudentService,
         val revs: ReviewerService,
         val apps: ApplicationService,

@@ -183,7 +183,7 @@ open class UserDAO(
             @Id
             @GeneratedValue
             var id: Long,
-            val name: String,
+            var name: String,
             var contact: String,
             @OneToMany(mappedBy = "sponsor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
             var grantCalls: MutableSet<GrantCallDAO>
