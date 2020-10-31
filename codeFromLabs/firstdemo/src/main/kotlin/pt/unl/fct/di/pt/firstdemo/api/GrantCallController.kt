@@ -22,6 +22,7 @@ class GrantCallController(
     @PreAuthorize("hasRole({'ADMIN'}) or hasRole({'REVIEWER'}) or hasRole({'CHAIR'}) or hasRole({'STUDENT'}) or hasRole({'SPONSOR'})")
     override fun getOne(id: Long) = GrantCallDTO(calls.getOne(id))
 
+    @PreAuthorize("hasRole({'ADMIN'}) or hasRole({'SPONSOR'})")
     override fun addCall(call: GrantCallDTO) = calls.addCall(GrantCallDAO(call, spons.getOne(call.sponsorId)))
 
     @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canEditGrantCall(principal,#id) and hasRole({'SPONSOR'}))")
