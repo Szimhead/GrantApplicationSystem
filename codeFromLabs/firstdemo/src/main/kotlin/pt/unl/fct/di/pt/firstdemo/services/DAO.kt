@@ -193,6 +193,7 @@ open class UserDAO(
     }
 }
 
+
 @Entity
 data class GrantCallDAO (
         @Id
