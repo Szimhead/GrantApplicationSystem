@@ -18,7 +18,7 @@ interface ApplicationAPI {
         ApiResponse(code = 403, message = "Get all applications forbidden.")
     ])
     @GetMapping("")
-    fun getAll():List<ApplicationDTO>
+    fun getAll(@RequestParam(required = false) filter: String):List<ApplicationDTO>
 
     @ApiOperation(value = "Get Application by id", response = ApplicationDTO::class)
     @ApiResponses(value = [
