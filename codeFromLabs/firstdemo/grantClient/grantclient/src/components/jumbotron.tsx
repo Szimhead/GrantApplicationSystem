@@ -2,6 +2,8 @@
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import {ButtonBlue} from "./button-blue";
+import {ButtonGrey} from "./button-grey";
 
 export const Jumbotron = () => {
     return (
@@ -14,12 +16,8 @@ export const Jumbotron = () => {
                     don't simply skip over it entirely.
                 </p>
                 <p>
-                    <a href="#" className="btn btn-primary m-2">
-                        Main call to action
-                    </a>
-                    <a href="#" className="btn btn-secondary m-2">
-                        Secondary action
-                    </a>
+                    <ButtonBlue text={"Main call to action"} link={"#"}/>
+                    <ButtonGrey text={"Secondary action"} link={"#"}/>
                 </p>
             </div>
         </section>

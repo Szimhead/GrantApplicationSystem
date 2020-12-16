@@ -1,9 +1,5 @@
-// src/components/header.tsx
-
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import Navbar from 'react-bootstrap/Navbar'
-import {Button, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
+import {Navbar, Nav, NavDropdown} from "react-bootstrap";
 
 export const Header = () => {
     return (
