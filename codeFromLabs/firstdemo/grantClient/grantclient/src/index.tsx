@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StudentHomepage from "./pages/StudentHomepage";
+import ReviewerApplication from "./pages/ReviewerApplication";
 
 
 ReactDOM.render(
@@ -13,6 +14,7 @@ ReactDOM.render(
         <Router>
             <Route exact path={"/"} component={App} />
             <Route path={"/pages/studentHomepage"} component={StudentHomepage} />
+            <Route path={"/pages/reviewerApplication"} component={ReviewerApplication} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
