@@ -5,14 +5,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import StudentHomepage from "./StudentHomepage";
+import StudentHomepage from "./pages/StudentHomepage";
 
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Route exact path={"/"} component={App} />
-            <Route path={"/studentHomepage"} component={StudentHomepage} />
+            <Route path={"/pages/studentHomepage"} component={StudentHomepage} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
