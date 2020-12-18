@@ -6,10 +6,10 @@ export const PageTitle = ({title, extraText}: PageTitleI) => {
     return (
         <div className="container">
             <div className="row mt-4 border-bottom">
-                <div className="col-10">
+                <div className="col-9">
                     <h1>{title}</h1>
                 </div>
-                <div className="col-2 align-self-end mb-1">
+                <div className="col-3 align-self-end mb-1">
                     {extraText}
                 </div>
             </div>
