@@ -1,43 +1,28 @@
 import React from "react";
+import { HidingList } from './hidingList';
 
-interface DropListInterface {title:string, list:string[],show:boolean}
-
-function List(props:{list:string[],show:boolean}) {
-    if (!props.show) {
-        return null;
-    }
-
-    return (
-        <div>
-            <ul>
-                {props.list.map(
-                    (grantCall:string) => <p>{grantCall}</p>
-                )}
-            </ul>
-        </div>
-    );
-}
+interface DropListInterface {title:string, headers:string[], records: string[][], show:boolean}
 //TODO: change list type from string to applicationList
-export class DropList extends React.Component<DropListInterface, { show:boolean }> {
+export class DropList extends React.Component<DropListInterface, { showList:boolean }> {
     constructor(props: DropListInterface) {
         super(props);
-        this.state = {show: props.show}
+        this.state = {showList: props.show}
         this.handleToggleClick = this.handleToggleClick.bind(this);
     }
 
     handleToggleClick() {
         this.setState(prevState => ({
-            show: !prevState.show
+            showList: !prevState.showList
         }));
     }
 
     render() {
         return (
             <div>
-                <button className="w-100"onClick={this.handleToggleClick}>
+                <button className="w-100 border-0" onClick={this.handleToggleClick}>
                     {this.props.title}
                 </button>
-                <List show={this.state.show}  list={this.props.list}/>
+                <HidingList records={this.props.records} show={this.state.showList} headers={this.props.headers}/>
             </div>
         );
     }

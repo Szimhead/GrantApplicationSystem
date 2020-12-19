@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StudentHomepage from "./pages/StudentHomepage";
 import ReviewerApplication from "./pages/ReviewerApplication";
+import AnonymousHomepage from "./pages/AnonymousHomepage";
 
 
 ReactDOM.render(
@@ -15,6 +16,7 @@ ReactDOM.render(
             <Route exact path={"/"} component={App} />
             <Route path={"/pages/studentHomepage"} component={StudentHomepage} />
             <Route path={"/pages/reviewerApplication"} component={ReviewerApplication} />
+            <Route path={"/pages/anonymousHomepage"} component={AnonymousHomepage} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
