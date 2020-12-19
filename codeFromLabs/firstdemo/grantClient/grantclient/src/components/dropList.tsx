@@ -37,7 +37,7 @@ export class DropList extends React.Component<DropListInterface, { show:boolean 
                 <button className="w-100"onClick={this.handleToggleClick}>
                     {this.props.title}
                 </button>
-                <List show={this.state.showWarning}  list={this.props.list}/>
+                <List show={this.state.show}  list={this.props.list}/>
             </div>
         );
     }
