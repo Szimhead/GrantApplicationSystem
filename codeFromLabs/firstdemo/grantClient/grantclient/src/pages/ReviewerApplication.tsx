@@ -12,8 +12,8 @@ export const ReviewerApplication = () => {
             <PageTitle title={"Application"} extraText={"Submission date: (some date)"}/>
             <div className="container">
                 <div className="row mt-4 justify-content-center">
-                    <Borders title={"title"}/>
-                    <Borders title={"title2"}/>
+                   {/* <Borders title={"title"}/>
+                    <Borders title={"title2"}/>*/}
                 </div>
             </div>
             <Footer/>

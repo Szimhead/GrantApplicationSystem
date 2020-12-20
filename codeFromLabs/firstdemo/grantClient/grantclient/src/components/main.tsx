@@ -13,7 +13,7 @@ export const Main = () => {
             <Jumbotron />
             <div className="album py-5 bg-light">
                 <div className="container">
-                    <SwitchButton  show={true} title={"Poka mi co ma"}/>
+                    {/*<SwitchButton  show={true} title={"Poka mi co ma"}/>*/}
 
                     <div className="row">
                         <Card />
