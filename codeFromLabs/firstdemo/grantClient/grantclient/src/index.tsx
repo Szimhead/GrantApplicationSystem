@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import StudentHomepage from "./pages/StudentHomepage";
 import ReviewerApplication from "./pages/ReviewerApplication";
 import AnonymousHomepage from "./pages/AnonymousHomepage";
+import FundedApplications from "./pages/FundedApplications";
 
 
 ReactDOM.render(
@@ -17,6 +18,7 @@ ReactDOM.render(
             <Route path={"/pages/studentHomepage"} component={StudentHomepage} />
             <Route path={"/pages/reviewerApplication"} component={ReviewerApplication} />
             <Route path={"/pages/anonymousHomepage"} component={AnonymousHomepage} />
+            <Route path={"/pages/fundedApplications"} component={FundedApplications} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')

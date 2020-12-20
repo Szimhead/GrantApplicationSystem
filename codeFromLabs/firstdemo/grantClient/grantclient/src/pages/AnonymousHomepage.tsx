@@ -5,7 +5,6 @@ import { Footer } from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {SelectOneButton} from "../components/selectOneButton";
-import {HidingList} from "../components/hidingList";
 
 export const AnonymousHomepage = () => {
     const content = <div className="container">

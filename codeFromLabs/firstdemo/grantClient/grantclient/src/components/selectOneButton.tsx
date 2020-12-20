@@ -22,12 +22,12 @@ export class SelectOneButton extends React.Component<selectOneButtonInterface, {
             <div>
                 <div className="row">
                     <div className="col m-0 pr-0">
-                        <button className="w-100 border" onClick={this.handleToggleClick}>
+                        <button className="w-100 border-dark" onClick={this.handleToggleClick}>
                             {this.props.title[0]}
                         </button>
                     </div>
                     <div className="col m-0 pl-0">
-                        <button className="w-100 border" onClick={this.handleToggleClick}>
+                        <button className="w-100 border-dark" onClick={this.handleToggleClick}>
                             {this.props.title[1]}
                         </button>
                     </div>
