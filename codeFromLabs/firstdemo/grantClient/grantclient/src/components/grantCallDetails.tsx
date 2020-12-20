@@ -3,11 +3,11 @@ import {GrantCall} from "../types";
 
 export const GrantCallDetails = ({grantCall}:{grantCall:GrantCall}) => {
     return (
-        <>
-            <h2>Grant Call name:</h2>
+        <div className="d-flex flex-column">
+            <h4>Grant Call name:</h4>
             <p>{grantCall.title}</p>
-            <h2>Closing date:</h2>
-            <p>{grantCall.closeDate}</p>
-        </>
+            <h4>Closing date:</h4>
+            <p>{grantCall.closeDate.toLocaleDateString()}</p>
+        </div>
     )
 }
