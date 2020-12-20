@@ -9,3 +9,26 @@ export type GrantCall = {
 }
 
 export type GrantCalls = { grantCalls: GrantCall[] }
+
+export type Student = {
+    id: number,
+    name: string,
+    email: string,
+    address: string,
+}
+
+export type Answer = {
+    title: string,
+    content: string
+}
+
+export type Review = {
+    id: number,
+    isAccepted: boolean,
+    comment: string,
+    reviewerId: number
+}
+
+export type Application = {
+    id: number
+}
