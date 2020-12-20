@@ -12,6 +12,8 @@ import FundedApplications from "./pages/FundedApplications";
 import ReviewsListPage from "./pages/ReviewsListPage";
 import {Signup} from "./pages/Signup";
 import PanelPage from "./pages/PanelPage";
+import AddReviewPage from "./pages/AddReviewPage";
+import AddFinalEvalPage from "./pages/AddFinalEvalPage";
 
 
 ReactDOM.render(
@@ -25,6 +27,8 @@ ReactDOM.render(
             <Route path={"/pages/signup"} component={Signup} />
             <Route path={"/pages/reviews"} component={ReviewsListPage} />
             <Route path={"/pages/panelPage"} component={PanelPage} />
+            <Route path={"/pages/addReview"} component={AddReviewPage} />
+            <Route path={"/pages/addFinal"} component={AddFinalEvalPage} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')

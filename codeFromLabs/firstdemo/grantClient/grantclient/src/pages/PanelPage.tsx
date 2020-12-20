@@ -5,7 +5,7 @@ import {Footer} from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {TextAndButton} from "../components/textAndButton";
-import ApplicationList from "../components/ApplicationList";
+import ApplicationList from "../components/applicationList";
 import {Application} from "../types";
 
 const exampleApp1 : Application = {id:0}

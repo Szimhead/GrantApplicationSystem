@@ -16,10 +16,13 @@ export const Jumbotron = () => {
                     don't simply skip over it entirely.
                 </p>
                 <p>
-                    <ButtonBlue text={"Main call to action"} link={"/pages/studentHomepage"}/>
-                    <ButtonGrey text={"Secondary action"} link={"/pages/reviewerApplication"}/>
+                    <ButtonBlue text={"student homepage"} link={"/pages/studentHomepage"}/>
+                    <ButtonGrey text={"reviewer/application"} link={"/pages/reviewerApplication"}/>
                     <ButtonGrey text={"reviews"} link={"/pages/reviews"}/>
                     <ButtonGrey text={"panel page"} link={"/pages/panelPage"}/>
+                    <ButtonGrey text={"add review"} link={"/pages/addReview"}/>
+                    <ButtonGrey text={"add final eval"} link={"/pages/addFinal"}/>
+
                 </p>
             </div>
         </section>
