@@ -49,7 +49,9 @@ export const Signup= ()=>{
            <>
                <Header />
                <PageTitle title={"Sign Up!"} extraText={""}/>
-               <Borders title={""} content={content} />
+               <div className="container">
+                   <Borders title={""} content={content} />
+               </div>
                <Footer />
 
            </>

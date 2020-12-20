@@ -23,7 +23,10 @@ export const AnonymousHomepage = () => {
         <>
             <Header />
             <PageTitle title={"Homepage"} extraText={""}/>
-            <Borders title={"GrantCalls"} content={content} />
+            <div className="container">
+                <Borders title={"GrantCalls"} content={content} />
+            </div>
+
             <Footer />
         </>
     );

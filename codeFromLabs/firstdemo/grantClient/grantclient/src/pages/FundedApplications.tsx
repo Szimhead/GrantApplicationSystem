@@ -8,7 +8,7 @@ import {HidingList} from "../components/hidingList";
 import {GrantCallComponent} from "../components/grantCallComponent";
 import {GrantCall} from "../types";
 
-const call:GrantCall={id:0,title:"grandzik",description:"",funding:400,openDate:new Date(),closeDate:new Date(),sponsorId:2}
+const call:GrantCall={id:0,title:"send nudes",description:"",funding:400,openDate:new Date(),closeDate:new Date(),sponsorId:2}
 
 export const FundedApplications = () => {
     const content = <div className="container">
@@ -21,8 +21,12 @@ export const FundedApplications = () => {
         <>
             <Header />
             <PageTitle title={"Funded Applications"} extraText={""}/>
-            <GrantCallComponent grantCall={call}/>
-            <Borders title={"Funded Applications"} content={content} />
+            <div className="container">
+                <GrantCallComponent grantCall={call}/>
+                <Borders title={"Funded Applications"} content={content} />
+            </div>
+
+
             <Footer />
         </>
     );
