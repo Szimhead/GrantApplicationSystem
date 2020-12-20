@@ -28,3 +28,7 @@ export type Review = {
     comment: string,
     reviewerId: number
 }
+
+export type Application = {
+    id: number
+}

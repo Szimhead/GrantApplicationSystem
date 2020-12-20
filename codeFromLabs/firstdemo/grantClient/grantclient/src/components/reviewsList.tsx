@@ -4,19 +4,8 @@ import {Borders} from "./borders";
 import {Review} from "../types";
 import {ListGroup} from "react-bootstrap";
 import {ReviewDetails} from "./reviewDetails";
-import {ButtonBlue} from "./button-blue";
 import {FinalDetails} from "./FinalDetails";
-
-const AddReview = () => {
-    return (
-        <div className="col px-1 mt-2">
-            <div className=" row border mx-2 p-3 justify-content-center">
-                <h5 className="d-inline-flex align-self-center pr-3">Add new review and classifcation</h5>
-                <ButtonBlue text={"Go"} link={"#"}/>
-            </div>
-        </div>
-    );
-};
+import {TextAndButton} from "./textAndButton";
 
 type ReviewsListI = {
     reviews: Review[],
@@ -61,7 +50,7 @@ export const ReviewsList = ({reviews, final}:ReviewsListI) => {
                     </ListGroup>}/>
                 <div className="col-7">
                     <Borders title={"Selected Review"} content={toShow}/>
-                    <AddReview/>
+                    <TextAndButton text={"Add new review and classifcation"} buttonText={"Go"} buttonLink={"#"}/>
                 </div>
             </div>
         </div>
