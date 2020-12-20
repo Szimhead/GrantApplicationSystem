@@ -10,7 +10,6 @@ import {GrantCall} from "../types";
 
 const call:GrantCall={id:0,title:"grandzik",description:"",funding:400,openDate:new Date(),closeDate:new Date(),sponsorId:2}
 
-
 export const FundedApplications = () => {
     return (
         <>
