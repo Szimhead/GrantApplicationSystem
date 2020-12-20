@@ -9,11 +9,9 @@ export const Jumbotron = () => {
     return (
         <section className="jumbotron text-center mb-0 bg-white">
             <div className="container">
-                <h1 className="jumbotron-heading">Album example</h1>
+                <h1 className="jumbotron-heading">Testing, attention please</h1>
                 <p className="lead text-muted">
-                    Something short and leading about the collection below—its contents,
-                    the creator, etc. Make it short and sweet, but not too short so folks
-                    don't simply skip over it entirely.
+                    hey, you can try clicking those buttons below
                 </p>
                 <p>
                     <ButtonBlue text={"student homepage"} link={"/pages/studentHomepage"}/>
