@@ -32,3 +32,7 @@ export type Review = {
 export type Application = {
     id: number
 }
+
+export type Panel = {
+    id: number
+}

@@ -15,6 +15,7 @@ export const Jumbotron = () => {
                 </p>
                 <p>
                     <ButtonBlue text={"student homepage"} link={"/pages/studentHomepage"}/>
+                    <ButtonBlue text={"reviewer homepage"} link={"/pages/reviewerHomepage"}/>
                     <ButtonGrey text={"reviewer/application"} link={"/pages/reviewerApplication"}/>
                     <ButtonGrey text={"reviews"} link={"/pages/reviews"}/>
                     <ButtonGrey text={"panel page"} link={"/pages/panelPage"}/>

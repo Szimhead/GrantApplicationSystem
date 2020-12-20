@@ -22,7 +22,7 @@ export const GrantCallListWithDetails = ({grantCalls}:GrantCalls) => {
     return (
         <>
             <div className="d-flex p-2 w-100 mb-1">
-                <div className="w-50">
+                <div className="w-50 align-self-center">
                     <ListGroup as="ul" defaultActiveKey={"" + grantCalls[0].id}>
                         {grantCalls.map(
                             (grantCall: GrantCall, index) => <ListGroup.Item as="li" eventKey={"" + grantCall.id}
