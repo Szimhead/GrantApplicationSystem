@@ -23,6 +23,9 @@ export const Header = () => {
                     <Nav className="mr-auto">
                         <Nav.Link href="/pages/fundedApplications">Funded</Nav.Link>
                     </Nav>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/pages/signup">Sign Up</Nav.Link>
+                    </Nav>
                     <Nav className="mr-4">
                         <NavDropdown title="Profile" id="basic-nav-dropdown" className="mr-5">
                             <NavDropdown.Item href="#action/3.1">My profile</NavDropdown.Item>

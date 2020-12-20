@@ -9,6 +9,7 @@ import StudentHomepage from "./pages/StudentHomepage";
 import ReviewerApplication from "./pages/ReviewerApplication";
 import AnonymousHomepage from "./pages/AnonymousHomepage";
 import FundedApplications from "./pages/FundedApplications";
+import {Signup} from "./pages/Signup";
 
 
 ReactDOM.render(
@@ -19,6 +20,7 @@ ReactDOM.render(
             <Route path={"/pages/reviewerApplication"} component={ReviewerApplication} />
             <Route path={"/pages/anonymousHomepage"} component={AnonymousHomepage} />
             <Route path={"/pages/fundedApplications"} component={FundedApplications} />
+            <Route path={"/pages/signup"} component={Signup} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
