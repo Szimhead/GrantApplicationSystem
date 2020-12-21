@@ -4,7 +4,7 @@ import {Borders} from "./borders";
 import {Review} from "../types";
 import {ListGroup} from "react-bootstrap";
 import {ReviewDetails} from "./reviewDetails";
-import {FinalDetails} from "./FinalDetails";
+import {FinalDetails} from "./finalDetails";
 import {TextAndButton} from "./textAndButton";
 
 type ReviewsListI = {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Header } from '../components/header';
-import { Footer } from '../components/footer';
+import {Header} from '../components/header';
+import {Footer} from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {GrantCallList} from "../components/grantCallList";
@@ -37,16 +37,18 @@ export const StudentHomepage = () => {
         closeDate: new Date(),
         sponsorId: 222
     }
-    const grantCalls:GrantCall[] = [grantCall0, grantCall1, grantCall2]
-    const content = <div className="container">
-                        <Borders title={"Open Grant Calls"} content={<GrantCallListWithDetails grantCalls={grantCalls}/>}/>
-                    </div>;
+    const grantCalls: GrantCall[] = [grantCall0, grantCall1, grantCall2]
+    const content =
+        <GrantCallListWithDetails grantCalls={grantCalls}/>
+
     return (
         <>
-            <Header />
+            <Header/>
             <PageTitle title={"Homepage"} extraText={""}/>
-            <Borders title={"Open Grant Calls"} content={content}/>
-            <Footer />
+            <div className="container">
+                <Borders title={"Open Grant Calls"} content={content}/>
+            </div>
+            <Footer/>
         </>
     );
 };
