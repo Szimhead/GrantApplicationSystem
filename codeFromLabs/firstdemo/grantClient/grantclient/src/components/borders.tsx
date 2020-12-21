@@ -1,4 +1,5 @@
 import React from 'react';
+import {Container} from "react-bootstrap";
 
 type BordersI = {
     title: string,
@@ -7,13 +8,13 @@ type BordersI = {
 
 export const Borders = ({title, content}: BordersI) => {
     return (
-        <div className="col px-1">
-            <div className="row mx-4 mt-4">
+        <Container className=" px-1">
+            <Container className="mx-4 mt-4">
                 <h5>{title}</h5>
-            </div>
-            <div className="row border mx-2 p-3">
+            </Container>
+            <Container className=" border mx-2 p-3">
                 {content}
-            </div>
-        </div>
+            </Container>
+        </Container>
     );
 };

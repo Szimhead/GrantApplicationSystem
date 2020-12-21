@@ -19,7 +19,7 @@ export class DropList extends React.Component<DropListInterface, { showList:bool
     render() {
         return (
             <div>
-                <button className="w-100 border-0" onClick={this.handleToggleClick}>
+                <button className="w-100 border-0 mt-2" onClick={this.handleToggleClick}>
                     {this.props.title}
                 </button>
                 <HidingList records={this.props.records} show={this.state.showList} headers={this.props.headers}/>
