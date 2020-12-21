@@ -26,6 +26,7 @@ export const Jumbotron = () => {
                     <ButtonGrey text={"add final eval"} link={"/pages/addFinal"}/>
                     <ButtonGrey text={"submitted app"} link={"/pages/submittedAppPage"}/>
                     <ButtonGrey text={"evaluated app"} link={"/pages/evaledAppPage"}/>
+                    <ButtonGrey text={"fill out application"} link={"/pages/fillOutAppPage"}/>
                 </p>
             </div>
         </section>

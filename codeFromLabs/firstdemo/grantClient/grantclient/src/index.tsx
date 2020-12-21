@@ -19,6 +19,7 @@ import {StudentProfile} from "./pages/StudentProfile";
 import SubmittedAppPage from "./pages/SubmittedAppPage";
 import GrantCallPage from "./pages/GrantCallPage";
 import EvaledAppPage from "./pages/EvaledAppPage";
+import FillOutAppPage from "./pages/FilOutAppPage";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -38,6 +39,7 @@ ReactDOM.render(
             <Route path={"/pages/grantCallPage"} component={GrantCallPage} />
             <Route path={"/pages/submittedAppPage"} component={SubmittedAppPage} />
             <Route path={"/pages/evaledAppPage"} component={EvaledAppPage} />
+            <Route path={"/pages/fillOutAppPage"} component={FillOutAppPage} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')
