@@ -1,5 +1,6 @@
 import React from "react";
 import { HidingList } from './hidingList';
+import {Container} from "react-bootstrap";
 
 interface DropListInterface {title:string, headers:string[], records: string[][], show:boolean}
 //TODO: change list type from string to applicationList
@@ -19,10 +20,13 @@ export class DropList extends React.Component<DropListInterface, { showList:bool
     render() {
         return (
             <div>
-                <button className="w-100 border-0 mt-2" onClick={this.handleToggleClick}>
-                    {this.props.title}
-                </button>
-                <HidingList records={this.props.records} show={this.state.showList} headers={this.props.headers}/>
+                <Container className="m-2">
+                    <button className="w-100 border-0 text-left p-2" onClick={this.handleToggleClick}>
+                        {this.props.title}
+                    </button>
+                    <HidingList records={this.props.records} show={this.state.showList} headers={this.props.headers}/>
+                </Container>
+
             </div>
         );
     }

@@ -22,13 +22,7 @@ export const StudentProfile=()=>{
                     <p>{studentinho.address}</p>
                 </Col>
             </Row>
-            <DropList title="Applications to be submitted" headers={["Grant Call"]} records={[["Grant Call 1"],["Grant Call 2"],["Grant Call 3"]]} show={false}/>
 
-            <DropList title="Evaluated applications" headers={["Grant Call Name","Result"]}
-                      records={[["Grant Call 1", "Accepted"],["Grant Call 2", "Accepted"],["Grant Call 3", "Denied"]]} show={false}/>
-
-            <DropList title="All applications" headers={["Grant Call Name","Status"]} records={[["Grant 1", "Submitted"],
-                        ["Grant 2","Evaluated"],["Grant Call 3","To be submitted"]]} show={false}/>
         </div>
     return(
         <>
@@ -36,6 +30,13 @@ export const StudentProfile=()=>{
             <PageTitle title={"My profile"} extraText={""}/>
             <div className="container">
                 <Borders title={"Details"} content={content}/>
+                <DropList title="Applications to be submitted" headers={["Grant Call"]} records={[["Grant Call 1"],["Grant Call 2"],["Grant Call 3"]]} show={false}/>
+
+                <DropList title="Evaluated applications" headers={["Grant Call Name","Result"]}
+                          records={[["Grant Call 1", "Accepted"],["Grant Call 2", "Accepted"],["Grant Call 3", "Denied"]]} show={false}/>
+
+                <DropList title="All applications" headers={["Grant Call Name","Status"]} records={[["Grant 1", "Submitted"],
+                    ["Grant 2","Evaluated"],["Grant Call 3","To be submitted"]]} show={false}/>
             </div>
             <Footer />
         </>
