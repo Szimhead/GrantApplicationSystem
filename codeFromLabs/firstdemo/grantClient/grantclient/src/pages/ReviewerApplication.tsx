@@ -5,7 +5,7 @@ import {Footer} from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {ApplicationTabs} from "../components/tabs";
-import {Student, Answer} from "../types";
+import {Student, Answer, Requirement} from "../types";
 import {StudentDetails} from "../components/studentDetails";
 
 const exampleStudent: Student = {
@@ -15,10 +15,14 @@ const exampleStudent: Student = {
     address: "empty",
 }
 
-const exampleAnswer1: Answer = { title: "Introduction", content: "this is my introduction" }
-const exampleAnswer2: Answer = { title: "Related Work", content: "this is my related work" }
-const exampleAnswer3: Answer = { title: "Work plan", content: "this is my work plan" }
-const exampleAnswer4: Answer = { title: "Publications", content: "my publications" }
+const exampleRequirement1:Requirement = { name: "Introduction", contentType: "text"}
+const exampleRequirement2:Requirement = { name: "Related Work", contentType: "text"}
+const exampleRequirement3:Requirement = { name: "Work Plan", contentType: "text"}
+const exampleRequirement4:Requirement = { name: "Publications", contentType: "file"}
+const exampleAnswer1: Answer = { requirement: exampleRequirement1, content: "this is my introduction" }
+const exampleAnswer2: Answer = { requirement: exampleRequirement2, content: "this is my related work" }
+const exampleAnswer3: Answer = { requirement: exampleRequirement3, content: "this is my work plan" }
+const exampleAnswer4: Answer = { requirement: exampleRequirement4, content: "my publications" }
 
 export const ReviewerApplication = () => {
     return (

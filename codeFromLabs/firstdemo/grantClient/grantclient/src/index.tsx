@@ -16,6 +16,7 @@ import AddReviewPage from "./pages/AddReviewPage";
 import AddFinalEvalPage from "./pages/AddFinalEvalPage";
 import ReviewerHomepage from "./pages/ReviewerHomepage";
 import {StudentProfile} from "./pages/StudentProfile";
+import SubmittedAppPage from "./pages/SubmittedAppPage";
 
 
 ReactDOM.render(
@@ -33,6 +34,7 @@ ReactDOM.render(
             <Route path={"/pages/addFinal"} component={AddFinalEvalPage} />
             <Route path={"/pages/reviewerHomepage"} component={ReviewerHomepage} />
             <Route path={"/pages/studentProfile"} component={StudentProfile} />
+            <Route path={"/pages/submittedAppPage"} component={SubmittedAppPage} />
         </Router>
     </React.StrictMode>,
     document.getElementById('root')

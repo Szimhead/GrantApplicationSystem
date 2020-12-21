@@ -9,7 +9,7 @@ export const PageTitle = ({title, extraText}: PageTitleI) => {
                 <div className="col-9">
                     <h1>{title}</h1>
                 </div>
-                <div className="col-3 align-self-end mb-1">
+                <div className="col-3 align-self-end text-right mb-1">
                     {extraText}
                 </div>
             </div>

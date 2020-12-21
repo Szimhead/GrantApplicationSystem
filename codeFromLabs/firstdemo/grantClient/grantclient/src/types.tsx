@@ -18,7 +18,7 @@ export type Student = {
 }
 
 export type Answer = {
-    title: string,
+    requirement: Requirement,
     content: string
 }
 
@@ -35,4 +35,9 @@ export type Application = {
 
 export type Panel = {
     id: number
+}
+
+export type Requirement = {
+    name: string,
+    contentType: string
 }
