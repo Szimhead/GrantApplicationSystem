@@ -38,7 +38,7 @@ export const PanelListWithDetails = ({panels, grantCalls}:PanelsI) => {
                     <Borders title={"Details"} content={<GrantCallDetails grantCall={grantCalls[currIndex]}/>}/>
                 </div>
             </div>
-            <div className="m-auto">
+            <div className="row m-auto justify-content-center">
                 <ButtonBlue text={"Go to Panel"} link={"/"}/>
             </div>
         </>

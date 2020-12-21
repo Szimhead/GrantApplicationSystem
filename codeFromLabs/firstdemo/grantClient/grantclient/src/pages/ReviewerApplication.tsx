@@ -28,7 +28,9 @@ export const ReviewerApplication = () => {
             <div className="container">
                 <div className="row mt-4 justify-content-center">
                    <ApplicationTabs answers={[exampleAnswer1, exampleAnswer2, exampleAnswer3, exampleAnswer4]} />
+                   <div className="col-4">
                    <Borders title={"Student details"} content={<StudentDetails student={exampleStudent} />}/>
+                   </div>
                 </div>
             </div>
             <Footer/>

@@ -17,8 +17,21 @@ const exampleReview2: Review = {
     id: 1,
     isAccepted: false,
     comment: "I hate it",
-    reviewerId: 666
+    reviewerId: 12
 }
+const exampleReview3: Review = {
+    id: 2,
+    isAccepted: true,
+    comment: "ok",
+    reviewerId: 623
+}
+const exampleReview4: Review = {
+    id: 3,
+    isAccepted: true,
+    comment: "ran out of ideas",
+    reviewerId: 35
+}
+
 
 const exampleFinal: Review = {
     id: 3,
@@ -32,7 +45,7 @@ export const ReviewsListPage = () => {
         <>
             <Header/>
             <PageTitle title={"Application 1 - Reviews"} extraText={""}/>
-            <ReviewsList reviews={[exampleReview1, exampleReview2]} final={exampleFinal}/>
+            <ReviewsList reviews={[exampleReview1, exampleReview2, exampleReview3, exampleReview4]} final={exampleFinal}/>
             <Footer/>
         </>
     );
