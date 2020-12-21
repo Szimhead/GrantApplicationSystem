@@ -10,12 +10,12 @@ import ReviewerApplication from "./pages/ReviewerApplication";
 import AnonymousHomepage from "./pages/AnonymousHomepage";
 import FundedApplications from "./pages/FundedApplications";
 import ReviewsListPage from "./pages/ReviewsListPage";
-import Signup from "./pages/Signup";
+import {Signup} from "./pages/Signup";
 import PanelPage from "./pages/PanelPage";
 import AddReviewPage from "./pages/AddReviewPage";
 import AddFinalEvalPage from "./pages/AddFinalEvalPage";
 import ReviewerHomepage from "./pages/ReviewerHomepage";
-import StudentProfile from "./pages/StudentProfile";
+import {StudentProfile} from "./pages/StudentProfile";
 import SubmittedAppPage from "./pages/SubmittedAppPage";
 import GrantCallPage from "./pages/GrantCallPage";
 

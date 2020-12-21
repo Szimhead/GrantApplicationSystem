@@ -6,7 +6,7 @@ import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {TextAndButton} from "../components/textAndButton";
 import {Application} from "../types";
-import ApplicationList from "../components/ApplicationList";
+import ApplicationList from "../components/applicationList";
 
 const exampleApp1: Application = {id: 0}
 const exampleApp2: Application = {id: 1}

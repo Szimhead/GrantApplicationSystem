@@ -15,13 +15,13 @@ const content= <div>
             <h5>Grant Name:</h5>
             <p>{grantCall0.title}</p>
             <h5>Opening Date:</h5>
-            <p>{grantCall0.openDate}</p>
+            <p>{grantCall0.openDate.toLocaleDateString()}</p>
         </Col>
         <Col className="m-4">
             <h5>Funding:</h5>
             <p>{grantCall0.funding}</p> //changed from number of submitted apps to funding
             <h5>Closing Date:</h5>
-            <p>{grantCall0.closeDate}</p>
+            <p>{grantCall0.closeDate.toLocaleDateString()}</p>
         </Col>
     </Row>
     <h5>Description:</h5>

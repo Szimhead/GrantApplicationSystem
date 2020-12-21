@@ -12,8 +12,7 @@ const exampleRequirement2: Requirement = {name: "Related Work", contentType: "te
 const exampleRequirement3: Requirement = {name: "Work Plan", contentType: "text"}
 const exampleRequirement4: Requirement = {name: "Publications", contentType: "file"}
 
-const exampleAnswer1: Answer = {requirement: exampleRequirement1, content: "this is my introduction: "+text1
-}
+const exampleAnswer1: Answer = {requirement: exampleRequirement1, content: "this is my introduction: "+text1}
 const exampleAnswer2: Answer = {requirement: exampleRequirement2, content: "this is my related work: "+text2}
 const exampleAnswer3: Answer = {requirement: exampleRequirement3, content: "this is my work plan: "+text3}
 const exampleAnswer4: Answer = {requirement: exampleRequirement4, content: ""}
