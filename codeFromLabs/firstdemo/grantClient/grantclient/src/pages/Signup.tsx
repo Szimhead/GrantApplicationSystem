@@ -5,6 +5,7 @@ import {Header} from "../components/header";
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {Footer} from "../components/footer";
+import ReviewerHomepage from "./ReviewerHomepage";
 
 export const Signup= ()=>{
     const content=<div className="container">
@@ -56,4 +57,6 @@ export const Signup= ()=>{
 
            </>
        );
-}
+};
+
+export default Signup;

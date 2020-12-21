@@ -6,6 +6,7 @@ import {Footer} from "../components/footer";
 import {GrantCall, Student} from "../types";
 import {Col, Row} from "react-bootstrap";
 import {DropList} from "../components/dropList";
+import ReviewerHomepage from "./ReviewerHomepage";
 
 export const StudentProfile=()=>{
     const studentinho:Student={id:0,name:"Jacek",email:"Jacek@gmail.com",address:"Tiago's house"}
@@ -42,5 +43,6 @@ export const StudentProfile=()=>{
         </>
 
     )
+};
 
-}
+export default StudentProfile;

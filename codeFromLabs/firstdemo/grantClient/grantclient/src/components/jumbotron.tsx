@@ -13,6 +13,9 @@ export const Jumbotron = () => {
                 <p className="lead text-muted">
                     hey, you can try clicking those buttons below
                 </p>
+                <p className="text-muted">
+                    Or you can use this fucking amazing navbar with never ending list of options to select!
+                </p>
                 <p>
                     <ButtonBlue text={"student homepage"} link={"/pages/studentHomepage"}/>
                     <ButtonBlue text={"reviewer homepage"} link={"/pages/reviewerHomepage"}/>
