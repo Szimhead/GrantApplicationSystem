@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {Borders} from "./borders";
-import {Review} from "../types";
+import {Answer, Review} from "../types";
 import {ListGroup} from "react-bootstrap";
 import {ReviewDetails} from "./reviewDetails";
 import {TextAndButton} from "./textAndButton";
@@ -10,9 +10,18 @@ import {FinalDetails} from "./finalDetails";
 type ReviewsListI = {
     reviews: Review[],
     final: Review
+    extra: string
 }
 
-export const ReviewsList = ({reviews, final}: ReviewsListI) => {
+export const content = (extra: string) => {
+    let visible = <TextAndButton text={"Add new review and classification"} buttonText={"Go"} buttonLink={"#"}/>
+    if (extra == "")
+        return
+    else
+        return visible
+}
+
+export const ReviewsList = ({reviews, final, extra}: ReviewsListI) => {
     const [currIndex, setIndex] = useState(0)
 
     const [toShow, setToShow] = useState(<ReviewDetails review={reviews[currIndex]}/>)
@@ -52,7 +61,7 @@ export const ReviewsList = ({reviews, final}: ReviewsListI) => {
                 </div>
                 <div className="w-50">
                     <Borders title={"Selected Review"} content={toShow}/>
-                    <TextAndButton text={"Add new review and classification"} buttonText={"Go"} buttonLink={"#"}/>
+                    {content(extra)}
                 </div>
             </div>
         </div>

@@ -6,9 +6,6 @@ import {ButtonBlue} from "./button-blue";
 type RequirementI = {
     answers: Answer[]
 }
-type AnswerI = {
-    answer: Answer
-}
 
 export const content = (answer: Answer) => {
     let text = <p>{answer.content}</p>

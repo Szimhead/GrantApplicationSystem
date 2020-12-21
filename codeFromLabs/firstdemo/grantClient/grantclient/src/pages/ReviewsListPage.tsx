@@ -45,7 +45,7 @@ export const ReviewsListPage = () => {
         <>
             <Header/>
             <PageTitle title={"Application 1 - Reviews"} extraText={""}/>
-            <ReviewsList reviews={[exampleReview1, exampleReview2, exampleReview3, exampleReview4]} final={exampleFinal}/>
+            <ReviewsList reviews={[exampleReview1, exampleReview2, exampleReview3, exampleReview4]} final={exampleFinal} extra={"yes"}/>
             <Footer/>
         </>
     );
