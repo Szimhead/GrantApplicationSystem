@@ -138,7 +138,7 @@ open class UserDAO(
             @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
             var panels: MutableSet<PanelDAO>,
             @ManyToOne(fetch = FetchType.EAGER)
-            var institution: InstitutionDAO,
+            var institution_rev: InstitutionDAO,
             @OneToMany(mappedBy = "reviewer", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
             var reviews: MutableSet<ReviewDAO>
     ) :UserDAO(){
@@ -147,7 +147,7 @@ open class UserDAO(
         constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
 
         override fun toString(): String {
-            val institutionId = institution.id
+            val institutionId = institution_rev.id
 
             return "UserDAO.ReviewerDAO=(id: $id, name: $name, email: $email, address: $address, panelsInCharge: $panelsInCharge, panels: $panels, institutionId: $institutionId, " +
                     "reviews: $reviews)"
@@ -164,9 +164,9 @@ open class UserDAO(
             val b = this.name == other.name
             val c = this.address == other.address
             val d = this.panelsInCharge == other.panelsInCharge
-            val e = this.institution.id == other.institution.id &&
-                    this.institution.name == other.institution.name &&
-                    this.institution.contact == other.institution.contact//compare institutions by id so it doesn't loop
+            val e = this.institution_rev.id == other.institution_rev.id &&
+                    this.institution_rev.name == other.institution_rev.name &&
+                    this.institution_rev.contact == other.institution_rev.contact//compare institutions by id so it doesn't loop
             val f = this.reviews == other.reviews
             val g = this.panels == other.panels
 
@@ -442,12 +442,14 @@ data class InstitutionDAO(
         var contact: String,
         @OneToMany(mappedBy = "institution", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var students: MutableSet<UserDAO.StudentDAO>,
-        @OneToMany(mappedBy = "institution", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "institution_rev", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
         var reviewers: MutableSet<UserDAO.ReviewerDAO>
 ) {
     constructor() : this(0, "name", "contact", mutableSetOf<UserDAO.StudentDAO>(), mutableSetOf<UserDAO.ReviewerDAO>())
     constructor(inst: OrganizationDTO) : this(inst.id, inst.name, inst.contact, mutableSetOf<UserDAO.StudentDAO>(), mutableSetOf<UserDAO.ReviewerDAO>())
     //no overrides needed
+
+
 }
 
 @Entity

@@ -310,7 +310,7 @@ class ApplicationAndGrantCallServiceTest() {
 
         reviewers.addReviewer(reviewer1)
 
-        reviewer1.institution = institution1
+        reviewer1.institution_rev = institution1
         institution1.reviewers.add(reviewer1)
 
         assertEquals(setOf(reviewer1), reviewers.getAll().toSet())

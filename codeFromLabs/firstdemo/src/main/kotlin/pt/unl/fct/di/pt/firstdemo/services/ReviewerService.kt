@@ -28,7 +28,7 @@ class ReviewerService (val reviewers: ReviewerRepository, val panels: PanelRepos
     @Transactional
     fun editReviewer(editedRev: UserDAO.ReviewerDAO, newRev: UserDAO.ReviewerDAO) {
         editedRev.address = newRev.address
-        editedRev.institution = newRev.institution
+        editedRev.institution_rev = newRev.institution_rev
         editedRev.name = newRev.name
         reviewers.save(editedRev)
     }
