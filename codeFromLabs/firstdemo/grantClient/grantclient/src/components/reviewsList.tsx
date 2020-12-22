@@ -5,7 +5,7 @@ import {Answer, Review} from "../types";
 import {ListGroup} from "react-bootstrap";
 import {ReviewDetails} from "./reviewDetails";
 import {TextAndButton} from "./textAndButton";
-import {FinalDetails} from "./finalDetails";
+import {FinalDetails} from "./FinalDetails";
 
 type ReviewsListI = {
     reviews: Review[],
