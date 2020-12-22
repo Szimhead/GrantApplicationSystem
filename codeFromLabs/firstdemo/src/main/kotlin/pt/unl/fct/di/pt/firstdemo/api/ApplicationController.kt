@@ -8,7 +8,7 @@ import pt.unl.fct.di.pt.firstdemo.services.*
 class ApplicationController(val apps: ApplicationService, val reviewers: ReviewerService, val dataItems: DataItemService): ApplicationAPI {
 
     @PreAuthorize("hasRole({'ADMIN'})")
-    override fun getAll() = apps.getAll().map { ApplicationDTO(it) }
+    override fun getAll(filter:String) = apps.getAll().map { ApplicationDTO(it) }
 
     @PreAuthorize("hasRole({'ADMIN'}) or (SecurityService.canGetApplication(principal,#id) and (hasRole({'REVIEWER'}) or hasRole({'STUDENT'}) or hasRole({'CHAIR'})))")
     override fun getOne(id:Long) = ApplicationDTO(apps.getOne(id))

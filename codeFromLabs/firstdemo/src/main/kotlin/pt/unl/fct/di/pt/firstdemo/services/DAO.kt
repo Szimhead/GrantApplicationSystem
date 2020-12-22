@@ -66,17 +66,16 @@ data class ApplicationDAO (
 @Entity
 open class UserDAO(
         @Id
+        @GeneratedValue
+        var id: Long,
         val username: String = "",
         var password: String = "",
         var role: String = "") {
-    constructor(user: UserPasswordDTO) : this(user.username, user.password, user.role)
-
+    constructor(user: UserPasswordDTO) : this(0, user.username, user.password, user.role)
+    constructor() : this(0, "user", "password", "role")
 
     @Entity
     data class StudentDAO(
-            @Id
-            @GeneratedValue
-            var id: Long,
             var name: String,
             var email: String,
             var address: String,
@@ -87,9 +86,9 @@ open class UserDAO(
             @OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
             var cv: CVDAO?
     ) : UserDAO() {
-        constructor() : this(0, "name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
-        constructor(stud: UserDTO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
-        constructor(stud: UserDTO, inst: InstitutionDAO) : this(stud.id, stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), inst, null)
+        constructor() : this("name", "e-mail", "address", mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+        constructor(stud: UserDTO) : this(stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), InstitutionDAO(), null)
+        constructor(stud: UserDTO, inst: InstitutionDAO) : this(stud.name, stud.email, stud.address, mutableSetOf<ApplicationDAO>(), inst, null)
 
         override fun toString(): String {
             var apps = "["
@@ -131,9 +130,6 @@ open class UserDAO(
 
     @Entity
     data class ReviewerDAO(
-            @Id
-            @GeneratedValue
-            var id: Long,
             var name: String,
             var email: String,
             var address: String,
@@ -146,9 +142,9 @@ open class UserDAO(
             @OneToMany(mappedBy = "reviewer", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
             var reviews: MutableSet<ReviewDAO>
     ) :UserDAO(){
-        constructor() : this(0, "name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), InstitutionDAO(), mutableSetOf<ReviewDAO>())
-        constructor(rev: UserDTO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), InstitutionDAO(), mutableSetOf<ReviewDAO>())
-        constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.id, rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
+        constructor() : this("name", "e-mail", "address", mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), InstitutionDAO(), mutableSetOf<ReviewDAO>())
+        constructor(rev: UserDTO) : this(rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), InstitutionDAO(), mutableSetOf<ReviewDAO>())
+        constructor(rev: UserDTO, inst: InstitutionDAO) : this(rev.name, rev.email, rev.address, mutableSetOf<PanelDAO>(), mutableSetOf<PanelDAO>(), inst, mutableSetOf<ReviewDAO>())
 
         override fun toString(): String {
             val institutionId = institution.id
@@ -180,16 +176,13 @@ open class UserDAO(
 
     @Entity
     data class SponsorDAO(
-            @Id
-            @GeneratedValue
-            var id: Long,
             var name: String,
             var contact: String,
             @OneToMany(mappedBy = "sponsor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
             var grantCalls: MutableSet<GrantCallDAO>
     ):UserDAO() {
-        constructor() : this(0, "name", "contact", mutableSetOf<GrantCallDAO>())
-        constructor(sponsor: OrganizationDTO) : this(sponsor.id, sponsor.name, sponsor.contact, mutableSetOf<GrantCallDAO>())
+        constructor() : this("name", "contact", mutableSetOf<GrantCallDAO>())
+        constructor(sponsor: OrganizationDTO) : this(sponsor.name, sponsor.contact, mutableSetOf<GrantCallDAO>())
     }
 }
 
