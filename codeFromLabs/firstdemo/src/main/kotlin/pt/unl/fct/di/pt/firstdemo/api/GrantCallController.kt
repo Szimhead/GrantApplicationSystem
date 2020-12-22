@@ -82,8 +82,9 @@ class GrantCallController(
     override fun getOneDataItem(id: Long, dataItemId: Long) = DataItemDTO(calls.getOneDataItem(calls.getOne(id), dataItemId))
 
     override fun addDataItem(id: Long, dataItem: DataItemDTO) {
-        items.addDataItem(DataItemDAO(dataItem))
-        calls.addDataItem(calls.getOne(id), DataItemDAO(dataItem))
+        val dt = DataItemDAO(dataItem)
+        items.addDataItem(dt)
+        calls.addDataItem(calls.getOne(id), items.getOne(dt.id))
     }
 
     override fun deleteDataItem(id: Long, dataItemId: Long) {
