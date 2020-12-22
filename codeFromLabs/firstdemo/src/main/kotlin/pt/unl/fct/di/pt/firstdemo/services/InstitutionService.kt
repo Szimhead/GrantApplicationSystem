@@ -46,7 +46,7 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
     }
 
     fun getStudentUser(student: UserDAO.StudentDAO) : UserDAO{
-        return UserDAO(student.email,"password","STUDENT")
+        return UserDAO(0, student.email,"password","STUDENT")
     }
 
     /* reviewer handling */
@@ -60,6 +60,6 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
     }
 
     fun getReviewerUser(reviewer: UserDAO.ReviewerDAO) : UserDAO{
-        return UserDAO(reviewer.email,"password","REVIEWER")
+        return UserDAO(0, reviewer.email,"password","REVIEWER")
     }
 }

@@ -48,7 +48,7 @@ class ApplicationAndGrantCallServiceTest() {
         var app1 = ApplicationDAO()
         var app2 = ApplicationDAO()
         var app3 = ApplicationDAO()
-        val sponsor1 = SponsorDAO(0, "sponsor1", "sponsor1 contact", mutableSetOf())
+        val sponsor1 = SponsorDAO("sponsor1", "sponsor1 contact", mutableSetOf())
         var grantCall1 = GrantCallDAO()
         var grantCall2 = GrantCallDAO()
         var grantCall3 = GrantCallDAO()
@@ -102,7 +102,7 @@ class ApplicationAndGrantCallServiceTest() {
     fun `add Student test`() {
         `add Institution test`() //must be able to add institutions
 
-        student1 = StudentDAO(0, "Tiago", "tiago@email.com", "tiago's street n2", mutableSetOf(), institutions.getOne(institution1.id), null)
+        student1 = StudentDAO("Tiago", "tiago@email.com", "tiago's street n2", mutableSetOf(), institutions.getOne(institution1.id), null)
 
         institutions.addStudentToInstitution(institutions.getOne(institution1.id), student1)
 
@@ -306,7 +306,7 @@ class ApplicationAndGrantCallServiceTest() {
     fun `add reviewer test`() {
         `basic get(empty)AllReviewers test`()
 
-        reviewer1 = ReviewerDAO(0, "reviewer1", "reviewer1@email.com", "reviewer1.address", mutableSetOf(), mutableSetOf(), institutions.getOne(institution1.id), mutableSetOf())
+        reviewer1 = ReviewerDAO("reviewer1", "reviewer1@email.com", "reviewer1.address", mutableSetOf(), mutableSetOf(), institutions.getOne(institution1.id), mutableSetOf())
 
         reviewers.addReviewer(reviewer1)
 

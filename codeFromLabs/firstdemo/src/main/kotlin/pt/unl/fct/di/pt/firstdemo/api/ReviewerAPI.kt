@@ -71,7 +71,7 @@ interface ReviewerAPI {
         ApiResponse(code = 403, message = "Get panel from reviewer forbidden."),
         ApiResponse(code = 404, message = "Not found.")
     ])
-    @GetMapping("/{id}/panels/{panelid}")
+    @GetMapping("/{id}/panels/{panelId}")
     fun getOnePanel(@ApiParam(name = "id", type = "Long", value = "The id of the reviewer to get the panel from", required = true)
                     @PathVariable id: Long, @ApiParam(name = "panelId", type = "Long", value = "The panelId of the panel being retrieved", required = true)
                     @PathVariable panelId:Long): PanelDTO

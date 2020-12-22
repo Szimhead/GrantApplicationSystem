@@ -47,6 +47,6 @@ class SponsorService (val sponsors: SponsorRepository, val grantCalls: GrantCall
     }
 
     fun getSponsorUser(sponsor: UserDAO.SponsorDAO) : UserDAO{
-        return UserDAO(sponsor.name,"password","SPONSOR")
+        return UserDAO(0, sponsor.name,"password","SPONSOR")
     }
 }

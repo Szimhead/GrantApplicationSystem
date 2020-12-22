@@ -54,7 +54,7 @@ class GrantCallControllerTest {
     companion object {
         val mapper = ObjectMapper().registerModule(KotlinModule())
 
-        val sponsor = SponsorDAO(0, "sponsor1", "sponsor1 contact", mutableSetOf())
+        val sponsor = SponsorDAO("sponsor1", "sponsor1 contact", mutableSetOf())
 
         val grantCall1 = GrantCallDAO(0, "Grant Call", "some description", 20.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsor)
         var grantCall2 = GrantCallDAO(0, "Second Grant Call", "Second description", 40.0, Date(), Date(), mutableSetOf(), null, mutableSetOf(), sponsor)
@@ -69,10 +69,10 @@ class GrantCallControllerTest {
 
         val institution1 = InstitutionDAO(0, "first institution", "first_inst_contact", mutableSetOf(), mutableSetOf())
 
-        val student1 = StudentDAO(0, "Tiago", "tiago@email.com", "tiago's street n2", mutableSetOf(), institution1, null)
+        val student1 = StudentDAO("Tiago", "tiago@email.com", "tiago's street n2", mutableSetOf(), institution1, null)
 
-        val reviewer1 = ReviewerDAO(0, "reviewer1", "reviewer1@email", "reviewer1.address", mutableSetOf(), mutableSetOf(panelDAO), institution1, mutableSetOf())
-        val reviewer2 = ReviewerDAO(0, "reviewer2", "reviewer2@email", "reviewer2.address", mutableSetOf(), mutableSetOf(panelDAO), institution1, mutableSetOf())
+        val reviewer1 = ReviewerDAO("reviewer1", "reviewer1@email", "reviewer1.address", mutableSetOf(), mutableSetOf(panelDAO), institution1, mutableSetOf())
+        val reviewer2 = ReviewerDAO("reviewer2", "reviewer2@email", "reviewer2.address", mutableSetOf(), mutableSetOf(panelDAO), institution1, mutableSetOf())
 
 
         val reviewersDAO = setOf(reviewer1, reviewer2)
