@@ -22,50 +22,62 @@ export const content = (extra: string) => {
 }
 
 export const ReviewsList = ({reviews, final=null, extra}: ReviewsListI) => {
-    const [currIndex, setIndex] = useState(0)
-
-    const [toShow, setToShow] = useState(<ReviewDetails review={reviews[currIndex]}/>)
-
+    const [toShow, setToShow] = useState(<></>)
+    const [changed, setChanged] = useState(false)
+    let i = <></>;
 
     let handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")
-        if (index == null) {
-            setIndex(0)
-            setToShow(<ReviewDetails review={reviews[Number(index)]}/>)
-        } else if (index === "final") {
+        if (index === "final") {
             setToShow(<FinalDetails review={final}/>)
+            setChanged(true)
         } else {
-            setIndex(Number(index))
             setToShow(<ReviewDetails review={reviews[Number(index)]}/>)
+            setChanged(true)
         }
     }
 
-    return (
-        <div className="container">
-            <div className="row mt-3 justify-content-center">
-                <div className="w-50 d-flex">
-                    <Borders title={"Reviews List"} content={
-                        <ListGroup as="ul" className="w-100" defaultActiveKey={"" + reviews[0].id}>
-                            <ListGroup.Item as="li"
-                                            className="mb-3"
-                                            eventKey='final'
-                                            onClick={handleClick}
-                                            action>Final Evaluation</ListGroup.Item>
-                            {reviews.map(
-                                (review: Review, index) => <ListGroup.Item as="li"
-                                                                           eventKey={"" + review.id}
-                                                                           className="border"
-                                                                           onClick={handleClick}
-                                                                           action>Review {review.id}</ListGroup.Item>
-                            )}
-                        </ListGroup>}/>
-                </div>
-                <div className="w-50">
-                    <Borders title={"Selected Review"} content={toShow}/>
-                    {content(extra)}
+    const rightComponent = () => {
+        if (changed)
+            return toShow
+        else
+            return i
+    }
+
+    const handleNull = () => {
+        if (reviews.length != 0) {
+            i = <ReviewDetails review={reviews[0]}/>;
+            return <div className="container">
+                <div className="row mt-3 justify-content-center">
+                    <div className="w-50 d-flex">
+                        <Borders title={"Reviews List"} content={
+                            <ListGroup as="ul" className="w-100" defaultActiveKey={"0"}>
+                                <ListGroup.Item as="li"
+                                                className="mb-3"
+                                                eventKey='final'
+                                                onClick={handleClick}
+                                                action>Final Evaluation</ListGroup.Item>
+                                {reviews.map(
+                                    (review: Review, index) => <ListGroup.Item as="li"
+                                                                               eventKey={"" + index}
+                                                                               className="border"
+                                                                               onClick={handleClick}
+                                                                               action>Review {review.id}</ListGroup.Item>
+                                )}
+                            </ListGroup>}/>
+                    </div>
+                    <div className="w-50">
+                        <Borders title={"Selected Review"} content={rightComponent()}/>
+                        {content(extra)}
+                    </div>
                 </div>
             </div>
-        </div>
+        } else
+            return <div className="container"><Borders title={""} content={"no reviews"}/></div>
+    }
+
+    return (
+        handleNull()
     );
 };
 

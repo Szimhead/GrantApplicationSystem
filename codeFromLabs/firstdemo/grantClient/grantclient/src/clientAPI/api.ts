@@ -366,6 +366,12 @@ export interface PanelDTO {
      * @type {number}
      * @memberof PanelDTO
      */
+    grantId: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PanelDTO
+     */
     id: number;
 }
 
