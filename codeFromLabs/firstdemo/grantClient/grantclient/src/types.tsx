@@ -1,14 +1,6 @@
-export type GrantCall = {
-    id: number,
-    title: string,
-    description: string,
-    funding: number,
-    openDate: Date,
-    closeDate: Date,
-    sponsorId: number
-}
+import {GrantCallDTO} from "./clientAPI";
 
-export type GrantCalls = { grantCalls: GrantCall[] }
+export type GrantCalls = { grantCalls: GrantCallDTO[] }
 
 export type Student = {
     id: number,

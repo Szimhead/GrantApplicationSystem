@@ -10,13 +10,13 @@ import java.util.*
 class UserService(var users: UserRepository) {
 
     fun findUser(username:String): UserDAO {
-        return users.findById(username).orElseThrow{
+        return users.findByUsername(username).orElseThrow{
             NotFoundException("User with username $username not found")
         }
     }
 
     fun addUser(user: UserDAO) {
-        val aUser = users.findById(user.username).orElse(null)
+        val aUser = users.findById(user.id).orElse(null)
 
         if ( aUser == null ) {
             user.password = BCryptPasswordEncoder().encode(user.password)

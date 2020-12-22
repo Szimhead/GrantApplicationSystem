@@ -33,14 +33,14 @@ export class Configuration {
      * @type {string}
      * @memberof Configuration
      */
-    username?: string;
+    username?: string = "user";
     /**
      * parameter for basic security
      * 
      * @type {string}
      * @memberof Configuration
      */
-    password?: string;
+    password?: string = "password";
     /**
      * parameter for oauth2 security
      * @param name security name

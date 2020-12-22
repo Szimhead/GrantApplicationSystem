@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {Header} from '../components/header';
 import {Footer} from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
-import {GrantCallList} from "../components/grantCallList";
-import {GrantCall} from "../types";
-import {GrantCallDetails} from "../components/grantCallDetails";
 import {GrantCallListWithDetails} from "../components/grantCallListWithDetails";
+import {GrantCallControllerApi, GrantCallDTO} from "../clientAPI/api";
 
 export const StudentHomepage = () => {
-    const grantCall0: GrantCall = {
+    const [grantCalls, setGrantCalls] = useState([] as GrantCallDTO[])
+    const grantCall0: GrantCallDTO = {
         id: 0,
         title: "title0",
         description: "description",
@@ -19,7 +18,7 @@ export const StudentHomepage = () => {
         closeDate: new Date(),
         sponsorId: 0
     }
-    const grantCall1: GrantCall = {
+    const grantCall1: GrantCallDTO = {
         id: 1,
         title: "title1",
         description: "description",
@@ -28,7 +27,7 @@ export const StudentHomepage = () => {
         closeDate: new Date(),
         sponsorId: 111
     }
-    const grantCall2: GrantCall = {
+    const grantCall2: GrantCallDTO = {
         id: 2,
         title: "title3",
         description: "description",
@@ -37,9 +36,18 @@ export const StudentHomepage = () => {
         closeDate: new Date(),
         sponsorId: 222
     }
-    const grantCalls: GrantCall[] = [grantCall0, grantCall1, grantCall2]
+    const grantCalls1: GrantCallDTO[] = [grantCall0, grantCall1, grantCall2]
+    const grantCallAPI = new GrantCallControllerApi();
+
+    if(grantCalls == []) {
+        grantCallAPI.getAllOpenUsingGET().then( (value) => {
+            setGrantCalls(value as GrantCallDTO[])
+            console.log(value)
+        })
+    }
+
     const content =
-        <GrantCallListWithDetails grantCalls={grantCalls}/>
+        <GrantCallListWithDetails grantCalls={grantCalls1}/>
 
     return (
         <>

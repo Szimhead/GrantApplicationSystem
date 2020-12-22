@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {Borders} from "./borders";
 import {GrantCallDetails} from "./grantCallDetails";
-import {GrantCall, Panel} from "../types";
+import {Panel} from "../types";
 import {ListGroup} from "react-bootstrap";
 import {ButtonBlue} from "./button-blue";
+import {GrantCallDTO} from "../clientAPI";
 
 type PanelsI = {
     panels: Panel[]
-    grantCalls: GrantCall[]
+    grantCalls: GrantCallDTO[]
 }
 
 export const PanelListWithDetails = ({panels, grantCalls}:PanelsI) => {

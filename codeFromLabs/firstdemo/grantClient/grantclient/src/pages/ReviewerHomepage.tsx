@@ -4,13 +4,11 @@ import {Header} from '../components/header';
 import {Footer} from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
-import {GrantCallList} from "../components/grantCallList";
-import {GrantCall, Panel} from "../types";
-import {GrantCallDetails} from "../components/grantCallDetails";
-import {GrantCallListWithDetails} from "../components/grantCallListWithDetails";
 import {PanelListWithDetails} from "../components/PanelListWithDetails";
+import {GrantCallDTO} from "../clientAPI";
+import {Panel} from "../types";
 
-const grantCall0: GrantCall = {
+const grantCall0: GrantCallDTO = {
     id: 0,
     title: "title0",
     description: "description",
@@ -19,7 +17,7 @@ const grantCall0: GrantCall = {
     closeDate: new Date(),
     sponsorId: 0
 }
-const grantCall1: GrantCall = {
+const grantCall1: GrantCallDTO = {
     id: 1,
     title: "title1",
     description: "description",
@@ -28,7 +26,7 @@ const grantCall1: GrantCall = {
     closeDate: new Date(),
     sponsorId: 111
 }
-const grantCall2: GrantCall = {
+const grantCall2: GrantCallDTO = {
     id: 2,
     title: "title3",
     description: "description",
@@ -41,7 +39,7 @@ const grantCall2: GrantCall = {
 const panel0:Panel = {id:0}
 const panel1:Panel = {id:1}
 const panel2:Panel = {id:2}
-const grantCalls: GrantCall[] = [grantCall0, grantCall1, grantCall2]
+const grantCalls: GrantCallDTO[] = [grantCall0, grantCall1, grantCall2]
 const panels: Panel[] = [panel0, panel1, panel2]
 const content = <PanelListWithDetails panels={panels} grantCalls={grantCalls}/>
 

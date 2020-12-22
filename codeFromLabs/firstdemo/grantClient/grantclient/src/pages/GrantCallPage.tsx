@@ -4,10 +4,10 @@ import {Header} from "../components/header";
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {Footer} from "../components/footer";
-import {GrantCall} from "../types";
 import {Col, Row} from "react-bootstrap";
+import {GrantCallDTO} from "../clientAPI";
 
-const grantCall0: GrantCall = {id: 0, title: "title0", description: "description", funding: 0, openDate: new Date(), closeDate: new Date(), sponsorId: 0}
+const grantCall0: GrantCallDTO = {id: 0, title: "title0", description: "description", funding: 0, openDate: new Date(), closeDate: new Date(), sponsorId: 0}
 
 const content= <div>
     <Row>

@@ -1,7 +1,5 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import {GrantCall} from "../types";
-import {GrantCallComponent} from "./grantCallComponent";
 
 
 export function HidingList({headers,records,show}:{headers:string[],records:string[][],show:boolean}) {

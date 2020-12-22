@@ -6,9 +6,9 @@ import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {HidingList} from "../components/hidingList";
 import {GrantCallComponent} from "../components/grantCallComponent";
-import {GrantCall} from "../types";
+import {GrantCallDTO} from "../clientAPI";
 
-const call:GrantCall={id:0,title:"send nudes",description:"",funding:400,openDate:new Date(),closeDate:new Date(),sponsorId:2}
+const call:GrantCallDTO={id:0,title:"send nudes",description:"",funding:400,openDate:new Date(),closeDate:new Date(),sponsorId:2}
 
 export const FundedApplications = () => {
     const content = <div className="container">

@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
-import {GrantCallList} from "./grantCallList";
 import {Borders} from "./borders";
 import {GrantCallDetails} from "./grantCallDetails";
-import {GrantCall, GrantCalls} from "../types";
+import {GrantCalls} from "../types";
 import {ListGroup, Tab} from "react-bootstrap";
-import {GrantCallComponent} from "./grantCallComponent";
 import {ButtonBlue} from "./button-blue";
+import {GrantCallDTO} from "../clientAPI";
 
 export const GrantCallListWithDetails = ({grantCalls}:GrantCalls) => {
     const [currIndex, setIndex] = useState(0)
-    const [grantCall, setGrantCall] = useState(grantCalls[0])
+    console.log(grantCalls[0])
 
     let handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")
@@ -25,7 +24,7 @@ export const GrantCallListWithDetails = ({grantCalls}:GrantCalls) => {
                 <div className="w-50 align-self-center">
                     <ListGroup as="ul" defaultActiveKey={"" + grantCalls[0].id}>
                         {grantCalls.map(
-                            (grantCall: GrantCall, index) => <ListGroup.Item as="li" eventKey={"" + grantCall.id}
+                            (grantCall: GrantCallDTO, index) => <ListGroup.Item as="li" eventKey={"" + grantCall.id}
                                                                              onClick={handleClick}
                                                                              action>{grantCall.title}</ListGroup.Item>
                         )}
