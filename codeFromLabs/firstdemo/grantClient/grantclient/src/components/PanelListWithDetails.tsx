@@ -12,14 +12,17 @@ type PanelsI = {
 }
 
 export const PanelListWithDetails = ({panels, grantCalls}: PanelsI) => {
-    const [currIndex, setIndex] = useState(0)
+    const [currPanelIndex, setPanelIndex] = useState(0)
+    const [currGrantIndex, setGrantIndex] = useState(0)
 
     let handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")
-        if (index == null)
-            setIndex(0)
+        let indexP: string | null = e.currentTarget.getAttribute("data-rb-event-key")
+
+        if (indexP == null)
+            setPanelIndex(0)
         else
-            setIndex(Number(index))
+            setPanelIndex(panels[Number(indexP)].id)
+            setGrantIndex(Number(indexP))
     }
 
     const handleNull = () => {
@@ -29,18 +32,18 @@ export const PanelListWithDetails = ({panels, grantCalls}: PanelsI) => {
                     <div className="w-50 align-self-center">
                         <ListGroup as="ul" defaultActiveKey={"" + panels[0].id}>
                             {panels.map(
-                                (panel: Panel) => <ListGroup.Item as="li" eventKey={"" + panel.id}
+                                (panel: Panel, index) => <ListGroup.Item as="li" eventKey={"" + index}
                                                                   onClick={handleClick}
                                                                   action>Panel {panel.id}</ListGroup.Item>
                             )}
                         </ListGroup>
                     </div>
                     <div className="w-50">
-                        <Borders title={"Details"} content={<GrantCallDetails grantCall={grantCalls[currIndex]}/>}/>
+                        <Borders title={"Details"} content={<GrantCallDetails grantCall={grantCalls[currGrantIndex]}/>}/>
                     </div>
                 </div>
                 <div className="row m-auto justify-content-center">
-                    <ButtonBlue text={"Go to Panel"} link={"/"}/>
+                    <ButtonBlue text={"Go to Panel"} link={"/pages/panelPage/"+currPanelIndex}/>
                 </div>
             </>
         } else

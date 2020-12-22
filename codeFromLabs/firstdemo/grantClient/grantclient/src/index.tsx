@@ -33,7 +33,7 @@ ReactDOM.render(
             <Route path={"/pages/signup"} component={Signup} />
             <Route path={"/pages/login"} component={Login} />
             <Route path={"/pages/reviews"} component={ReviewsListPage} />
-            <Route path={"/pages/panelPage"} component={PanelPage} />
+            <Route path={"/pages/panelPage/:id"} component={PanelPage} />
             <Route path={"/pages/addReview"} component={AddReviewPage} />
             <Route path={"/pages/addFinal"} component={AddFinalEvalPage} />
             <Route path={"/pages/reviewerHomepage"} component={ReviewerHomepage} />
