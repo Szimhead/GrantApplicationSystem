@@ -8,16 +8,17 @@ import {ReviewForm} from "./form";
 
 type AddReviewI = {
     title: string,
-    label: string
+    label: string,
+    appId: number
 }
 
-export const AddReview = ({title,label}:AddReviewI) => {
+export const AddReview = ({title,label,appId}:AddReviewI) => {
     return (
         <>
             <Header/>
             <PageTitle title={title} extraText={""}/>
             <div className="container">
-                <Borders title={"Form"} content={<ReviewForm label={label}/>}/>
+                <Borders title={"Form"} content={<ReviewForm label={label} appId={appId}/>}/>
             </div>
             <Footer/>
         </>

@@ -34,7 +34,7 @@ export const ReviewsListPage = () => {
         <>
             <Header/>
             <PageTitle title={"Application "+appId+" - Reviews"} extraText={""}/>
-            <ReviewsList reviews={reviews} final={exampleFinal} extra={"yes"}/>
+            <ReviewsList reviews={reviews} final={exampleFinal} extra={"yes"} appId={appId}/>
             <Footer/>
         </>
     );

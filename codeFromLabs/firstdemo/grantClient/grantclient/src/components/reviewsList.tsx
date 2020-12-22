@@ -10,18 +10,19 @@ import {FinalDetails} from "./FinalDetails";
 type ReviewsListI = {
     reviews: Review[],
     final: Review | null,
-    extra: string
+    extra: string,
+    appId: number
 }
 
-export const content = (extra: string) => {
-    let visible = <TextAndButton text={"Add new review and classification"} buttonText={"Go"} buttonLink={"#"}/>
+export const content = (extra: string, appId: number) => {
+    let visible = <TextAndButton text={"Add new review and classification"} buttonText={"Go"} buttonLink={"/pages/addReview/"+appId}/>
     if (extra === "")
         return
     else
         return visible
 }
 
-export const ReviewsList = ({reviews, final=null, extra}: ReviewsListI) => {
+export const ReviewsList = ({reviews, final=null, extra, appId}: ReviewsListI) => {
     const [toShow, setToShow] = useState(<></>)
     const [changed, setChanged] = useState(false)
     let i = <></>;
@@ -68,7 +69,7 @@ export const ReviewsList = ({reviews, final=null, extra}: ReviewsListI) => {
                     </div>
                     <div className="w-50">
                         <Borders title={"Selected Review"} content={rightComponent()}/>
-                        {content(extra)}
+                        {content(extra, appId)}
                     </div>
                 </div>
             </div>

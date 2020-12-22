@@ -43,14 +43,20 @@ export const EvaledAppPage = () => {
         }
     })
 
+    const result = () => {
+        if (exampleFinal.isAccepted)
+            return "ACCEPTED"
+        else return "REJECTED"
+    }
+
     return (
         <>
             <Header/>
-            <PageTitle title={"Application "+appId} extraText={"Result: "+exampleFinal.isAccepted}/>
+            <PageTitle title={"Application "+appId} extraText={"Result: "+result()}/>
             <RequirementBox answers={answers}/>
             <div className="container">
                 <div className="row">
-                    <ReviewsList reviews={reviews} final={exampleFinal} extra={""}/>
+                    <ReviewsList reviews={reviews} final={exampleFinal} extra={""} appId={0}/>
                 </div>
             </div>
             <Footer/>

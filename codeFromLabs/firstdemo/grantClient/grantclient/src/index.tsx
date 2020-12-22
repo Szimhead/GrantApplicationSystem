@@ -34,7 +34,7 @@ ReactDOM.render(
             <Route path={"/pages/login"} component={Login} />
             <Route path={"/pages/reviews/:id"} component={ReviewsListPage} />
             <Route path={"/pages/panelPage/:id"} component={PanelPage} />
-            <Route path={"/pages/addReview"} component={AddReviewPage} />
+            <Route path={"/pages/addReview/:id"} component={AddReviewPage} />
             <Route path={"/pages/addFinal"} component={AddFinalEvalPage} />
             <Route path={"/pages/reviewerHomepage/:revId"} component={ReviewerHomepage} />
             <Route path={"/pages/studentProfile"} component={StudentProfile} />

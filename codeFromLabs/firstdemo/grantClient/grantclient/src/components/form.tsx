@@ -6,12 +6,11 @@ import {ApplicationControllerApi, GrantCallControllerApi, ReviewDTO} from "../cl
 import {useParams} from "react-router-dom";
 
 type ReviewFormI = {
-    label: string
+    label: string,
+    appId: number
 }
 
-export const ReviewForm = ({label}: ReviewFormI) => {
-    let {id} = useParams<Record<string, string | undefined>>();
-    const appId = Number(id) | 20;
+export const ReviewForm = ({label, appId}: ReviewFormI) => {
 
     const applicationAPI = new ApplicationControllerApi();
 
