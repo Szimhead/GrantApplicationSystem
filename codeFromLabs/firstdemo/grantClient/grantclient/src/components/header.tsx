@@ -18,19 +18,10 @@ export const Header = () => {
                         <Nav.Link href="/">Home</Nav.Link>
                     </Nav>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/pages/anonymousHomepage">Anonymous</Nav.Link>
-                    </Nav>
-                    <Nav className="mr-auto">
-                        <Nav.Link href="/pages/fundedApplications">Funded</Nav.Link>
-                    </Nav>
-                    <Nav className="mr-auto">
                         <Nav.Link href="/pages/signup">Sign Up</Nav.Link>
                     </Nav>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/pages/studentProfile">Student Profile</Nav.Link>
-                    </Nav>
-                    <Nav className="mr-auto">
-                        <Nav.Link href="/pages/grantCallPage">Grant Call Page</Nav.Link>
+                        <Nav.Link href="/pages/login">Login</Nav.Link>
                     </Nav>
                     <Nav className="mr-4">
                         <NavDropdown title="Profile" id="basic-nav-dropdown" className="mr-5">

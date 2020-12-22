@@ -13,21 +13,14 @@ export const Jumbotron = () => {
                 <p className="lead text-muted">
                     hey, you can try clicking those buttons below
                 </p>
-                <p className="text-muted">
-                    Or you can use this fucking amazing navbar with never ending list of options to select!
-                </p>
                 <p>
                     <ButtonBlue text={"student homepage"} link={"/pages/studentHomepage"}/>
                     <ButtonBlue text={"reviewer homepage"} link={"/pages/reviewerHomepage"}/>
-                    <ButtonGrey text={"reviewer/application"} link={"/pages/reviewerApplication"}/>
-                    <ButtonGrey text={"reviews"} link={"/pages/reviews"}/>
-                    <ButtonGrey text={"panel page"} link={"/pages/panelPage/"+"5"}/>
-                    <ButtonGrey text={"add review"} link={"/pages/addReview"}/>
-                    <ButtonGrey text={"add final eval"} link={"/pages/addFinal"}/>
-                    <ButtonGrey text={"submitted app"} link={"/pages/submittedAppPage"}/>
-                    <ButtonGrey text={"evaluated app"} link={"/pages/evaledAppPage"}/>
-                    <ButtonGrey text={"fill out application"} link={"/pages/fillOutAppPage"}/>
-                    <ButtonGrey text={"login"} link={"/pages/login"}/>
+                    <ButtonBlue text={"Anonymous Homepage"} link={"/pages/anonymousHomepage"}/>
+                    <ButtonGrey text={"Grant Call Page"} link={"/pages/grantCallPage"}/>
+                    <ButtonGrey text={"Student Profile"} link={"/pages/studentProfile"}/>
+                    <ButtonGrey text={"Funded Applications"} link={"/pages/fundedApplications"}/>
+                    <ButtonGrey text={"Student Profile"} link={"/pages/studentProfile"}/>
                 </p>
             </div>
         </section>
