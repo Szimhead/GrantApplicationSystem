@@ -15,7 +15,7 @@ type ReviewsListI = {
 
 export const content = (extra: string) => {
     let visible = <TextAndButton text={"Add new review and classification"} buttonText={"Go"} buttonLink={"#"}/>
-    if (extra == "")
+    if (extra === "")
         return
     else
         return visible
@@ -32,7 +32,7 @@ export const ReviewsList = ({reviews, final=null, extra}: ReviewsListI) => {
         if (index == null) {
             setIndex(0)
             setToShow(<ReviewDetails review={reviews[Number(index)]}/>)
-        } else if (index == "final") {
+        } else if (index === "final") {
             setToShow(<FinalDetails review={final}/>)
         } else {
             setIndex(Number(index))

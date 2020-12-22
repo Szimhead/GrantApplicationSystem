@@ -19,7 +19,7 @@ const content= <div>
         </Col>
         <Col className="m-4">
             <h5>Funding:</h5>
-            <p>{grantCall0.funding}</p> //changed from number of submitted apps to funding
+            <p>{grantCall0.funding}</p> {/*changed from number of submitted apps to funding*/}
             <h5>Closing Date:</h5>
             <p>{grantCall0.closeDate.toLocaleDateString()}</p>
         </Col>

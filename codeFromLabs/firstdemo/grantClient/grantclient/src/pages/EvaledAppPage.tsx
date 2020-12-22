@@ -6,7 +6,6 @@ import {PageTitle} from "../components/page-title";
 import {Answer, Requirement, Review} from "../types";
 import {RequirementBox} from "../components/requirement";
 import {text1, text2, text3, text6} from "../components/randomTestTexts";
-import {Borders} from "../components/borders";
 import ReviewsList from "../components/reviewsList";
 
 const exampleRequirement1: Requirement = {name: "Introduction", contentType: "text"}

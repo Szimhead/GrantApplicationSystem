@@ -1,11 +1,10 @@
 import React from "react";
-import {Col, Form, Row} from "react-bootstrap";
+import {Form, Row} from "react-bootstrap";
 import {ButtonBlue} from "../components/button-blue";
 import {Header} from "../components/header";
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
 import {Footer} from "../components/footer";
-import ReviewerHomepage from "./ReviewerHomepage";
 
 export const Signup= ()=>{
     const content=<div className="container">

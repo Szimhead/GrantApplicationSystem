@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Container, ListGroup} from "react-bootstrap";
-import {Answer, Requirement, Review} from "../types";
+import React from 'react';
+import {Container} from "react-bootstrap";
+import {Answer} from "../types";
 import {ButtonBlue} from "./button-blue";
 
 type RequirementI = {
@@ -10,7 +10,7 @@ type RequirementI = {
 export const content = (answer: Answer) => {
     let text = <p>{answer.content}</p>
     let button = <ButtonBlue text={"Download file"} link={"#"}/>
-    if (answer.requirement.contentType == "text")
+    if (answer.requirement.contentType === "text")
         return text
     else
         return button

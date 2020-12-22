@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {Borders} from "./borders";
 import {GrantCallDetails} from "./grantCallDetails";
 import {GrantCalls} from "../types";
-import {ListGroup, Tab} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import {ButtonBlue} from "./button-blue";
 import {GrantCallDTO} from "../clientAPI";
 
 export const GrantCallListWithDetails = ({grantCalls}:GrantCalls) => {
     const [currIndex, setIndex] = useState(0)
-    console.log(grantCalls[0])
+//    console.log(grantCalls[0])
 
     let handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")

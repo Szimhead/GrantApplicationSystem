@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/calls")
 interface GrantCallAPI {
 
-    @ApiOperation(value = "Get list of all Grant Calls", response = Iterable::class)
+    @ApiOperation(value = "Get list of all Grant Calls", response = Set::class)
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully retrieved all Grant Calls."),
         ApiResponse(code = 401, message = "Not authorized to get Grant Calls!"),

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Container, Form} from "react-bootstrap";
 import {Requirement} from "../types";
-import {ButtonGrey} from "./button-grey";
 import {ButtonBlue} from "./button-blue";
 
 type RequirementI = {
@@ -14,7 +13,7 @@ export const content = (requirement: Requirement) => {
         <Form.Control type="text" placeholder={placeholder}/>
     </>
     let fileInput = <Form.File id={requirement.name}/>
-    if (requirement.contentType == "text")
+    if (requirement.contentType === "text")
         return textInput
     else
         return fileInput

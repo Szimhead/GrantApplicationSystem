@@ -13,7 +13,6 @@ type PanelsI = {
 
 export const PanelListWithDetails = ({panels, grantCalls}:PanelsI) => {
     const [currIndex, setIndex] = useState(0)
-    const [grantCall, setGrantCall] = useState(panels[0])
 
     let handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")
