@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Header} from "../components/header";
 import {PageTitle} from "../components/page-title";
 import {Borders} from "../components/borders";
@@ -6,24 +6,42 @@ import {Footer} from "../components/footer";
 import {Student} from "../types";
 import {Col, Row} from "react-bootstrap";
 import {DropList} from "../components/dropList";
+import {ApplicationControllerApi, ApplicationDTO, StudentControllerApi, UserDTO, GrantCallControllerApi, GrantCallDTO} from "../clientAPI";
 
 export const StudentProfile=()=>{
+    const [student, setStudent] = useState(null as any)
+    const [toBeSubmitted, setToBeSubmitted] = useState([] as ApplicationDTO[])
     const studentinho:Student={id:0,name:"Jacek",email:"Jacek@gmail.com",address:"Tiago's house"}
-    const content= <div>
-            <Row>
-                <Col className="m-4">
-                    <h5>Name:</h5>
-                    <p>{studentinho.name}</p>
-                    <h5>Email:</h5>
-                    <p>{studentinho.email}</p>
-                </Col>
-                <Col className="m-4">
-                    <h5>Address:</h5>
-                    <p>{studentinho.address}</p>
-                </Col>
-            </Row>
+    const studentAPI = new StudentControllerApi();
+    const applicationAPI = new ApplicationControllerApi();
+    const callAPI = new GrantCallControllerApi();
 
-        </div>
+
+    useEffect(() => {
+        //TODO: get user id
+        studentAPI.getOneUsingGET6(2).then((value) => setStudent(value as UserDTO))
+        applicationAPI.getAllAnswersUsingGET(2).then((value) => setToBeSubmitted(value as ApplicationDTO[]))
+    })
+
+    function mapApplications(apps:ApplicationDTO[]){
+        return [apps.map(app=>[app.])]
+    }
+
+    const content= <div>
+        <Row>
+            <Col className="m-4">
+                <h5>Name:</h5>
+                <p>{student==null?"":(student.name)}</p>
+                <h5>Email:</h5>
+                <p>{student==null?"":(student.email)}</p>
+            </Col>
+            <Col className="m-4">
+                <h5>Address:</h5>
+                <p>{student==null?"":(student.address)}</p>
+            </Col>
+        </Row>
+
+    </div>
     return(
         <>
             <Header />

@@ -124,7 +124,13 @@ export interface AnswerDTO {
  */
 export interface ApplicationDTO {
     /**
-     * 
+     *
+     * @type {string}
+     * @memberof ApplicationDTO
+     */
+    callTitle: string;
+    /**
+     *
      * @type {number}
      * @memberof ApplicationDTO
      */
