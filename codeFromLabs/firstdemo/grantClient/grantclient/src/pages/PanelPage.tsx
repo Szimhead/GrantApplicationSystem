@@ -8,6 +8,7 @@ import {TextAndButton} from "../components/textAndButton";
 import {Application} from "../types";
 import ApplicationList from "../components/applicationList";
 import {ApplicationControllerApi, ApplicationDTO, GrantCallControllerApi, GrantCallDTO} from "../clientAPI";
+import {useParams} from "react-router-dom"
 
 // const exampleApp1: Application = {id: 0}
 // const exampleApp2: Application = {id: 1}
@@ -17,7 +18,8 @@ import {ApplicationControllerApi, ApplicationDTO, GrantCallControllerApi, GrantC
 
 
 export const PanelPage = () => {
-    const grantCallId = 5;
+    let {id} = useParams<Record<string, string | undefined>>();
+    const grantCallId = Number(id);
     const applicationAPI = new ApplicationControllerApi()
     const grantCallAPI = new GrantCallControllerApi();
     const [apps, setApps] = useState([] as ApplicationDTO[])

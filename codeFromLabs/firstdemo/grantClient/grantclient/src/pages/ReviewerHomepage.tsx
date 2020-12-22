@@ -9,7 +9,7 @@ import {GrantCallDTO} from "../clientAPI";
 import {Panel} from "../types";
 
 const grantCall0: GrantCallDTO = {
-    id: 0,
+    id: 5,
     title: "title0",
     description: "description",
     funding: 0,
@@ -18,7 +18,7 @@ const grantCall0: GrantCallDTO = {
     sponsorId: 0
 }
 const grantCall1: GrantCallDTO = {
-    id: 1,
+    id: 7,
     title: "title1",
     description: "description",
     funding: 11,
@@ -27,7 +27,7 @@ const grantCall1: GrantCallDTO = {
     sponsorId: 111
 }
 const grantCall2: GrantCallDTO = {
-    id: 2,
+    id: 9,
     title: "title3",
     description: "description",
     funding: 22,
@@ -36,9 +36,9 @@ const grantCall2: GrantCallDTO = {
     sponsorId: 222
 }
 
-const panel0:Panel = {id:0}
-const panel1:Panel = {id:1}
-const panel2:Panel = {id:2}
+const panel0:Panel = {id:5}
+const panel1:Panel = {id:7}
+const panel2:Panel = {id:9}
 const grantCalls: GrantCallDTO[] = [grantCall0, grantCall1, grantCall2]
 const panels: Panel[] = [panel0, panel1, panel2]
 const content = <PanelListWithDetails panels={panels} grantCalls={grantCalls}/>

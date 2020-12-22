@@ -4,11 +4,13 @@ import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO.StudentDAO
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO.SponsorDAO
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO.ReviewerDAO
 
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.junit4.SpringRunner
 import pt.unl.fct.di.pt.firstdemo.services.*
 import java.util.*
@@ -16,7 +18,9 @@ import java.util.*
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class ApplicationAndGrantCallServiceTest() {
+@AutoConfigureMockMvc
+@WithMockUser(roles = ["ADMIN"])
+class ApplicationAndGrantCallServiceTest {
 
     @Autowired
     lateinit var applications:ApplicationService
