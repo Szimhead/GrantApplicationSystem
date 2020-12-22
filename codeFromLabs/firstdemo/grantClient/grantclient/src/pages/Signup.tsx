@@ -37,6 +37,9 @@ export const Signup= ()=>{
             </Form.Group>
 
             <Form.Group as={Row}>
+                <div className="col-lg-2 w-100">
+                    <Form.Label>Choose position:</Form.Label>
+                </div>
                 <div className="col-lg-1 w-100">
                     <Form.Check type="radio" name="role" id="student" label="Student"/>
                 </div>
@@ -44,14 +47,15 @@ export const Signup= ()=>{
                     <Form.Check type="radio"name="role" id="reviewer" label="Reviewer"/>
                 </div>
             </Form.Group>
-            <div className="w-100">
-                <select className="w-100 border-0 p-2">
-                    <option value="Institution 0" id="0">Institution 0</option>
-                    <option value="Institution 1" id="1">Institution 1</option>
-                    <option value="Institution 2" id="2">Institution 2</option>
-                    <option value="Institution 3" id="3">Institution 3</option>
-                </select>
-            </div>
+            <Form.Group controlId="institution">
+                <Form.Label>Institution</Form.Label>
+                <Form.Control as="select">
+                    <option>Institution 1</option>
+                    <option>Institution 2</option>
+                    <option>Institution 3</option>
+                    <option>Institution 4</option>
+                </Form.Control>
+            </Form.Group>
 
 
             <ButtonBlue link={"/"} text={"Sign up!"}/>
