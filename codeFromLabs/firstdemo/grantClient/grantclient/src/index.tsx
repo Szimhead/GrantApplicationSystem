@@ -27,16 +27,16 @@ ReactDOM.render(
         <Router>
             <Route exact path={"/"} component={App} />
             <Route path={"/pages/studentHomepage"} component={StudentHomepage} />
-            <Route path={"/pages/reviewerApplication"} component={ReviewerApplication} />
+            <Route path={"/pages/reviewerApplication/:id"} component={ReviewerApplication} />
             <Route path={"/pages/anonymousHomepage"} component={AnonymousHomepage} />
             <Route path={"/pages/fundedApplications"} component={FundedApplications} />
             <Route path={"/pages/signup"} component={Signup} />
             <Route path={"/pages/login"} component={Login} />
-            <Route path={"/pages/reviews"} component={ReviewsListPage} />
+            <Route path={"/pages/reviews/:id"} component={ReviewsListPage} />
             <Route path={"/pages/panelPage/:id"} component={PanelPage} />
             <Route path={"/pages/addReview"} component={AddReviewPage} />
             <Route path={"/pages/addFinal"} component={AddFinalEvalPage} />
-            <Route path={"/pages/reviewerHomepage"} component={ReviewerHomepage} />
+            <Route path={"/pages/reviewerHomepage/:revId"} component={ReviewerHomepage} />
             <Route path={"/pages/studentProfile"} component={StudentProfile} />
             <Route path={"/pages/grantCallPage"} component={GrantCallPage} />
             <Route path={"/pages/submittedAppPage"} component={SubmittedAppPage} />

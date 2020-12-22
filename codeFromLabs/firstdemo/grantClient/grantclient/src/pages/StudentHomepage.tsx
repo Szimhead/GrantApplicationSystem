@@ -13,7 +13,7 @@ export const StudentHomepage = () => {
 
     useEffect(() => {
         if (grantCalls.length == 0) {
-            grantCallAPI.getAllUsingGET2().then((value) => setGrantCalls(value as GrantCallDTO[]))
+            grantCallAPI.getAllOpenUsingGET().then((value) => setGrantCalls(value as GrantCallDTO[]))
         }
     })
 

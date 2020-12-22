@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {Header} from '../components/header';
 import {Footer} from '../components/footer';
 import {PageTitle} from "../components/page-title";
 import {Review} from "../types";
 import ReviewsList from "../components/reviewsList";
+import {useParams} from "react-router-dom";
+import {ApplicationControllerApi, PanelDTO, ReviewDTO} from "../clientAPI";
 
 const exampleReview1: Review = {
     id: 0,
@@ -42,11 +44,24 @@ const exampleFinal: Review | null = null
 // }
 
 export const ReviewsListPage = () => {
+    let {id} = useParams<Record<string, string | undefined>>();
+    const appId = Number(id);
+    const [reviews, setReviews] = useState([] as ReviewDTO[])
+    const applicationAPI = new ApplicationControllerApi()
+
+    useEffect(() => {
+        if (reviews.length == 0) {
+            applicationAPI.getAllReviewsFromApplicationUsingGET(appId).then((value) => {
+                setReviews(value as ReviewDTO[])
+            })
+        }
+    })
+
     return (
         <>
             <Header/>
-            <PageTitle title={"Application 1 - Reviews"} extraText={""}/>
-            <ReviewsList reviews={[exampleReview1, exampleReview2, exampleReview3, exampleReview4]} final={exampleFinal} extra={"yes"}/>
+            <PageTitle title={"Application "+appId+" - Reviews"} extraText={""}/>
+            <ReviewsList reviews={reviews} final={exampleFinal} extra={"yes"}/>
             <Footer/>
         </>
     );
