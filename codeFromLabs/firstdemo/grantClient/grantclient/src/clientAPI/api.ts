@@ -125,12 +125,6 @@ export interface AnswerDTO {
 export interface ApplicationDTO {
     /**
      * 
-     * @type {string}
-     * @memberof ApplicationDTO
-     */
-    callTitle: string;
-    /**
-     * 
      * @type {number}
      * @memberof ApplicationDTO
      */
@@ -1880,246 +1874,6 @@ export class CvRequirementControllerApi extends BaseAPI {
 }
 
 /**
- * DataItemControllerApi - fetch parameter creator
- * @export
- */
-export const DataItemControllerApiFetchParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Add dataItem by id
-         * @param {DataItemDTO} dataItem dataItem
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addDataItemUsingPOST(dataItem: DataItemDTO, options: any = {}): FetchArgs {
-            // verify required parameter 'dataItem' is not null or undefined
-            if (dataItem === null || dataItem === undefined) {
-                throw new RequiredError('dataItem','Required parameter dataItem was null or undefined when calling addDataItemUsingPOST.');
-            }
-            const localVarPath = `/dataitems`;
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-            const needsSerialization = (<any>"DataItemDTO" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(dataItem || {}) : (dataItem || "");
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get list of all dataItems
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllUsingGET2(options: any = {}): FetchArgs {
-            const localVarPath = `/dataitems`;
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get dataItem by id
-         * @param {number} id The id of the dataItem to get
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOneUsingGET2(id: number, options: any = {}): FetchArgs {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET2.');
-            }
-            const localVarPath = `/dataitems/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * DataItemControllerApi - functional programming interface
- * @export
- */
-export const DataItemControllerApiFp = function(configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @summary Add dataItem by id
-         * @param {DataItemDTO} dataItem dataItem
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addDataItemUsingPOST(dataItem: DataItemDTO, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = DataItemControllerApiFetchParamCreator(configuration).addDataItemUsingPOST(dataItem, options);
-            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response;
-                    } else {
-                        throw response;
-                    }
-                });
-            };
-        },
-        /**
-         * 
-         * @summary Get list of all dataItems
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllUsingGET2(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<any>> {
-            const localVarFetchArgs = DataItemControllerApiFetchParamCreator(configuration).getAllUsingGET2(options);
-            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    } else {
-                        throw response;
-                    }
-                });
-            };
-        },
-        /**
-         * 
-         * @summary Get dataItem by id
-         * @param {number} id The id of the dataItem to get
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOneUsingGET2(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<DataItemDTO> {
-            const localVarFetchArgs = DataItemControllerApiFetchParamCreator(configuration).getOneUsingGET2(id, options);
-            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
-                    if (response.status >= 200 && response.status < 300) {
-                        return response.json();
-                    } else {
-                        throw response;
-                    }
-                });
-            };
-        },
-    }
-};
-
-/**
- * DataItemControllerApi - factory interface
- * @export
- */
-export const DataItemControllerApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
-    return {
-        /**
-         * 
-         * @summary Add dataItem by id
-         * @param {DataItemDTO} dataItem dataItem
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        addDataItemUsingPOST(dataItem: DataItemDTO, options?: any) {
-            return DataItemControllerApiFp(configuration).addDataItemUsingPOST(dataItem, options)(fetch, basePath);
-        },
-        /**
-         * 
-         * @summary Get list of all dataItems
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getAllUsingGET2(options?: any) {
-            return DataItemControllerApiFp(configuration).getAllUsingGET2(options)(fetch, basePath);
-        },
-        /**
-         * 
-         * @summary Get dataItem by id
-         * @param {number} id The id of the dataItem to get
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getOneUsingGET2(id: number, options?: any) {
-            return DataItemControllerApiFp(configuration).getOneUsingGET2(id, options)(fetch, basePath);
-        },
-    };
-};
-
-/**
- * DataItemControllerApi - object-oriented interface
- * @export
- * @class DataItemControllerApi
- * @extends {BaseAPI}
- */
-export class DataItemControllerApi extends BaseAPI {
-    /**
-     * 
-     * @summary Add dataItem by id
-     * @param {DataItemDTO} dataItem dataItem
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DataItemControllerApi
-     */
-    public addDataItemUsingPOST(dataItem: DataItemDTO, options?: any) {
-        return DataItemControllerApiFp(this.configuration).addDataItemUsingPOST(dataItem, options)(this.fetch, this.basePath);
-    }
-
-    /**
-     * 
-     * @summary Get list of all dataItems
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DataItemControllerApi
-     */
-    public getAllUsingGET2(options?: any) {
-        return DataItemControllerApiFp(this.configuration).getAllUsingGET2(options)(this.fetch, this.basePath);
-    }
-
-    /**
-     * 
-     * @summary Get dataItem by id
-     * @param {number} id The id of the dataItem to get
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DataItemControllerApi
-     */
-    public getOneUsingGET2(id: number, options?: any) {
-        return DataItemControllerApiFp(this.configuration).getOneUsingGET2(id, options)(this.fetch, this.basePath);
-    }
-
-}
-
-/**
  * GrantCallControllerApi - fetch parameter creator
  * @export
  */
@@ -2203,14 +1957,14 @@ export const GrantCallControllerApiFetchParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addDataItemUsingPOST1(dataItem: DataItemDTO, id: number, options: any = {}): FetchArgs {
+        addDataItemUsingPOST(dataItem: DataItemDTO, id: number, options: any = {}): FetchArgs {
             // verify required parameter 'dataItem' is not null or undefined
             if (dataItem === null || dataItem === undefined) {
-                throw new RequiredError('dataItem','Required parameter dataItem was null or undefined when calling addDataItemUsingPOST1.');
+                throw new RequiredError('dataItem','Required parameter dataItem was null or undefined when calling addDataItemUsingPOST.');
             }
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling addDataItemUsingPOST1.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling addDataItemUsingPOST.');
             }
             const localVarPath = `/calls/{id}/dataitems`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -2626,7 +2380,7 @@ export const GrantCallControllerApiFetchParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET3(options: any = {}): FetchArgs {
+        getAllUsingGET2(options: any = {}): FetchArgs {
             const localVarPath = `/calls`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
@@ -2685,10 +2439,10 @@ export const GrantCallControllerApiFetchParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET3(id: number, options: any = {}): FetchArgs {
+        getOneUsingGET2(id: number, options: any = {}): FetchArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET3.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET2.');
             }
             const localVarPath = `/calls/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -2821,8 +2575,8 @@ export const GrantCallControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addDataItemUsingPOST1(dataItem: DataItemDTO, id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).addDataItemUsingPOST1(dataItem, id, options);
+        addDataItemUsingPOST(dataItem: DataItemDTO, id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).addDataItemUsingPOST(dataItem, id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -3073,8 +2827,8 @@ export const GrantCallControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET3(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<any>> {
-            const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).getAllUsingGET3(options);
+        getAllUsingGET2(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
+            const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).getAllUsingGET2(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -3112,8 +2866,8 @@ export const GrantCallControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET3(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GrantCallDTO> {
-            const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).getOneUsingGET3(id, options);
+        getOneUsingGET2(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<GrantCallDTO> {
+            const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).getOneUsingGET2(id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -3200,8 +2954,8 @@ export const GrantCallControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addDataItemUsingPOST1(dataItem: DataItemDTO, id: number, options?: any) {
-            return GrantCallControllerApiFp(configuration).addDataItemUsingPOST1(dataItem, id, options)(fetch, basePath);
+        addDataItemUsingPOST(dataItem: DataItemDTO, id: number, options?: any) {
+            return GrantCallControllerApiFp(configuration).addDataItemUsingPOST(dataItem, id, options)(fetch, basePath);
         },
         /**
          * 
@@ -3335,8 +3089,8 @@ export const GrantCallControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET3(options?: any) {
-            return GrantCallControllerApiFp(configuration).getAllUsingGET3(options)(fetch, basePath);
+        getAllUsingGET2(options?: any) {
+            return GrantCallControllerApiFp(configuration).getAllUsingGET2(options)(fetch, basePath);
         },
         /**
          * 
@@ -3356,8 +3110,8 @@ export const GrantCallControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET3(id: number, options?: any) {
-            return GrantCallControllerApiFp(configuration).getOneUsingGET3(id, options)(fetch, basePath);
+        getOneUsingGET2(id: number, options?: any) {
+            return GrantCallControllerApiFp(configuration).getOneUsingGET2(id, options)(fetch, basePath);
         },
         /**
          * 
@@ -3423,8 +3177,8 @@ export class GrantCallControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof GrantCallControllerApi
      */
-    public addDataItemUsingPOST1(dataItem: DataItemDTO, id: number, options?: any) {
-        return GrantCallControllerApiFp(this.configuration).addDataItemUsingPOST1(dataItem, id, options)(this.fetch, this.basePath);
+    public addDataItemUsingPOST(dataItem: DataItemDTO, id: number, options?: any) {
+        return GrantCallControllerApiFp(this.configuration).addDataItemUsingPOST(dataItem, id, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -3584,8 +3338,8 @@ export class GrantCallControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof GrantCallControllerApi
      */
-    public getAllUsingGET3(options?: any) {
-        return GrantCallControllerApiFp(this.configuration).getAllUsingGET3(options)(this.fetch, this.basePath);
+    public getAllUsingGET2(options?: any) {
+        return GrantCallControllerApiFp(this.configuration).getAllUsingGET2(options)(this.fetch, this.basePath);
     }
 
     /**
@@ -3609,8 +3363,8 @@ export class GrantCallControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof GrantCallControllerApi
      */
-    public getOneUsingGET3(id: number, options?: any) {
-        return GrantCallControllerApiFp(this.configuration).getOneUsingGET3(id, options)(this.fetch, this.basePath);
+    public getOneUsingGET2(id: number, options?: any) {
+        return GrantCallControllerApiFp(this.configuration).getOneUsingGET2(id, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -3826,7 +3580,7 @@ export const InstitutionControllerApiFetchParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET4(options: any = {}): FetchArgs {
+        getAllUsingGET3(options: any = {}): FetchArgs {
             const localVarPath = `/institutions`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
@@ -3850,10 +3604,10 @@ export const InstitutionControllerApiFetchParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET4(id: number, options: any = {}): FetchArgs {
+        getOneUsingGET3(id: number, options: any = {}): FetchArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET4.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET3.');
             }
             const localVarPath = `/institutions/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -4043,8 +3797,8 @@ export const InstitutionControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET4(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
-            const localVarFetchArgs = InstitutionControllerApiFetchParamCreator(configuration).getAllUsingGET4(options);
+        getAllUsingGET3(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
+            const localVarFetchArgs = InstitutionControllerApiFetchParamCreator(configuration).getAllUsingGET3(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -4062,8 +3816,8 @@ export const InstitutionControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET4(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<OrganizationDTO> {
-            const localVarFetchArgs = InstitutionControllerApiFetchParamCreator(configuration).getOneUsingGET4(id, options);
+        getOneUsingGET3(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<OrganizationDTO> {
+            const localVarFetchArgs = InstitutionControllerApiFetchParamCreator(configuration).getOneUsingGET3(id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -4180,8 +3934,8 @@ export const InstitutionControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET4(options?: any) {
-            return InstitutionControllerApiFp(configuration).getAllUsingGET4(options)(fetch, basePath);
+        getAllUsingGET3(options?: any) {
+            return InstitutionControllerApiFp(configuration).getAllUsingGET3(options)(fetch, basePath);
         },
         /**
          * 
@@ -4190,8 +3944,8 @@ export const InstitutionControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET4(id: number, options?: any) {
-            return InstitutionControllerApiFp(configuration).getOneUsingGET4(id, options)(fetch, basePath);
+        getOneUsingGET3(id: number, options?: any) {
+            return InstitutionControllerApiFp(configuration).getOneUsingGET3(id, options)(fetch, basePath);
         },
         /**
          * 
@@ -4293,8 +4047,8 @@ export class InstitutionControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof InstitutionControllerApi
      */
-    public getAllUsingGET4(options?: any) {
-        return InstitutionControllerApiFp(this.configuration).getAllUsingGET4(options)(this.fetch, this.basePath);
+    public getAllUsingGET3(options?: any) {
+        return InstitutionControllerApiFp(this.configuration).getAllUsingGET3(options)(this.fetch, this.basePath);
     }
 
     /**
@@ -4305,8 +4059,8 @@ export class InstitutionControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof InstitutionControllerApi
      */
-    public getOneUsingGET4(id: number, options?: any) {
-        return InstitutionControllerApiFp(this.configuration).getOneUsingGET4(id, options)(this.fetch, this.basePath);
+    public getOneUsingGET3(id: number, options?: any) {
+        return InstitutionControllerApiFp(this.configuration).getOneUsingGET3(id, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -4414,7 +4168,7 @@ export const ReviewerControllerApiFetchParamCreator = function (configuration?: 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET5(options: any = {}): FetchArgs {
+        getAllUsingGET4(options: any = {}): FetchArgs {
             const localVarPath = `/reviewers`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
@@ -4508,10 +4262,10 @@ export const ReviewerControllerApiFetchParamCreator = function (configuration?: 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET5(id: number, options: any = {}): FetchArgs {
+        getOneUsingGET4(id: number, options: any = {}): FetchArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET5.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET4.');
             }
             const localVarPath = `/reviewers/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -4642,8 +4396,8 @@ export const ReviewerControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET5(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
-            const localVarFetchArgs = ReviewerControllerApiFetchParamCreator(configuration).getAllUsingGET5(options);
+        getAllUsingGET4(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
+            const localVarFetchArgs = ReviewerControllerApiFetchParamCreator(configuration).getAllUsingGET4(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -4701,8 +4455,8 @@ export const ReviewerControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET5(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<UserDTO> {
-            const localVarFetchArgs = ReviewerControllerApiFetchParamCreator(configuration).getOneUsingGET5(id, options);
+        getOneUsingGET4(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<UserDTO> {
+            const localVarFetchArgs = ReviewerControllerApiFetchParamCreator(configuration).getOneUsingGET4(id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -4787,8 +4541,8 @@ export const ReviewerControllerApiFactory = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET5(options?: any) {
-            return ReviewerControllerApiFp(configuration).getAllUsingGET5(options)(fetch, basePath);
+        getAllUsingGET4(options?: any) {
+            return ReviewerControllerApiFp(configuration).getAllUsingGET4(options)(fetch, basePath);
         },
         /**
          * 
@@ -4819,8 +4573,8 @@ export const ReviewerControllerApiFactory = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET5(id: number, options?: any) {
-            return ReviewerControllerApiFp(configuration).getOneUsingGET5(id, options)(fetch, basePath);
+        getOneUsingGET4(id: number, options?: any) {
+            return ReviewerControllerApiFp(configuration).getOneUsingGET4(id, options)(fetch, basePath);
         },
         /**
          * 
@@ -4884,8 +4638,8 @@ export class ReviewerControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReviewerControllerApi
      */
-    public getAllUsingGET5(options?: any) {
-        return ReviewerControllerApiFp(this.configuration).getAllUsingGET5(options)(this.fetch, this.basePath);
+    public getAllUsingGET4(options?: any) {
+        return ReviewerControllerApiFp(this.configuration).getAllUsingGET4(options)(this.fetch, this.basePath);
     }
 
     /**
@@ -4922,8 +4676,8 @@ export class ReviewerControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ReviewerControllerApi
      */
-    public getOneUsingGET5(id: number, options?: any) {
-        return ReviewerControllerApiFp(this.configuration).getOneUsingGET5(id, options)(this.fetch, this.basePath);
+    public getOneUsingGET4(id: number, options?: any) {
+        return ReviewerControllerApiFp(this.configuration).getOneUsingGET4(id, options)(this.fetch, this.basePath);
     }
 
     /**
@@ -5063,7 +4817,7 @@ export const SponsorControllerApiFetchParamCreator = function (configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET6(options: any = {}): FetchArgs {
+        getAllUsingGET5(options: any = {}): FetchArgs {
             const localVarPath = `/sponsors`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
@@ -5116,10 +4870,10 @@ export const SponsorControllerApiFetchParamCreator = function (configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET6(id: number, options: any = {}): FetchArgs {
+        getOneUsingGET5(id: number, options: any = {}): FetchArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET6.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET5.');
             }
             const localVarPath = `/sponsors/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -5211,8 +4965,8 @@ export const SponsorControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET6(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
-            const localVarFetchArgs = SponsorControllerApiFetchParamCreator(configuration).getAllUsingGET6(options);
+        getAllUsingGET5(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
+            const localVarFetchArgs = SponsorControllerApiFetchParamCreator(configuration).getAllUsingGET5(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -5249,8 +5003,8 @@ export const SponsorControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET6(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<OrganizationDTO> {
-            const localVarFetchArgs = SponsorControllerApiFetchParamCreator(configuration).getOneUsingGET6(id, options);
+        getOneUsingGET5(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<OrganizationDTO> {
+            const localVarFetchArgs = SponsorControllerApiFetchParamCreator(configuration).getOneUsingGET5(id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -5307,8 +5061,8 @@ export const SponsorControllerApiFactory = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET6(options?: any) {
-            return SponsorControllerApiFp(configuration).getAllUsingGET6(options)(fetch, basePath);
+        getAllUsingGET5(options?: any) {
+            return SponsorControllerApiFp(configuration).getAllUsingGET5(options)(fetch, basePath);
         },
         /**
          * 
@@ -5327,8 +5081,8 @@ export const SponsorControllerApiFactory = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET6(id: number, options?: any) {
-            return SponsorControllerApiFp(configuration).getOneUsingGET6(id, options)(fetch, basePath);
+        getOneUsingGET5(id: number, options?: any) {
+            return SponsorControllerApiFp(configuration).getOneUsingGET5(id, options)(fetch, basePath);
         },
     };
 };
@@ -5384,8 +5138,8 @@ export class SponsorControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SponsorControllerApi
      */
-    public getAllUsingGET6(options?: any) {
-        return SponsorControllerApiFp(this.configuration).getAllUsingGET6(options)(this.fetch, this.basePath);
+    public getAllUsingGET5(options?: any) {
+        return SponsorControllerApiFp(this.configuration).getAllUsingGET5(options)(this.fetch, this.basePath);
     }
 
     /**
@@ -5408,8 +5162,8 @@ export class SponsorControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SponsorControllerApi
      */
-    public getOneUsingGET6(id: number, options?: any) {
-        return SponsorControllerApiFp(this.configuration).getOneUsingGET6(id, options)(this.fetch, this.basePath);
+    public getOneUsingGET5(id: number, options?: any) {
+        return SponsorControllerApiFp(this.configuration).getOneUsingGET5(id, options)(this.fetch, this.basePath);
     }
 
 }
@@ -5604,7 +5358,7 @@ export const StudentControllerApiFetchParamCreator = function (configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET7(options: any = {}): FetchArgs {
+        getAllUsingGET6(options: any = {}): FetchArgs {
             const localVarPath = `/students`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
@@ -5721,10 +5475,10 @@ export const StudentControllerApiFetchParamCreator = function (configuration?: C
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET7(id: number, options: any = {}): FetchArgs {
+        getOneUsingGET6(id: number, options: any = {}): FetchArgs {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET7.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getOneUsingGET6.');
             }
             const localVarPath = `/students/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -5857,8 +5611,8 @@ export const StudentControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET7(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
-            const localVarFetchArgs = StudentControllerApiFetchParamCreator(configuration).getAllUsingGET7(options);
+        getAllUsingGET6(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
+            const localVarFetchArgs = StudentControllerApiFetchParamCreator(configuration).getAllUsingGET6(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -5934,8 +5688,8 @@ export const StudentControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET7(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<UserDTO> {
-            const localVarFetchArgs = StudentControllerApiFetchParamCreator(configuration).getOneUsingGET7(id, options);
+        getOneUsingGET6(id: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<UserDTO> {
+            const localVarFetchArgs = StudentControllerApiFetchParamCreator(configuration).getOneUsingGET6(id, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -6015,8 +5769,8 @@ export const StudentControllerApiFactory = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllUsingGET7(options?: any) {
-            return StudentControllerApiFp(configuration).getAllUsingGET7(options)(fetch, basePath);
+        getAllUsingGET6(options?: any) {
+            return StudentControllerApiFp(configuration).getAllUsingGET6(options)(fetch, basePath);
         },
         /**
          * 
@@ -6056,8 +5810,8 @@ export const StudentControllerApiFactory = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOneUsingGET7(id: number, options?: any) {
-            return StudentControllerApiFp(configuration).getOneUsingGET7(id, options)(fetch, basePath);
+        getOneUsingGET6(id: number, options?: any) {
+            return StudentControllerApiFp(configuration).getOneUsingGET6(id, options)(fetch, basePath);
         },
     };
 };
@@ -6140,8 +5894,8 @@ export class StudentControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StudentControllerApi
      */
-    public getAllUsingGET7(options?: any) {
-        return StudentControllerApiFp(this.configuration).getAllUsingGET7(options)(this.fetch, this.basePath);
+    public getAllUsingGET6(options?: any) {
+        return StudentControllerApiFp(this.configuration).getAllUsingGET6(options)(this.fetch, this.basePath);
     }
 
     /**
@@ -6189,8 +5943,8 @@ export class StudentControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StudentControllerApi
      */
-    public getOneUsingGET7(id: number, options?: any) {
-        return StudentControllerApiFp(this.configuration).getOneUsingGET7(id, options)(this.fetch, this.basePath);
+    public getOneUsingGET6(id: number, options?: any) {
+        return StudentControllerApiFp(this.configuration).getOneUsingGET6(id, options)(this.fetch, this.basePath);
     }
 
 }
