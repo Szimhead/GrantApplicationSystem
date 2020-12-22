@@ -43,15 +43,17 @@ export const StudentHomepage = () => {
         if (grantCalls.length == 0) {
             grantCallAPI.getAllUsingGET2().then((value) => {
                 setGrantCalls(value as GrantCallDTO[])
-                console.log(value as GrantCallDTO[])
+                //console.log(value as GrantCallDTO[])
             })
         }
+        //console.log(grantCalls)
     })
 
     const content =
-        <GrantCallListWithDetails grantCalls={grantCalls1}/>
+        <GrantCallListWithDetails grantCalls={grantCalls}/>
 
     return (
+
         <>
             <Header/>
             <PageTitle title={"Homepage"} extraText={""}/>
