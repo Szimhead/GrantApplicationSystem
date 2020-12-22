@@ -1,8 +1,6 @@
 package pt.unl.fct.di.pt.firstdemo.api
 
 import org.springframework.web.bind.annotation.*
-import pt.unl.fct.di.pt.firstdemo.services.GrantCallDAO
-import pt.unl.fct.di.pt.firstdemo.services.UserDAO.SponsorDAO
 import pt.unl.fct.di.pt.firstdemo.services.SponsorService
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO
 import pt.unl.fct.di.pt.firstdemo.services.UserService

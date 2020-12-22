@@ -41,7 +41,8 @@ class InstitutionService(val inst: InstitutionRepository, val studs: StudentRepo
 
     @Transactional
     fun addStudentToInstitution(institution: InstitutionDAO, student: UserDAO.StudentDAO) {
-        //institution.students.add(student)
+        institution.students.add(student)
+        student.institution=institution
         studs.save(student)
     }
 

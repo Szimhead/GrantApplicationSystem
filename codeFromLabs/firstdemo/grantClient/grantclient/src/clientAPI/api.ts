@@ -18,7 +18,7 @@ import * as url from "url";
 import * as portableFetch from "portable-fetch";
 import { Configuration } from "./configuration";
 
-const BASE_PATH = "https://localhost:8080".replace(/\/+$/, "");
+const BASE_PATH = ""//"http://localhost:8080".replace(/\/+$/, "");
 
 /**
  *
@@ -124,7 +124,13 @@ export interface AnswerDTO {
  */
 export interface ApplicationDTO {
     /**
-     * 
+     *
+     * @type {string}
+     * @memberof ApplicationDTO
+     */
+    callTitle: string;
+    /**
+     *
      * @type {number}
      * @memberof ApplicationDTO
      */
@@ -361,6 +367,12 @@ export interface OrganizationDTO {
  * @interface PanelDTO
  */
 export interface PanelDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof PanelDTO
+     */
+    grantId: number;
     /**
      * 
      * @type {number}
@@ -2803,7 +2815,7 @@ export const GrantCallControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllOpenUsingGET(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Iterable> {
+        getAllOpenUsingGET(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<any>> {
             const localVarFetchArgs = GrantCallControllerApiFetchParamCreator(configuration).getAllOpenUsingGET(options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {

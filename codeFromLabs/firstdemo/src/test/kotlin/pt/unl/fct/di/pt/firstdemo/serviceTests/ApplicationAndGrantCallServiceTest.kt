@@ -4,11 +4,13 @@ import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO.StudentDAO
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO.SponsorDAO
 import pt.unl.fct.di.pt.firstdemo.services.UserDAO.ReviewerDAO
 
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.junit4.SpringRunner
 import pt.unl.fct.di.pt.firstdemo.services.*
 import java.util.*
@@ -16,7 +18,9 @@ import java.util.*
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class ApplicationAndGrantCallServiceTest() {
+@AutoConfigureMockMvc
+@WithMockUser(roles = ["ADMIN"])
+class ApplicationAndGrantCallServiceTest {
 
     @Autowired
     lateinit var applications:ApplicationService
@@ -310,7 +314,7 @@ class ApplicationAndGrantCallServiceTest() {
 
         reviewers.addReviewer(reviewer1)
 
-        reviewer1.institution = institution1
+        reviewer1.institution_rev = institution1
         institution1.reviewers.add(reviewer1)
 
         assertEquals(setOf(reviewer1), reviewers.getAll().toSet())

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/calls")
 interface GrantCallAPI {
 
-    @ApiOperation(value = "Get list of all Grant Calls", response = Iterable::class)
+    @ApiOperation(value = "Get list of all Grant Calls", response = Set::class)
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully retrieved all Grant Calls."),
         ApiResponse(code = 401, message = "Not authorized to get Grant Calls!"),
@@ -19,7 +19,7 @@ interface GrantCallAPI {
     fun getAll():Set<GrantCallDTO>
 
     @ApiOperation(value = "Get list of all open Grant Calls." +
-            " Grant calls are open if now() is between their start and end times", response = Iterable::class)
+            " Grant calls are open if now() is between their start and end times", response = List::class)
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Successfully retrieved all open Grant Calls."),
         ApiResponse(code = 401, message = "Not authorized to get open Grant Calls!"),

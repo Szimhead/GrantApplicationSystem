@@ -11,11 +11,26 @@ export const Header = () => {
                     src="/images/logo.png"
                     alt="Logo"
                 /></Nav.Item>
-                <Navbar.Brand href="#home">Grant Application System</Navbar.Brand>
+                <Navbar.Brand href="/">Grant Application System</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="/">Home</Nav.Link>
+                    </Nav>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/pages/anonymousHomepage">Anonymous</Nav.Link>
+                    </Nav>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/pages/fundedApplications">Funded</Nav.Link>
+                    </Nav>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/pages/signup">Sign Up</Nav.Link>
+                    </Nav>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/pages/studentProfile">Student Profile</Nav.Link>
+                    </Nav>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/pages/grantCallPage">Grant Call Page</Nav.Link>
                     </Nav>
                     <Nav className="mr-4">
                         <NavDropdown title="Profile" id="basic-nav-dropdown" className="mr-5">

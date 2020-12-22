@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { Header } from './components/header';
-import { Main } from './components/main';
 import { Footer } from './components/footer';
+import {Jumbotron} from "./components/jumbotron";
 
 
 export const App = () => {
   return (
       <>
         <Header />
-        <Main />
+        <Jumbotron/>
         <Footer />
       </>
   );
