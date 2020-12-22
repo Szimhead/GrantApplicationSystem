@@ -11,7 +11,6 @@ import {ApplicationControllerApi, ApplicationDTO, StudentControllerApi, UserDTO,
 export const StudentProfile=()=>{
     const [student, setStudent] = useState(null as any)
     const [toBeSubmitted, setToBeSubmitted] = useState([] as ApplicationDTO[])
-    const studentinho:Student={id:0,name:"Jacek",email:"Jacek@gmail.com",address:"Tiago's house"}
     const studentAPI = new StudentControllerApi();
     const applicationAPI = new ApplicationControllerApi();
     const callAPI = new GrantCallControllerApi();
@@ -23,9 +22,10 @@ export const StudentProfile=()=>{
         applicationAPI.getAllAnswersUsingGET(2).then((value) => setToBeSubmitted(value as ApplicationDTO[]))
     })
 
-    function mapApplications(apps:ApplicationDTO[]){
-        return [apps.map(app=>[app.callTitle])]
+    function mapAllApplications(apps:ApplicationDTO[]){
+        return apps.map(app=>[app.callTitle, app.status.toString()])
     }
+
 
     const content= <div>
         <Row>
@@ -53,8 +53,7 @@ export const StudentProfile=()=>{
                 <DropList title="Evaluated applications" headers={["Grant Call Name","Result"]}
                           records={[["Grant Call 1", "Accepted"],["Grant Call 2", "Accepted"],["Grant Call 3", "Denied"]]} show={false}/>
 
-                <DropList title="All applications" headers={["Grant Call Name","Status"]} records={[["Grant 1", "Submitted"],
-                    ["Grant 2","Evaluated"],["Grant Call 3","To be submitted"]]} show={false}/>
+                <DropList title="All applications" headers={["Grant Call Name","Status"]} records={mapAllApplications(toBeSubmitted)} show={false}/>
             </div>
             <Footer />
         </>
