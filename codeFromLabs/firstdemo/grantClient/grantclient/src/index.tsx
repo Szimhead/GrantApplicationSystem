@@ -37,7 +37,7 @@ ReactDOM.render(
             <Route path={"/pages/addReview/:id"} component={AddReviewPage} />
             <Route path={"/pages/addFinal"} component={AddFinalEvalPage} />
             <Route path={"/pages/reviewerHomepage/:revId"} component={ReviewerHomepage} />
-            <Route path={"/pages/studentProfile"} component={StudentProfile} />
+            <Route path={"/pages/studentProfile/:id"} component={StudentProfile} />
             <Route path={"/pages/grantCallPage"} component={GrantCallPage} />
             <Route path={"/pages/submittedAppPage"} component={SubmittedAppPage} />
             <Route path={"/pages/evaledAppPage/:id"} component={EvaledAppPage} />

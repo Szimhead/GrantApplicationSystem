@@ -7,19 +7,21 @@ import {Student} from "../types";
 import {Col, Row} from "react-bootstrap";
 import {DropList} from "../components/dropList";
 import {ApplicationControllerApi, ApplicationDTO, StudentControllerApi, UserDTO, GrantCallControllerApi, GrantCallDTO} from "../clientAPI";
+import {useParams} from "react-router-dom";
 
 export const StudentProfile=()=>{
+    let {id} = useParams<Record<string, string | undefined>>();
+    const studId = Number(id);
     const [student, setStudent] = useState(null as any)
     const [toBeSubmitted, setToBeSubmitted] = useState([] as ApplicationDTO[])
     const studentAPI = new StudentControllerApi();
     const applicationAPI = new ApplicationControllerApi();
-    const callAPI = new GrantCallControllerApi();
 
 
     useEffect(() => {
         //TODO: get user id
-        studentAPI.getOneUsingGET6(2).then((value) => setStudent(value as UserDTO))
-        applicationAPI.getAllAnswersUsingGET(2).then((value) => setToBeSubmitted(value as ApplicationDTO[]))
+        studentAPI.getOneUsingGET6(studId).then((value) => setStudent(value as UserDTO))
+        applicationAPI.getAllAnswersUsingGET(studId).then((value) => setToBeSubmitted(value as ApplicationDTO[]))
     })
 
     function mapAllApplications(apps:ApplicationDTO[]){
