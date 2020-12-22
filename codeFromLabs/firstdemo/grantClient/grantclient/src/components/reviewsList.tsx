@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {Borders} from "./borders";
-import {Answer, Review} from "../types";
+import {Review} from "../types";
 import {ListGroup} from "react-bootstrap";
 import {ReviewDetails} from "./reviewDetails";
 import {TextAndButton} from "./textAndButton";
@@ -9,7 +9,7 @@ import {FinalDetails} from "./FinalDetails";
 
 type ReviewsListI = {
     reviews: Review[],
-    final: Review
+    final: Review | null,
     extra: string
 }
 
@@ -21,10 +21,11 @@ export const content = (extra: string) => {
         return visible
 }
 
-export const ReviewsList = ({reviews, final, extra}: ReviewsListI) => {
+export const ReviewsList = ({reviews, final=null, extra}: ReviewsListI) => {
     const [currIndex, setIndex] = useState(0)
 
     const [toShow, setToShow] = useState(<ReviewDetails review={reviews[currIndex]}/>)
+
 
     let handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")

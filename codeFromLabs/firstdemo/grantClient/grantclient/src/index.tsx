@@ -20,6 +20,7 @@ import SubmittedAppPage from "./pages/SubmittedAppPage";
 import GrantCallPage from "./pages/GrantCallPage";
 import EvaledAppPage from "./pages/EvaledAppPage";
 import FillOutAppPage from "./pages/FilOutAppPage";
+import Login from "./pages/LoginPage";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -30,6 +31,7 @@ ReactDOM.render(
             <Route path={"/pages/anonymousHomepage"} component={AnonymousHomepage} />
             <Route path={"/pages/fundedApplications"} component={FundedApplications} />
             <Route path={"/pages/signup"} component={Signup} />
+            <Route path={"/pages/login"} component={Login} />
             <Route path={"/pages/reviews"} component={ReviewsListPage} />
             <Route path={"/pages/panelPage"} component={PanelPage} />
             <Route path={"/pages/addReview"} component={AddReviewPage} />

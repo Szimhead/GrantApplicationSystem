@@ -33,12 +33,13 @@ const exampleReview4: Review = {
 }
 
 
-const exampleFinal: Review = {
-    id: 3,
-    isAccepted: false,
-    comment: "not good",
-    reviewerId: 664
-}
+const exampleFinal: Review | null = null
+//     {
+//     id: 3,
+//     isAccepted: false,
+//     comment: "not good",
+//     reviewerId: 664
+// }
 
 export const ReviewsListPage = () => {
     return (
