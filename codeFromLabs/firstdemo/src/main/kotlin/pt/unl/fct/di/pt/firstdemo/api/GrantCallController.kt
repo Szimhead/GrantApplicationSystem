@@ -11,7 +11,8 @@ class GrantCallController(
         val studs: StudentService,
         val revs: ReviewerService,
         val apps: ApplicationService,
-        val users: UserService): GrantCallAPI {
+        val users: UserService,
+        val items: DataItemService): GrantCallAPI {
 
     @PreAuthorize("hasRole({'ADMIN'}) or hasRole({'REVIEWER'}) or hasRole({'CHAIR'}) or hasRole({'STUDENT'}) or hasRole({'SPONSOR'})")
     override fun getAll(): Set<GrantCallDTO> = calls.getAll().map { GrantCallDTO(it) }.toSet()
@@ -80,7 +81,11 @@ class GrantCallController(
 
     override fun getOneDataItem(id: Long, dataItemId: Long) = DataItemDTO(calls.getOneDataItem(calls.getOne(id), dataItemId))
 
-    override fun addDataItem(id: Long, dataItem: DataItemDTO) = calls.addDataItem(calls.getOne(id), DataItemDAO(dataItem))
+    override fun addDataItem(id: Long, dataItem: DataItemDTO) {
+        val dt = DataItemDAO(dataItem)
+        items.addDataItem(dt)
+        calls.addDataItem(calls.getOne(id), items.getOne(dt.id))
+    }
 
     override fun deleteDataItem(id: Long, dataItemId: Long) {
         val call = calls.getOne(id)
