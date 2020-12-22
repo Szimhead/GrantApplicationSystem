@@ -24,7 +24,7 @@ export const StudentProfile=()=>{
     })
 
     function mapApplications(apps:ApplicationDTO[]){
-        return [apps.map(app=>[app.])]
+        return [apps.map(app=>[app.callTitle])]
     }
 
     const content= <div>
