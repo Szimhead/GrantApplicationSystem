@@ -40,7 +40,7 @@ ReactDOM.render(
             <Route path={"/pages/studentProfile"} component={StudentProfile} />
             <Route path={"/pages/grantCallPage"} component={GrantCallPage} />
             <Route path={"/pages/submittedAppPage"} component={SubmittedAppPage} />
-            <Route path={"/pages/evaledAppPage"} component={EvaledAppPage} />
+            <Route path={"/pages/evaledAppPage/:id"} component={EvaledAppPage} />
             <Route path={"/pages/fillOutAppPage"} component={FillOutAppPage} />
         </Router>
     </React.StrictMode>,

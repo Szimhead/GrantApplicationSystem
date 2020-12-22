@@ -8,33 +8,6 @@ import ReviewsList from "../components/reviewsList";
 import {useParams} from "react-router-dom";
 import {ApplicationControllerApi, PanelDTO, ReviewDTO} from "../clientAPI";
 
-const exampleReview1: Review = {
-    id: 0,
-    isAccepted: true,
-    comment: "I think this was a very good application, well done :)",
-    reviewerId: 666
-}
-
-const exampleReview2: Review = {
-    id: 1,
-    isAccepted: false,
-    comment: "I hate it",
-    reviewerId: 12
-}
-const exampleReview3: Review = {
-    id: 2,
-    isAccepted: true,
-    comment: "ok",
-    reviewerId: 623
-}
-const exampleReview4: Review = {
-    id: 3,
-    isAccepted: true,
-    comment: "ran out of ideas",
-    reviewerId: 35
-}
-
-
 const exampleFinal: Review | null = null
 //     {
 //     id: 3,
