@@ -11,36 +11,43 @@ type PanelsI = {
     grantCalls: GrantCallDTO[]
 }
 
-export const PanelListWithDetails = ({panels, grantCalls}:PanelsI) => {
+export const PanelListWithDetails = ({panels, grantCalls}: PanelsI) => {
     const [currIndex, setIndex] = useState(0)
 
-    let handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+    let handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")
-        if(index == null)
+        if (index == null)
             setIndex(0)
         else
             setIndex(Number(index))
     }
 
+    const handleNull = () => {
+        if (grantCalls.length != 0 && panels.length != 0) {
+            return <>
+                <div className="d-flex w-100 mb-1">
+                    <div className="w-50 align-self-center">
+                        <ListGroup as="ul" defaultActiveKey={"" + panels[0].id}>
+                            {panels.map(
+                                (panel: Panel) => <ListGroup.Item as="li" eventKey={"" + panel.id}
+                                                                  onClick={handleClick}
+                                                                  action>Panel {panel.id}</ListGroup.Item>
+                            )}
+                        </ListGroup>
+                    </div>
+                    <div className="w-50">
+                        <Borders title={"Details"} content={<GrantCallDetails grantCall={grantCalls[currIndex]}/>}/>
+                    </div>
+                </div>
+                <div className="row m-auto justify-content-center">
+                    <ButtonBlue text={"Go to Panel"} link={"/"}/>
+                </div>
+            </>
+        } else
+            return <></>
+    }
+
     return (
-        <>
-            <div className="d-flex w-100 mb-1">
-                <div className="w-50 align-self-center">
-                    <ListGroup as="ul" defaultActiveKey={"" + panels[0].id}>
-                        {panels.map(
-                            (panel: Panel) => <ListGroup.Item as="li" eventKey={"" + panel.id}
-                                                                             onClick={handleClick}
-                                                                             action>Panel {panel.id}</ListGroup.Item>
-                        )}
-                    </ListGroup>
-                </div>
-                <div className="w-50">
-                    <Borders title={"Details"} content={<GrantCallDetails grantCall={grantCalls[currIndex]}/>}/>
-                </div>
-            </div>
-            <div className="row m-auto justify-content-center">
-                <ButtonBlue text={"Go to Panel"} link={"/"}/>
-            </div>
-        </>
+        handleNull()
     )
 }

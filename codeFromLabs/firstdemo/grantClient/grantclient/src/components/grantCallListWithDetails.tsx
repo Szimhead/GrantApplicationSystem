@@ -8,7 +8,6 @@ import {GrantCallDTO} from "../clientAPI";
 
 export const GrantCallListWithDetails = ({grantCalls}: GrantCalls) => {
     const [currIndex, setIndex] = useState(0)
-    console.log(grantCalls)
 
     let handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         let index: string | null = e.currentTarget.getAttribute("data-rb-event-key")

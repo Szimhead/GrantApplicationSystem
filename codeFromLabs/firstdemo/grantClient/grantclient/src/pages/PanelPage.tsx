@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {Header} from '../components/header';
 import {Footer} from '../components/footer';
@@ -7,22 +7,45 @@ import {Borders} from "../components/borders";
 import {TextAndButton} from "../components/textAndButton";
 import {Application} from "../types";
 import ApplicationList from "../components/applicationList";
+import {ApplicationControllerApi, ApplicationDTO, GrantCallControllerApi, GrantCallDTO} from "../clientAPI";
 
-const exampleApp1: Application = {id: 0}
-const exampleApp2: Application = {id: 1}
-const exampleApp3: Application = {id: 2}
-const exampleApp4: Application = {id: 3}
-const apps: Application[] = [exampleApp1, exampleApp2, exampleApp3, exampleApp4]
+// const exampleApp1: Application = {id: 0}
+// const exampleApp2: Application = {id: 1}
+// const exampleApp3: Application = {id: 2}
+// const exampleApp4: Application = {id: 3}
+// const apps1: Application[] = [exampleApp1, exampleApp2, exampleApp3, exampleApp4]
 
 
 export const PanelPage = () => {
+    const grantCallId = 5;
+    const applicationAPI = new ApplicationControllerApi()
+    const grantCallAPI = new GrantCallControllerApi();
+    const [apps, setApps] = useState([] as ApplicationDTO[])
+    const [grantCall, setGrantCall] = useState(null as any)
+
+    useEffect(() => {
+        if (apps.length == 0) {
+            applicationAPI.getAllUsingGET().then((value) => setApps(value as ApplicationDTO[]))
+        }
+        if (grantCall == null) {
+            grantCallAPI.getOneUsingGET2(grantCallId).then((value) => setGrantCall(value as GrantCallDTO))
+        }
+    })
+
+    let handleNull = () => {
+        if (grantCall != null)
+            return grantCall.title
+        else
+            return "empty"
+    }
+
     return (
         <>
             <Header/>
             <PageTitle title={"Panel Page"} extraText={""}/>
             <div className="container">
                 <div className="row mt-4 justify-content-center">
-                    <h4>Grant Call Name: (some name)</h4>
+                    <h4>Grant Call Name: {handleNull()}</h4>
                 </div>
                 <div className="row justify-content-center">
                     <div className="w-50">

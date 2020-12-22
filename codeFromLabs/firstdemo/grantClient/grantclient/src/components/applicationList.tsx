@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 
 import {Application} from "../types";
 import {ListGroup} from "react-bootstrap";
+import {ApplicationDTO} from "../clientAPI";
 
 type Applications = {
-    applications: Application[]
+    applications: ApplicationDTO[]
 }
 
 export const ApplicationList = ({applications}: Applications) => {
@@ -19,14 +20,22 @@ export const ApplicationList = ({applications}: Applications) => {
 
     }
 
+    const handleNull = () => {
+        if (applications.length != 0) {
+            return <ListGroup as="ul" className="w-100" defaultActiveKey={"" + applications[0].id}>
+                {applications.map((application: Application) => <ListGroup.Item as="li"
+                                                                                eventKey={"" + application.id}
+                                                                                onClick={handleClick}
+                                                                                action>Application {application.id}</ListGroup.Item>
+                )}
+            </ListGroup>
+        } else
+            return <>no applications</>
+    }
+
+
     return (
-        <ListGroup as="ul" className="w-100" defaultActiveKey={"" + applications[0].id}>
-            {applications.map((application: Application) => <ListGroup.Item as="li"
-                                                           eventKey={"" + application.id}
-                                                           onClick={handleClick}
-                                                           action>Application {application.id}</ListGroup.Item>
-            )}
-        </ListGroup>
+        handleNull()
     );
 };
 
